@@ -12,6 +12,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <!-- مكتبة تعديل الـ PDF (العلامة المائية) -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <!-- مكتبة الخطوط العربية للـ PDF (الإضافة الجديدة) -->
+    <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4/dist/fontkit.umd.min.js"></script>
 
     <style>
         :root { --royal-blue: #1a365d; --light-blue: #2b6cb0; --gold: #d69e2e; --white: #ffffff; --off-white: #f7fafc; --gray: #e2e8f0; --dark-gray: #4a5568; --danger: #e53e3e; --success: #38a169; }
@@ -163,13 +165,13 @@
                     </table>
                 </div>
             </div>
-            <!-- صفحة إعدادات الملفات للأدمن -->
             <div id="admin-settings" class="page-section">
                 <h2 style="color:var(--royal-blue); margin-bottom:20px;"><i class="fas fa-cog"></i> روابط ملفات PDF (من GitHub)</h2>
-                <p style="margin-bottom:20px;">ارفع ملفات الـ PDF على مستودع الجيت هاب بتاعك، وانسخ الرابط بتاعها وحطه هنا:</p>
+                <p style="margin-bottom:20px;">ارفع ملفات الـ PDF والخط Cairo.ttf على مستودع الجيت هاب، وانسخ الرابط بتاعها (raw.githubusercontent.com) وحطه هنا:</p>
                 <div class="form-group"><label>رابط ملف الابتدائي</label><input type="text" id="setPrimary" placeholder="https://raw.githubusercontent.com/.../primary.pdf"></div>
                 <div class="form-group"><label>رابط ملف الإعدادي</label><input type="text" id="setPreparatory" placeholder="https://raw.githubusercontent.com/.../preparatory.pdf"></div>
                 <div class="form-group"><label>رابط ملف الثانوي</label><input type="text" id="setSecondary" placeholder="https://raw.githubusercontent.com/.../secondary.pdf"></div>
+                <div class="form-group"><label>رابط ملف الخط العربي (Cairo.ttf)</label><input type="text" id="setFont" placeholder="https://raw.githubusercontent.com/.../Cairo.ttf"></div>
                 <button class="btn btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> حفظ الإعدادات</button>
             </div>
         </div>
@@ -188,10 +190,21 @@
         function generatePassword() { const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let p = ""; for(let i=0; i<6; i++) p += c.charAt(Math.floor(Math.random() * c.length)); return p; }
 
         let globalSettings = {};
-        db.ref('settings').on('value', s => { globalSettings = s.val() || {}; if(globalSettings.primary) document.getElementById('setPrimary').value = globalSettings.primary; if(globalSettings.preparatory) document.getElementById('setPreparatory').value = globalSettings.preparatory; if(globalSettings.secondary) document.getElementById('setSecondary').value = globalSettings.secondary; });
+        db.ref('settings').on('value', s => { 
+            globalSettings = s.val() || {}; 
+            if(globalSettings.primary) document.getElementById('setPrimary').value = globalSettings.primary; 
+            if(globalSettings.preparatory) document.getElementById('setPreparatory').value = globalSettings.preparatory; 
+            if(globalSettings.secondary) document.getElementById('setSecondary').value = globalSettings.secondary;
+            if(globalSettings.font) document.getElementById('setFont').value = globalSettings.font;
+        });
         
         async function saveSettings() {
-            try { await db.ref('settings').update({ primary: document.getElementById('setPrimary').value, preparatory: document.getElementById('setPreparatory').value, secondary: document.getElementById('setSecondary').value }); alert('تم حفظ الإعدادات'); } catch(e) { alert('خطأ'); }
+            try { await db.ref('settings').update({ 
+                primary: document.getElementById('setPrimary').value, 
+                preparatory: document.getElementById('setPreparatory').value, 
+                secondary: document.getElementById('setSecondary').value,
+                font: document.getElementById('setFont').value
+            }); alert('تم حفظ الإعدادات'); } catch(e) { alert('خطأ'); }
         }
 
         async function registerNewUser() {
@@ -224,15 +237,21 @@
             });
         }
 
-        // دالة العلامة المائية (السحر)
+        // دالة العلامة المائية المحدثة مع fontkit
         async function downloadFile(pdfUrl, memberId, name, school, admin, phase) {
             const overlay = document.getElementById('loadingOverlay'); overlay.style.display = 'flex';
             try {
-                const fontUrl = 'https://raw.githubusercontent.com/amenghieth77-boop/amen-ghieth-pro/main/Cairo.ttf'; // عدل الرابط ده لو رفعت الخط في مكان تاني
+                const fontUrl = globalSettings.font; 
+                if(!fontUrl) { throw new Error('لم يتم تحديد رابط الخط العربي في الإعدادات'); }
+
                 const existingPdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
                 const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
                 
                 const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
+                
+                // تفعيل fontkit لدعم الخطوط العربية
+                pdfDoc.registerFontkit(fontkit);
+                
                 const customFont = await pdfDoc.embedFont(fontBytes);
                 const pages = pdfDoc.getPages();
                 
@@ -242,10 +261,10 @@
                     const fontSize = 14;
                     const textWidth = customFont.widthOfTextAtSize(text, fontSize);
                     
-                    // العلامة المائية المائلة
+                    // العلامة المائية المائلة في المنتصف
                     page.drawText(text, { x: width / 2 - textWidth / 2, y: height / 2, size: fontSize, font: customFont, color: PDFLib.rgb(0.7, 0.7, 0.7), opacity: 0.5, rotate: PDFLib.degrees(-45) });
                     
-                    // كود التتبع المخفي (أبيض صغير جداً أو خارج الصفحة)
+                    // كود التتبع المخفي
                     page.drawText(`TrackID: ${memberId}`, { x: 5, y: 5, size: 3, font: customFont, color: PDFLib.rgb(1, 1, 1) });
                 }
                 
