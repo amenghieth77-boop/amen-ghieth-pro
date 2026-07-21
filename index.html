@@ -6,8 +6,12 @@
     <title>Amen Ghieth Pro - منصة التربية النفسية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- مكتبات Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <!-- مكتبة تعديل الـ PDF (العلامة المائية) -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
     <style>
         :root { --royal-blue: #1a365d; --light-blue: #2b6cb0; --gold: #d69e2e; --white: #ffffff; --off-white: #f7fafc; --gray: #e2e8f0; --dark-gray: #4a5568; --danger: #e53e3e; --success: #38a169; }
@@ -50,20 +54,21 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
         .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid var(--gray); border-radius: 5px; font-family: 'Cairo'; }
-        .checkbox-group { display: flex; gap: 20px; margin-top: 10px; }
+        .checkbox-group { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
         .credentials-box { background: var(--off-white); padding: 20px; border-radius: 5px; border: 2px solid var(--gold); margin-top: 20px; text-align: center; }
-        .page-section { display: none; }
-        .page-section.active { display: block; }
-        .modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .modal-box { background: var(--white); padding: 20px; border-radius: 10px; width: 400px; }
-        .view-section { display: none; }
-        .view-section.active { display: block; }
-        .phase-card { background: var(--white); padding: 20px; border-radius: 10px; border-right: 5px solid var(--gold); margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .hidden { display: none !important; }
+        .page-section { display: none; } .page-section.active { display: block; }
+        .main-view { display: none; } .main-view.active { display: flex; }
+        .sub-view { display: none; } .sub-view.active { display: block; }
+        .phase-card { background: var(--white); padding: 20px; border-radius: 10px; border-right: 5px solid var(--gold); margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .loading-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.7); color: white; display: none; justify-content: center; align-items: center; font-size: 1.5rem; z-index: 2000; }
         @media (max-width: 768px) { .sidebar { display: none; } .actions-bar { flex-direction: column; } .btn { width: 100%; justify-content: center; } }
     </style>
 </head>
 <body>
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div><i class="fas fa-spinner fa-spin"></i> جاري تجهيز الملف والعلامة المائية...</div>
+    </div>
 
     <div class="top-bar">
         <div class="top-bar-right">
@@ -79,88 +84,69 @@
         </div>
     </div>
 
-    <!-- ==================================== -->
-    <!-- ========== بوابة المشترك ========== -->
-    <!-- ==================================== -->
-    <div class="content-area view-section" id="subscriberView">
-        
-        <!-- الشاشة الرئيسية للمشترك (تسجيل/دخول) -->
-        <div id="subHome" class="subscriber-portal active view-section" style="text-align: center;">
+    <!-- بوابة المشترك -->
+    <div class="content-area main-view" id="subscriberView">
+        <div id="subHome" class="subscriber-portal sub-view active" style="text-align: center;">
             <h2 style="color:var(--royal-blue); margin-bottom:30px;">مرحباً بك في منصة التربية النفسية</h2>
             <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
                 <button class="btn btn-gold" onclick="showSubPage('subRegister')"><i class="fas fa-user-plus"></i> تسجيل مشترك جديد</button>
                 <button class="btn btn-primary" onclick="showSubPage('subLogin')"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
             </div>
         </div>
-
-        <!-- شاشة التسجيل الجديد -->
-        <div id="subRegister" class="subscriber-portal view-section">
-            <h2 style="color: var(--gold); margin-bottom: 20px; text-align: center;"><i class="fas fa-user-plus"></i> تسجيل مشترك جديد</h2>
+        <div id="subRegister" class="subscriber-portal sub-view">
+            <h2 style="color: var(--gold); margin-bottom: 20px; text-align: center;"><i class="fas fa-user-edit"></i> تأكيد البيانات</h2>
             <div class="form-group"><label>الاسم الرباعي *</label><input type="text" id="regName"></div>
             <div class="form-group"><label>المدرسة *</label><input type="text" id="regSchool"></div>
             <div class="form-group"><label>الإدارة التعليمية *</label><input type="text" id="regAdmin"></div>
             <div class="form-group"><label>المحافظة *</label><input type="text" id="regGov"></div>
             <div class="form-group"><label>رقم الهاتف *</label><input type="tel" id="regPhone"></div>
             <div class="form-group">
-                <label>اختر المراحل (تحدد قيمة الاشتراك):</label>
+                <label>اختر المراحل:</label>
                 <div class="checkbox-group">
-                    <label><input type="checkbox" class="phase-check-reg" value="ابتدائي"> ابتدائي (75 ج.م)</label>
-                    <label><input type="checkbox" class="phase-check-reg" value="إعدادي"> إعدادي (75 ج.م)</label>
-                    <label><input type="checkbox" class="phase-check-reg" value="ثانوي"> ثانوي (75 ج.م)</label>
+                    <label><input type="checkbox" class="phase-check-reg" value="ابتدائي"> ابتدائي</label>
+                    <label><input type="checkbox" class="phase-check-reg" value="إعدادي"> إعدادي</label>
+                    <label><input type="checkbox" class="phase-check-reg" value="ثانوي"> ثانوي</label>
                 </div>
             </div>
-            <button class="btn btn-gold" style="width: 100%; justify-content: center;" onclick="registerNewUser()"><i class="fas fa-check-circle"></i> تسجيل البيانات والحصول على الكود</button>
-            <br><br><small style="cursor:pointer; color:var(--light-blue);" onclick="showSubPage('subHome')">رجوع للرئيسية</small>
+            <button class="btn btn-gold" style="width: 100%; justify-content: center;" onclick="registerNewUser()"><i class="fas fa-check-circle"></i> تأكيد والحصول على الكود</button>
+            <br><br><small style="cursor:pointer; color:var(--light-blue);" onclick="showSubPage('subHome')">رجوع</small>
         </div>
-
-        <!-- شاشة ظهور الكود والباسوورد -->
-        <div id="subSuccess" class="subscriber-portal view-section">
+        <div id="subSuccess" class="subscriber-portal sub-view">
             <div class="credentials-box">
                 <h2 style="color: var(--success);"><i class="fas fa-check-circle"></i> تم التسجيل بنجاح!</h2>
-                <p>احتفظ بهذه البيانات لتسجيل الدخول لاحقاً وتحميل ملفاتك:</p>
-                <div style="margin-top: 15px;"><h3>كود المشترك</h3><p id="resCode" style="font-size: 1.5rem; color:var(--danger);"></p></div>
-                <div style="margin-top: 10px;"><h3>كلمة المرور</h3><p id="resPass" style="font-size: 1.5rem; color:var(--danger);"></p></div>
-                <small style="color:var(--dark-gray);">ملاحظة: لن يظهر هذا الكود مرة أخرى!</small>
-                <br><br>
-                <button class="btn btn-primary" onclick="showSubPage('subLogin')">الذهاب لتسجيل الدخول</button>
+                <p>احتفظ بهذه البيانات:</p>
+                <div style="margin-top: 15px;"><h3>كود المشترك</h3><p id="resCode" style="font-size: 1.5rem; color:var(--danger); font-weight:bold;"></p></div>
+                <div style="margin-top: 10px;"><h3>كلمة المرور</h3><p id="resPass" style="font-size: 1.5rem; color:var(--danger); font-weight:bold;"></p></div>
+                <br><button class="btn btn-primary" onclick="showSubPage('subLogin')">تسجيل الدخول</button>
             </div>
         </div>
-
-        <!-- شاشة تسجيل الدخول -->
-        <div id="subLogin" class="subscriber-portal view-section">
+        <div id="subLogin" class="subscriber-portal sub-view">
             <h2 style="color: var(--royal-blue); margin-bottom: 20px; text-align: center;"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-            <div class="form-group"><label>كود المشترك (Member ID)</label><input type="text" id="loginCode"></div>
+            <div class="form-group"><label>كود المشترك</label><input type="text" id="loginCode"></div>
             <div class="form-group"><label>كلمة المرور</label><input type="password" id="loginPass"></div>
             <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="loginUser()">دخول</button>
-            <br><br><small style="cursor:pointer; color:var(--light-blue);" onclick="showSubPage('subHome')">رجوع للرئيسية</small>
+            <br><br><small style="cursor:pointer; color:var(--light-blue);" onclick="showSubPage('subHome')">رجوع</small>
         </div>
-
-        <!-- لوحة تحكم المشترك (بعد الدخول) -->
-        <div id="subDashboard" class="view-section">
-            <h2 style="color:var(--royal-blue); margin-bottom:20px;">مرحباً بك، <span id="welcomeName"></span></h2>
-            <div id="subStatusAlert" style="padding:15px; margin-bottom:20px; border-radius:10px; background:#fff3cd; color:#856404; display:none;">
-                ⏳ حسابك تحت المراجعة حتى يتم تأكيد السداد من الإدارة.
+        <div id="subDashboard" class="sub-view">
+            <h2 style="color:var(--royal-blue); margin-bottom:20px;">مرحباً بك، <span id="welcomeName" style="color:var(--gold);"></span></h2>
+            <div id="subStatusAlert" style="padding:15px; margin-bottom:20px; border-radius:10px; background:#fff3cd; color:#856404; display:none; border:1px solid #ffc107;">
+                ⏳ حسابك تحت المراجعة، برجاء التواصل مع الإدارة لتأكيد السداد.
             </div>
             <div id="subFilesContainer"></div>
-            <br>
-            <button class="btn btn-danger" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+            <br><button class="btn btn-danger" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
         </div>
     </div>
 
-
-    <!-- ==================================== -->
-    <!-- ========== لوحة الإدارة ============ -->
-    <!-- ==================================== -->
-    <div class="main-container view-section active" id="adminView">
+    <!-- لوحة الإدارة -->
+    <div class="main-container main-view active" id="adminView">
         <div class="sidebar">
             <ul class="sidebar-menu">
                 <li class="active" onclick="showAdminPage('home')"><i class="fas fa-home"></i> الرئيسية</li>
                 <li onclick="showAdminPage('subscribers')"><i class="fas fa-users"></i> المشتركين</li>
+                <li onclick="showAdminPage('settings')"><i class="fas fa-cog"></i> إعدادات الملفات</li>
             </ul>
         </div>
         <div class="content-area">
-            
-            <!-- صفحة الرئيسية للإدارة -->
             <div id="admin-home" class="page-section active">
                 <div class="stats-grid">
                     <div class="stat-card"><div class="stat-info"><h3>إجمالي المشتركين</h3><div class="number" id="statTotal">0</div></div><div class="stat-icon"><i class="fas fa-users"></i></div></div>
@@ -169,232 +155,120 @@
                     <div class="stat-card gold"><div class="stat-info"><h3>إجمالي الرسوم</h3><div class="number" id="statMoney">0 ج.م</div></div><div class="stat-icon"><i class="fas fa-coins"></i></div></div>
                 </div>
             </div>
-
-            <!-- صفحة المشتركين للإدارة -->
             <div id="admin-subscribers" class="page-section">
-                <div class="actions-bar">
-                    <button class="btn btn-gold" onclick="importExcelData()"><i class="fas fa-file-excel"></i> استيراد الإكسيل (قديم)</button>
-                    <button class="btn btn-primary" onclick="openAddModal()"><i class="fas fa-user-plus"></i> إضافة مشترك جديد</button>
-                </div>
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>الاسم</th>
-                                <th>الهاتف</th>
-                                <th>المراحل</th>
-                                <th>الكود</th>
-                                <th>حالة السداد</th>
-                                <th>إجراءات</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>الاسم</th><th>الهاتف</th><th>المراحل</th><th>الكود</th><th>حالة السداد</th><th>إجراءات</th></tr></thead>
                         <tbody id="adminTable"></tbody>
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- نافذة إضافة مشترك جديد من الإدارة -->
-    <div class="modal-overlay" id="addModal">
-        <div class="modal-box">
-            <h2 style="color:var(--royal-blue); margin-bottom:20px;"><i class="fas fa-user-plus"></i> إضافة مشترك جديد</h2>
-            <div class="form-group"><label>الاسم</label><input type="text" id="addName"></div>
-            <div class="form-group"><label>المدرسة</label><input type="text" id="addSchool"></div>
-            <div class="form-group"><label>الإدارة</label><input type="text" id="addAdmin"></div>
-            <div class="form-group"><label>المحافظة</label><input type="text" id="addGov"></div>
-            <div style="display:flex; gap:10px;">
-                <button class="btn btn-primary" onclick="saveNewSubscriberByAdmin()"><i class="fas fa-save"></i> حفظ</button>
-                <button class="btn btn-danger" onclick="closeAddModal()"><i class="fas fa-times"></i> إلغاء</button>
+            <!-- صفحة إعدادات الملفات للأدمن -->
+            <div id="admin-settings" class="page-section">
+                <h2 style="color:var(--royal-blue); margin-bottom:20px;"><i class="fas fa-cog"></i> روابط ملفات PDF (من GitHub)</h2>
+                <p style="margin-bottom:20px;">ارفع ملفات الـ PDF على مستودع الجيت هاب بتاعك، وانسخ الرابط بتاعها وحطه هنا:</p>
+                <div class="form-group"><label>رابط ملف الابتدائي</label><input type="text" id="setPrimary" placeholder="https://raw.githubusercontent.com/.../primary.pdf"></div>
+                <div class="form-group"><label>رابط ملف الإعدادي</label><input type="text" id="setPreparatory" placeholder="https://raw.githubusercontent.com/.../preparatory.pdf"></div>
+                <div class="form-group"><label>رابط ملف الثانوي</label><input type="text" id="setSecondary" placeholder="https://raw.githubusercontent.com/.../secondary.pdf"></div>
+                <button class="btn btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> حفظ الإعدادات</button>
             </div>
         </div>
     </div>
 
     <script>
-        // التنقل بين الإدارة والمشترك
-        function switchMainView(view) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById(view + 'View').classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.closest('.nav-btn').classList.add('active');
-        }
+        function switchMainView(view) { document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active')); document.getElementById(view + 'View').classList.add('active'); document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active')); event.target.closest('.nav-btn').classList.add('active'); }
+        function showSubPage(pageId) { document.querySelectorAll('.sub-view').forEach(el => el.classList.remove('active')); document.getElementById(pageId).classList.add('active'); }
+        function showAdminPage(pageId) { document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); document.getElementById('admin-' + pageId).classList.add('active'); document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active')); event.target.closest('li').classList.add('active'); }
 
-        // التنقل بين شاشات المشترك
-        function showSubPage(pageId) {
-            document.querySelectorAll('#subscriberView .view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-        }
-
-        // التنقل بين صفحات الإدارة
-        function showAdminPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('admin-' + pageId).classList.add('active');
-            document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
-            event.target.closest('li').classList.add('active');
-        }
-
-        // إعداد Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBCZtlz3AF3_YWxWAJgV0M9XSXFVgmrLvM",
-            authDomain: "amenghiethpro.firebaseapp.com",
-            databaseURL: "https://amenghiethpro-default-rtdb.firebaseio.com",
-            projectId: "amenghiethpro",
-            storageBucket: "amenghiethpro.firebasestorage.app",
-            messagingSenderId: "1008593828554",
-            appId: "1:1008593828554:web:8fdc8e25cbe9c2f5821233"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyBCZtlz3AF3_YWxWAJgV0M9XSXFVgmrLvM", authDomain: "amenghiethpro.firebaseapp.com", databaseURL: "https://amenghiethpro-default-rtdb.firebaseio.com", projectId: "amenghiethpro", storageBucket: "amenghiethpro.firebasestorage.app", messagingSenderId: "1008593828554", appId: "1:1008593828554:web:8fdc8e25cbe9c2f5821233" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // دوال مساعدة لتوليد الكود والباسوورد
         function generateMemberID() { return "PSY-" + Math.floor(1000 + Math.random() * 9000); }
-        function generatePassword() {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-            let pass = ""; for(let i=0; i<6; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            return pass;
+        function generatePassword() { const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let p = ""; for(let i=0; i<6; i++) p += c.charAt(Math.floor(Math.random() * c.length)); return p; }
+
+        let globalSettings = {};
+        db.ref('settings').on('value', s => { globalSettings = s.val() || {}; if(globalSettings.primary) document.getElementById('setPrimary').value = globalSettings.primary; if(globalSettings.preparatory) document.getElementById('setPreparatory').value = globalSettings.preparatory; if(globalSettings.secondary) document.getElementById('setSecondary').value = globalSettings.secondary; });
+        
+        async function saveSettings() {
+            try { await db.ref('settings').update({ primary: document.getElementById('setPrimary').value, preparatory: document.getElementById('setPreparatory').value, secondary: document.getElementById('setSecondary').value }); alert('تم حفظ الإعدادات'); } catch(e) { alert('خطأ'); }
         }
 
-        // 1. تسجيل مشترك جديد من الواجهة
         async function registerNewUser() {
-            const name = document.getElementById('regName').value.trim();
-            const school = document.getElementById('regSchool').value.trim();
-            const admin = document.getElementById('regAdmin').value.trim();
-            const gov = document.getElementById('regGov').value.trim();
-            const phone = document.getElementById('regPhone').value.trim();
-            const phases = [];
-            document.querySelectorAll('.phase-check-reg:checked').forEach(cb => phases.push(cb.value));
-
-            if(!name || !school || !admin || !gov || !phone || phases.length === 0) {
-                alert('يرجى ملء جميع البيانات واختيار مرحلة واحدة على الأقل'); return;
-            }
-
+            const name = document.getElementById('regName').value.trim(); const school = document.getElementById('regSchool').value.trim(); const admin = document.getElementById('regAdmin').value.trim(); const gov = document.getElementById('regGov').value.trim(); const phone = document.getElementById('regPhone').value.trim();
+            const phases = []; document.querySelectorAll('.phase-check-reg:checked').forEach(cb => phases.push(cb.value));
+            if(!name || !school || !admin || !gov || !phone || phases.length === 0) { alert('يرجى ملء جميع البيانات'); return; }
             let subType = "75"; if(phases.length === 2) subType = "125"; if(phases.length === 3) subType = "150";
-            const memberID = generateMemberID();
-            const password = generatePassword();
-
-            try {
-                await db.ref('subscribers').push({
-                    name, school, administration: admin, governorate: gov, phone,
-                    phases, subscriptionType: subType, memberID, password,
-                    isPaid: false, isProfileConfirmed: true, createdAt: Date.now()
-                });
-                document.getElementById('resCode').innerText = memberID;
-                document.getElementById('resPass').innerText = password;
-                showSubPage('subSuccess');
-            } catch(e) { alert('حدث خطأ أثناء التسجيل'); }
+            const memberID = generateMemberID(); const password = generatePassword();
+            try { await db.ref('subscribers').push({ name, school, administration: admin, governorate: gov, phone, phases, subscriptionType: subType, memberID, password, isPaid: false, isProfileConfirmed: true, createdAt: Date.now() }); document.getElementById('resCode').innerText = memberID; document.getElementById('resPass').innerText = password; showSubPage('subSuccess'); } catch(e) { alert('حدث خطأ'); }
         }
 
-        // 2. تسجيل دخول المشترك
         async function loginUser() {
-            const code = document.getElementById('loginCode').value.trim();
-            const pass = document.getElementById('loginPass').value.trim();
+            const code = document.getElementById('loginCode').value.trim(); const pass = document.getElementById('loginPass').value.trim();
             if(!code || !pass) { alert('أدخل الكود والباسوورد'); return; }
-
             try {
-                const snapshot = await db.ref('subscribers').orderByChild('memberID').equalTo(code).once('value');
-                let found = false;
-                snapshot.forEach(child => {
-                    if(child.val().password === pass) {
-                        found = true;
-                        const user = child.val();
-                        document.getElementById('welcomeName').innerText = user.name;
-                        
-                        // عرض حالة السداد
-                        if(!user.isPaid) {
-                            document.getElementById('subStatusAlert').style.display = 'block';
-                            document.getElementById('subFilesContainer').innerHTML = '';
-                        } else {
-                            document.getElementById('subStatusAlert').style.display = 'none';
-                            renderUserFiles(user);
-                        }
-                        showSubPage('subDashboard');
-                    }
-                });
-                if(!found) alert('كود المشترك أو كلمة المرور غير صحيحة');
-            } catch(e) { alert('خطأ في تسجيل الدخول'); }
+                const snapshot = await db.ref('subscribers').orderByChild('memberID').equalTo(code).once('value'); let found = false;
+                snapshot.forEach(child => { if(child.val().password === pass) { found = true; const user = child.val(); document.getElementById('welcomeName').innerText = user.name; if(!user.isPaid) { document.getElementById('subStatusAlert').style.display = 'block'; document.getElementById('subFilesContainer').innerHTML = ''; } else { document.getElementById('subStatusAlert').style.display = 'none'; renderUserFiles(user); } showSubPage('subDashboard'); } });
+                if(!found) alert('كود أو كلمة مرور غير صحيحة');
+            } catch(e) { alert('خطأ'); }
         }
 
-        // عرض ملفات المشترك حسب المراحل
         function renderUserFiles(user) {
-            const container = document.getElementById('subFilesContainer');
-            container.innerHTML = '';
-            const phases = user.phases || [];
-            const phaseColors = { "ابتدائي": "#3498db", "إعدادي": "#2ecc71", "ثانوي": "#e74c3c" };
-
+            const container = document.getElementById('subFilesContainer'); container.innerHTML = '<h3 style="margin-bottom:15px;">الملفات المتاحة:</h3>';
+            const phases = user.phases || []; const colors = { "ابتدائي": "#3498db", "إعدادي": "#2ecc71", "ثانوي": "#e74c3c" }; const keys = { "ابتدائي": "primary", "إعدادي": "preparatory", "ثانوي": "secondary" };
             phases.forEach(phase => {
-                const card = document.createElement('div');
-                card.className = 'phase-card';
-                card.style.borderRightColor = phaseColors[phase] || '#d69e2e';
-                card.innerHTML = `
-                    <h3><i class="fas fa-book"></i> مرحلة ${phase}</h3>
-                    <p>الملفات الخاصة بهذه المرحلة ستكون متاحة هنا.</p>
-                    <button class="btn btn-primary btn-sm" style="margin-top:10px;" disabled><i class="fas fa-download"></i> تحميل الملف (سيتم تفعيله لاحقاً)</button>
-                `;
+                const url = globalSettings[keys[phase]]; if(!url) return;
+                const card = document.createElement('div'); card.className = 'phase-card'; card.style.borderRightColor = colors[phase];
+                card.innerHTML = `<div><h3><i class="fas fa-book-open"></i> مرحلة ${phase}</h3><p>الملف جاهز للتحميل بالعلامة المائية الخاصة بك.</p></div><button class="btn btn-primary btn-sm" onclick="downloadFile('${url}', '${user.memberID}', '${user.name}', '${user.school}', '${user.administration}', '${phase}')"><i class="fas fa-download"></i> تحميل</button>`;
                 container.appendChild(card);
             });
         }
 
+        // دالة العلامة المائية (السحر)
+        async function downloadFile(pdfUrl, memberId, name, school, admin, phase) {
+            const overlay = document.getElementById('loadingOverlay'); overlay.style.display = 'flex';
+            try {
+                const fontUrl = 'https://raw.githubusercontent.com/amenghieth77-boop/amen-ghieth-pro/main/Cairo.ttf'; // عدل الرابط ده لو رفعت الخط في مكان تاني
+                const existingPdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
+                const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
+                
+                const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
+                const customFont = await pdfDoc.embedFont(fontBytes);
+                const pages = pdfDoc.getPages();
+                
+                for (const page of pages) {
+                    const { width, height } = page.getSize();
+                    const text = `${name} | ${school} | ${admin}`;
+                    const fontSize = 14;
+                    const textWidth = customFont.widthOfTextAtSize(text, fontSize);
+                    
+                    // العلامة المائية المائلة
+                    page.drawText(text, { x: width / 2 - textWidth / 2, y: height / 2, size: fontSize, font: customFont, color: PDFLib.rgb(0.7, 0.7, 0.7), opacity: 0.5, rotate: PDFLib.degrees(-45) });
+                    
+                    // كود التتبع المخفي (أبيض صغير جداً أو خارج الصفحة)
+                    page.drawText(`TrackID: ${memberId}`, { x: 5, y: 5, size: 3, font: customFont, color: PDFLib.rgb(1, 1, 1) });
+                }
+                
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: "application/pdf" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = `${phase}_${memberId}.pdf`;
+                link.click();
+            } catch(e) { alert('حدث خطأ أثناء تجهيز الملف: ' + e.message); console.error(e); }
+            overlay.style.display = 'none';
+        }
+
         function logoutUser() { showSubPage('subHome'); }
 
-        // بيانات الإكسيل القديمة للإدارة
-        const excelData = [
-            { name: "ابرام مجدى", school: "سان مارك", admin: "الفشن", gov: "بنى سويف" },
-            { name: "احمد سعيد حامد", school: "الفضيلة الابتدائية", admin: "الاسكندرية", gov: "الاسكندرية" }
-        ];
-        async function importExcelData() {
-            if(!confirm(`هل أنت متأكد من رفع بيانات المشتركين القدامى؟`)) return;
-            try {
-                for(let sub of excelData) {
-                    await db.ref('subscribers').push({ name: sub.name, school: sub.school, administration: sub.admin, governorate: sub.gov, phone: "", phases: [], subscriptionType: "0", memberID: null, password: null, isPaid: false, isProfileConfirmed: false, createdAt: Date.now() });
-                }
-                alert('تم رفع البيانات بنجاح!');
-            } catch(e) { alert('خطأ'); }
-        }
-
-        // جلب البيانات للإدارة
         db.ref('subscribers').on('value', snapshot => {
             let totalSubs = 0, confirmedSubs = 0, unconfirmedSubs = 0, totalMoney = 0;
-            const tableBody = document.getElementById('adminTable');
-            tableBody.innerHTML = '';
-            snapshot.forEach(child => {
-                const sub = child.val(); const id = child.key;
-                totalSubs++;
-                if(sub.isPaid) { confirmedSubs++; totalMoney += parseInt(sub.subscriptionType || 0); } else { unconfirmedSubs++; }
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${sub.name}</td>
-                    <td>${sub.phone || '-'}</td>
-                    <td>${sub.phases && sub.phases.length > 0 ? sub.phases.join(' - ') : 'لم يحدد'}</td>
-                    <td><strong>${sub.memberID || 'لم يسجل بعد'}</strong></td>
-                    <td><span class="badge ${sub.isPaid ? 'badge-success' : 'badge-danger'}" onclick="togglePayment('${id}', ${sub.isPaid})">${sub.isPaid ? '✅ تم السداد' : '🔴 لم يسدد'}</span></td>
-                    <td><button class="btn btn-danger btn-sm" onclick="deleteSubscriber('${id}', '${sub.name}')"><i class="fas fa-trash"></i></button></td>
-                `;
-                tableBody.appendChild(tr);
-            });
-            document.getElementById('statTotal').innerText = totalSubs;
-            document.getElementById('statPaid').innerText = confirmedSubs;
-            document.getElementById('statUnpaid').innerText = unconfirmedSubs;
-            document.getElementById('statMoney').innerText = totalMoney + " ج.م";
+            const tableBody = document.getElementById('adminTable'); tableBody.innerHTML = '';
+            snapshot.forEach(child => { const sub = child.val(); const id = child.key; totalSubs++; if(sub.isPaid) { confirmedSubs++; totalMoney += parseInt(sub.subscriptionType || 0); } else { unconfirmedSubs++; } const tr = document.createElement('tr'); tr.innerHTML = `<td>${sub.name}</td><td>${sub.phone || '-'}</td><td>${sub.phases && sub.phases.length > 0 ? sub.phases.join(' - ') : '-'}</td><td><strong>${sub.memberID || '-'}</strong></td><td><span class="badge ${sub.isPaid ? 'badge-success' : 'badge-danger'}" onclick="togglePayment('${id}', ${sub.isPaid})">${sub.isPaid ? '✅' : '🔴'}</span></td><td><button class="btn btn-danger btn-sm" onclick="deleteSubscriber('${id}', '${sub.name}')"><i class="fas fa-trash"></i></button></td>`; tableBody.appendChild(tr); });
+            document.getElementById('statTotal').innerText = totalSubs; document.getElementById('statPaid').innerText = confirmedSubs; document.getElementById('statUnpaid').innerText = unconfirmedSubs; document.getElementById('statMoney').innerText = totalMoney + " ج.م";
         });
-
-        async function togglePayment(id, currentStatus) {
-            try { await db.ref('subscribers/' + id).update({ isPaid: !currentStatus }); } catch(e) { alert('خطأ'); }
-        }
-        async function deleteSubscriber(id, name) {
-            if(confirm(`هل أنت متأكد من حذف ${name}؟`)) { try { await db.ref('subscribers/' + id).remove(); } catch(e) {} }
-        }
-        
-        function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
-        function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
-        async function saveNewSubscriberByAdmin() {
-            const name = document.getElementById('addName').value; const school = document.getElementById('addSchool').value;
-            const admin = document.getElementById('addAdmin').value; const gov = document.getElementById('addGov').value;
-            if(!name || !gov) { alert('الاسم والمحافظة مطلوبين'); return; }
-            try {
-                await db.ref('subscribers').push({ name, school, administration: admin, governorate: gov, phone: "", phases: [], subscriptionType: "0", memberID: null, password: null, isPaid: false, isProfileConfirmed: false, createdAt: Date.now() });
-                closeAddModal();
-            } catch(e) {}
-        }
+        async function togglePayment(id, s) { try { await db.ref('subscribers/' + id).update({ isPaid: !s }); } catch(e) {} }
+        async function deleteSubscriber(id, n) { if(confirm(`حذف ${n}؟`)) { try { await db.ref('subscribers/' + id).remove(); } catch(e) {} } }
     </script>
 </body>
 </html>
