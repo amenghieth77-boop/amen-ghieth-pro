@@ -2,292 +2,265 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amen Ghieth Pro - منصة التربية النفسية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- مكتبات Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <!-- مكتبة تعديل الـ PDF (العلامة المائية) -->
+    <title>منصة المشتركين</title>
+    <!-- مكتبة pdf-lib لتعديل الـ PDF والعلامة المائية -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <!-- مكتبة الخطوط العربية للـ PDF (الإضافة الجديدة) -->
-    <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4/dist/fontkit.umd.min.js"></script>
-
     <style>
-        :root { --royal-blue: #1a365d; --light-blue: #2b6cb0; --gold: #d69e2e; --white: #ffffff; --off-white: #f7fafc; --gray: #e2e8f0; --dark-gray: #4a5568; --danger: #e53e3e; --success: #38a169; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background-color: var(--off-white); color: var(--dark-gray); display: flex; flex-direction: column; height: 100vh; }
-        .top-bar { background: linear-gradient(135deg, var(--royal-blue), var(--light-blue)); color: var(--white); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; height: 60px; z-index: 100; }
-        .top-bar-right { display: flex; align-items: center; gap: 15px; }
-        .platform-logo { width: 40px; height: 40px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--royal-blue); font-size: 1.2rem; }
-        .top-bar-title h1 { font-size: 1.2rem; font-weight: 700; color: var(--gold); }
-        .top-bar-title p { font-size: 0.8rem; color: var(--white); }
-        .nav-switch { display: flex; gap: 10px; }
-        .nav-btn { padding: 8px 15px; border: 2px solid var(--gold); background: transparent; color: var(--white); border-radius: 20px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; transition: 0.2s; }
-        .nav-btn.active, .nav-btn:hover { background: var(--gold); color: var(--royal-blue); }
-        .main-container { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 250px; background: var(--white); border-left: 1px solid var(--gray); display: flex; flex-direction: column; }
-        .sidebar-menu { list-style: none; padding: 10px 0; flex: 1; overflow-y: auto; }
-        .sidebar-menu li { padding: 12px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-right: 4px solid transparent; color: var(--dark-gray); }
-        .sidebar-menu li:hover, .sidebar-menu li.active { background: var(--off-white); border-right-color: var(--gold); color: var(--royal-blue); }
-        .sidebar-menu li i { width: 20px; text-align: center; color: var(--light-blue); }
-        .content-area { flex: 1; padding: 20px; overflow-y: auto; background-color: var(--off-white); }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .stat-card { background: var(--white); padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--royal-blue); }
-        .stat-card.gold { border-bottom-color: var(--gold); } .stat-card.danger { border-bottom-color: var(--danger); } .stat-card.success { border-bottom-color: var(--success); }
-        .stat-info h3 { font-size: 0.9rem; } .stat-info .number { font-size: 2rem; font-weight: 900; color: var(--royal-blue); }
-        .stat-icon { font-size: 2.5rem; color: var(--gray); }
-        .actions-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: 'Cairo'; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
-        .btn-primary { background: var(--royal-blue); color: var(--white); } .btn-primary:hover { background: var(--light-blue); }
-        .btn-gold { background: var(--gold); color: var(--white); } .btn-gold:hover { background: #b7791f; }
-        .btn-danger { background: var(--danger); color: var(--white); }
-        .btn-sm { padding: 5px 10px; font-size: 0.8rem; }
-        .table-container { background: var(--white); border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: auto; max-height: 500px; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: var(--royal-blue); color: var(--gold); padding: 15px; text-align: right; position: sticky; top: 0; z-index: 10; }
-        td { padding: 12px 15px; border-bottom: 1px solid var(--gray); }
-        .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
-        .badge-success { background: #f0fff4; color: var(--success); border: 1px solid var(--success); }
-        .badge-danger { background: #fff5f5; color: var(--danger); border: 1px solid var(--danger); }
-        .subscriber-portal { max-width: 600px; margin: 40px auto; background: var(--white); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid var(--gray); border-radius: 5px; font-family: 'Cairo'; }
-        .checkbox-group { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
-        .credentials-box { background: var(--off-white); padding: 20px; border-radius: 5px; border: 2px solid var(--gold); margin-top: 20px; text-align: center; }
-        .page-section { display: none; } .page-section.active { display: block; }
-        .main-view { display: none; } .main-view.active { display: flex; }
-        .sub-view { display: none; } .sub-view.active { display: block; }
-        .phase-card { background: var(--white); padding: 20px; border-radius: 10px; border-right: 5px solid var(--gold); margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .loading-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.7); color: white; display: none; justify-content: center; align-items: center; font-size: 1.5rem; z-index: 2000; }
-        @media (max-width: 768px) { .sidebar { display: none; } .actions-bar { flex-direction: column; } .btn { width: 100%; justify-content: center; } }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h2, h3 { text-align: center; color: #2c3e50; }
+        
+        /* تنسيق تسجيل الدخول */
+        .login-box { background: #ecf0f1; padding: 20px; border-radius: 8px; text-align: center; }
+        input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 5px; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-danger { background: #c0392b; color: white; }
+        .btn-secondary { background: #7f8c8d; color: white; }
+        .btn:hover { opacity: 0.9; }
+
+        /* تنسيق البوابة والإدارة */
+        .section { display: none; }
+        .files-group { background: #d6eaf8; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .static-group { background: #d5f5e3; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .admin-group { background: #fdf2e9; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .admin-font { background: #ebf5fb; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        
+        label { font-weight: bold; display: block; margin-top: 10px; }
+        .nav-links { text-align: center; margin-top: 20px; }
+        #statusMessage { text-align: center; margin-top: 15px; font-weight: bold; color: #c0392b; font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <div id="loadingOverlay" class="loading-overlay">
-        <div><i class="fas fa-spinner fa-spin"></i> جاري تجهيز الملف والعلامة المائية...</div>
-    </div>
+<div class="container">
+    <h2>🎓 منصة المشتركين</h2>
 
-    <div class="top-bar">
-        <div class="top-bar-right">
-            <div class="platform-logo"><i class="fas fa-brain"></i></div>
-            <div class="top-bar-title">
-                <h1>Amen Ghieth Pro</h1>
-                <p>منصة التربية النفسية</p>
-            </div>
-        </div>
-        <div class="nav-switch">
-            <button class="nav-btn" onclick="switchMainView('subscriber')"><i class="fas fa-user"></i> بوابة المشترك</button>
-            <button class="nav-btn active" onclick="switchMainView('admin')"><i class="fas fa-user-shield"></i> لوحة الإدارة</button>
-        </div>
-    </div>
-
-    <!-- بوابة المشترك -->
-    <div class="content-area main-view" id="subscriberView">
-        <div id="subHome" class="subscriber-portal sub-view active" style="text-align: center;">
-            <h2 style="color:var(--royal-blue); margin-bottom:30px;">مرحباً بك في منصة التربية النفسية</h2>
-            <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
-                <button class="btn btn-gold" onclick="showSubPage('subRegister')"><i class="fas fa-user-plus"></i> تسجيل مشترك جديد</button>
-                <button class="btn btn-primary" onclick="showSubPage('subLogin')"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
-            </div>
-        </div>
-        <div id="subRegister" class="subscriber-portal sub-view">
-            <h2 style="color: var(--gold); margin-bottom: 20px; text-align: center;"><i class="fas fa-user-edit"></i> تأكيد البيانات</h2>
-            <div class="form-group"><label>الاسم الرباعي *</label><input type="text" id="regName"></div>
-            <div class="form-group"><label>المدرسة *</label><input type="text" id="regSchool"></div>
-            <div class="form-group"><label>الإدارة التعليمية *</label><input type="text" id="regAdmin"></div>
-            <div class="form-group"><label>المحافظة *</label><input type="text" id="regGov"></div>
-            <div class="form-group"><label>رقم الهاتف *</label><input type="tel" id="regPhone"></div>
-            <div class="form-group">
-                <label>اختر المراحل:</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" class="phase-check-reg" value="ابتدائي"> ابتدائي</label>
-                    <label><input type="checkbox" class="phase-check-reg" value="إعدادي"> إعدادي</label>
-                    <label><input type="checkbox" class="phase-check-reg" value="ثانوي"> ثانوي</label>
-                </div>
-            </div>
-            <button class="btn btn-gold" style="width: 100%; justify-content: center;" onclick="registerNewUser()"><i class="fas fa-check-circle"></i> تأكيد والحصول على الكود</button>
-            <br><br><small style="cursor:pointer; color:var(--light-blue);" onclick="showSubPage('subHome')">رجوع</small>
-        </div>
-        <div id="subSuccess" class="subscriber-portal sub-view">
-            <div class="credentials-box">
-                <h2 style="color: var(--success);"><i class="fas fa-check-circle"></i> تم التسجيل بنجاح!</h2>
-                <p>احتفظ بهذه البيانات:</p>
-                <div style="margin-top: 15px;"><h3>كود المشترك</h3><p id="resCode" style="font-size: 1.5rem; color:var(--danger); font-weight:bold;"></p></div>
-                <div style="margin-top: 10px;"><h3>كلمة المرور</h3><p id="resPass" style="font-size: 1.5rem; color:var(--danger); font-weight:bold;"></p></div>
-                <br><button class="btn btn-primary" onclick="showSubPage('subLogin')">تسجيل الدخول</button>
-            </div>
-        </div>
-        <div id="subLogin" class="subscriber-portal sub-view">
-            <h2 style="color: var(--royal-blue); margin-bottom: 20px; text-align: center;"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-            <div class="form-group"><label>كود المشترك</label><input type="text" id="loginCode"></div>
-            <div class="form-group"><label>كلمة المرور</label><input type="password" id="loginPass"></div>
-            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="loginUser()">دخول</button>
-            <br><br><small style="cursor:pointer; color:var(--light-blue);" onclick="showSubPage('subHome')">رجوع</small>
-        </div>
-        <div id="subDashboard" class="sub-view">
-            <h2 style="color:var(--royal-blue); margin-bottom:20px;">مرحباً بك، <span id="welcomeName" style="color:var(--gold);"></span></h2>
-            <div id="subStatusAlert" style="padding:15px; margin-bottom:20px; border-radius:10px; background:#fff3cd; color:#856404; display:none; border:1px solid #ffc107;">
-                ⏳ حسابك تحت المراجعة، برجاء التواصل مع الإدارة لتأكيد السداد.
-            </div>
-            <div id="subFilesContainer"></div>
-            <br><button class="btn btn-danger" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
-        </div>
-    </div>
-
-    <!-- لوحة الإدارة -->
-    <div class="main-container main-view active" id="adminView">
-        <div class="sidebar">
-            <ul class="sidebar-menu">
-                <li class="active" onclick="showAdminPage('home')"><i class="fas fa-home"></i> الرئيسية</li>
-                <li onclick="showAdminPage('subscribers')"><i class="fas fa-users"></i> المشتركين</li>
-                <li onclick="showAdminPage('settings')"><i class="fas fa-cog"></i> إعدادات الملفات</li>
-            </ul>
-        </div>
-        <div class="content-area">
-            <div id="admin-home" class="page-section active">
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-info"><h3>إجمالي المشتركين</h3><div class="number" id="statTotal">0</div></div><div class="stat-icon"><i class="fas fa-users"></i></div></div>
-                    <div class="stat-card success"><div class="stat-info"><h3>تم السداد</h3><div class="number" id="statPaid">0</div></div><div class="stat-icon"><i class="fas fa-check-circle"></i></div></div>
-                    <div class="stat-card danger"><div class="stat-info"><h3>لم يسدد</h3><div class="number" id="statUnpaid">0</div></div><div class="stat-icon"><i class="fas fa-times-circle"></i></div></div>
-                    <div class="stat-card gold"><div class="stat-info"><h3>إجمالي الرسوم</h3><div class="number" id="statMoney">0 ج.م</div></div><div class="stat-icon"><i class="fas fa-coins"></i></div></div>
-                </div>
-            </div>
-            <div id="admin-subscribers" class="page-section">
-                <div class="table-container">
-                    <table>
-                        <thead><tr><th>الاسم</th><th>الهاتف</th><th>المراحل</th><th>الكود</th><th>حالة السداد</th><th>إجراءات</th></tr></thead>
-                        <tbody id="adminTable"></tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="admin-settings" class="page-section">
-                <h2 style="color:var(--royal-blue); margin-bottom:20px;"><i class="fas fa-cog"></i> روابط ملفات PDF (من GitHub)</h2>
-                <p style="margin-bottom:20px;">ارفع ملفات الـ PDF والخط Cairo.ttf على مستودع الجيت هاب، وانسخ الرابط بتاعها (raw.githubusercontent.com) وحطه هنا:</p>
-                <div class="form-group"><label>رابط ملف الابتدائي</label><input type="text" id="setPrimary" placeholder="https://raw.githubusercontent.com/.../primary.pdf"></div>
-                <div class="form-group"><label>رابط ملف الإعدادي</label><input type="text" id="setPreparatory" placeholder="https://raw.githubusercontent.com/.../preparatory.pdf"></div>
-                <div class="form-group"><label>رابط ملف الثانوي</label><input type="text" id="setSecondary" placeholder="https://raw.githubusercontent.com/.../secondary.pdf"></div>
-                <div class="form-group"><label>رابط ملف الخط العربي (Cairo.ttf)</label><input type="text" id="setFont" placeholder="https://raw.githubusercontent.com/.../Cairo.ttf"></div>
-                <button class="btn btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> حفظ الإعدادات</button>
+    <!-- 1️⣿ قسم تسجيل الدخول (بوابة المشترك) -->
+    <div id="loginSection" class="section">
+        <div class="login-box">
+            <h3>تسجيل دخول المشترك</h3>
+            <input type="text" id="userName" placeholder="اكتب اسمك هنا...">
+            <input type="text" id="userSchool" placeholder="اكتب اسم مدرستك هنا...">
+            <button class="btn btn-primary" onclick="login()">تسجيل الدخول والدخول للبوابة</button>
+            <div class="nav-links">
+                <a href="#" onclick="showAdmin()" style="color:#c0392b; font-size:14px;">⚙️ الدخول كإدارة (لتعديل الروابط)</a>
             </div>
         </div>
     </div>
 
-    <script>
-        function switchMainView(view) { document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active')); document.getElementById(view + 'View').classList.add('active'); document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active')); event.target.closest('.nav-btn').classList.add('active'); }
-        function showSubPage(pageId) { document.querySelectorAll('.sub-view').forEach(el => el.classList.remove('active')); document.getElementById(pageId).classList.add('active'); }
-        function showAdminPage(pageId) { document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active')); document.getElementById('admin-' + pageId).classList.add('active'); document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active')); event.target.closest('li').classList.add('active'); }
+    <!-- 2️⣿ قسم بوابة المشترك (تحميل الملفات) -->
+    <div id="portalSection" class="section">
+        <h3>مرحباً <span id="welcomeName"></span>! 🎉 اختر الملف للتحميل</h3>
+        <p style="text-align:center; color:#7f8c8d;">(سيتم طباعة اسمك ومدرستك على الملف تلقائياً)</p>
 
-        const firebaseConfig = { apiKey: "AIzaSyBCZtlz3AF3_YWxWAJgV0M9XSXFVgmrLvM", authDomain: "amenghiethpro.firebaseapp.com", databaseURL: "https://amenghiethpro-default-rtdb.firebaseio.com", projectId: "amenghiethpro", storageBucket: "amenghiethpro.firebasestorage.app", messagingSenderId: "1008593828554", appId: "1:1008593828554:web:8fdc8e25cbe9c2f5821233" };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        <div class="files-group">
+            <h3>📅 ملفات الشهر الحالي (سبتمبر)</h3>
+            <button class="btn btn-primary" onclick="downloadWatermarked('primaryPdfUrl')">📥 تحميل الابتدائي</button>
+            <button class="btn btn-primary" onclick="downloadWatermarked('preparatoryPdfUrl')">📥 تحميل الإعدادي</button>
+            <button class="btn btn-primary" onclick="downloadWatermarked('secondaryPdfUrl')">📥 تحميل الثانوي</button>
+        </div>
 
-        function generateMemberID() { return "PSY-" + Math.floor(1000 + Math.random() * 9000); }
-        function generatePassword() { const c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let p = ""; for(let i=0; i<6; i++) p += c.charAt(Math.floor(Math.random() * c.length)); return p; }
+        <div class="static-group">
+            <h3>📌 ملفات ثابتة (لا تتغير)</h3>
+            <button class="btn btn-success" onclick="downloadWatermarked('initiativePdfUrl')">📥 تحميل ملف المبادرة</button>
+            <button class="btn btn-success" onclick="downloadWatermarked('activitiesPdfUrl')">📥 تحميل أنشطة إضافية</button>
+            <button class="btn btn-success" onclick="downloadWatermarked('recordsPdfUrl')">📥 تحميل السجلات</button>
+        </div>
 
-        let globalSettings = {};
-        db.ref('settings').on('value', s => { 
-            globalSettings = s.val() || {}; 
-            if(globalSettings.primary) document.getElementById('setPrimary').value = globalSettings.primary; 
-            if(globalSettings.preparatory) document.getElementById('setPreparatory').value = globalSettings.preparatory; 
-            if(globalSettings.secondary) document.getElementById('setSecondary').value = globalSettings.secondary;
-            if(globalSettings.font) document.getElementById('setFont').value = globalSettings.font;
-        });
+        <div id="statusMessage"></div>
+
+        <div class="nav-links">
+            <button class="btn btn-danger" onclick="logout()">🚪 تسجيل الخروج</button>
+            <a href="#" onclick="showAdmin()" style="color:#c0392b; font-size:14px; margin-right:15px;">⚙️ الدخول كإدارة</a>
+        </div>
+    </div>
+
+    <!-- 3️⣿ قسم لوحة الإدارة (وضع الروابط) -->
+    <div id="adminSection" class="section">
+        <h3>⚙️ لوحة الإدارة - إعدادات الروابط</h3>
         
-        async function saveSettings() {
-            try { await db.ref('settings').update({ 
-                primary: document.getElementById('setPrimary').value, 
-                preparatory: document.getElementById('setPreparatory').value, 
-                secondary: document.getElementById('setSecondary').value,
-                font: document.getElementById('setFont').value
-            }); alert('تم حفظ الإعدادات'); } catch(e) { alert('خطأ'); }
+        <div class="files-group">
+            <h3>📅 روابط الشهر الحالي (تتغير كل شهر)</h3>
+            <label>رابط ابتدائي:</label>
+            <input type="text" id="primaryPdfUrl" style="width:100%;">
+            <label>رابط إعدادي:</label>
+            <input type="text" id="preparatoryPdfUrl" style="width:100%;">
+            <label>رابط ثانوي:</label>
+            <input type="text" id="secondaryPdfUrl" style="width:100%;">
+        </div>
+
+        <div class="static-group">
+            <h3>📌 روابط الملفات الثابتة</h3>
+            <label>رابط ملف المبادرة:</label>
+            <input type="text" id="initiativePdfUrl" style="width:100%;">
+            <label>رابط أنشطة إضافية:</label>
+            <input type="text" id="activitiesPdfUrl" style="width:100%;">
+            <label>رابط السجلات:</label>
+            <input type="text" id="recordsPdfUrl" style="width:100%;">
+        </div>
+
+        <div class="admin-font">
+            <h3>🔤 رابط الخط العربي (Cairo-Regular.ttf)</h3>
+            <label>رابط الخط النقي:</label>
+            <input type="text" id="fontUrl" style="width:100%;">
+        </div>
+
+        <button class="btn btn-success" onclick="saveSettings()" style="width:100%; font-size:18px;">💾 حفظ الإعدادات</button>
+
+        <div class="nav-links">
+            <a href="#" onclick="showPortal()" style="color:#3498db; font-size:14px;">🔙 الرجوع لبوابة المشترك</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ================= بداية كود الجافاسكريبت =================
+
+    // 1. فتح الصفحة الأولى (تسجيل الدخول)
+    window.onload = function() {
+        const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (user) {
+            showPortal(); // لو سجل دخول قبل كده، يروح للبوابة على طول
+        } else {
+            document.getElementById('loginSection').style.display = 'block';
+        }
+    };
+
+    // 2. دالة تسجيل الدخول
+    function login() {
+        const name = document.getElementById('userName').value.trim();
+        const school = document.getElementById('userSchool').value.trim();
+        if (!name || !school) {
+            alert("لازم تكتب اسمك ومدرستك!");
+            return;
+        }
+        localStorage.setItem('currentUser', JSON.stringify({ name, school }));
+        showPortal();
+    }
+
+    // 3. دالة تسجيل الخروج
+    function logout() {
+        localStorage.removeItem('currentUser');
+        document.getElementById('loginSection').style.display = 'block';
+        document.getElementById('portalSection').style.display = 'none';
+        document.getElementById('adminSection').style.display = 'none';
+    }
+
+    // 4. التنقل بين الصفحات
+    function showPortal() {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (!user) { document.getElementById('loginSection').style.display = 'block'; return; }
+        document.getElementById('welcomeName').innerText = user.name;
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('adminSection').style.display = 'none';
+        document.getElementById('portalSection').style.display = 'block';
+        document.getElementById('statusMessage').innerText = '';
+    }
+
+    function showAdmin() {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('portalSection').style.display = 'none';
+        document.getElementById('adminSection').style.display = 'block';
+        loadSettings(); // نجيب الروابط اللي محفوظة عشان تعدل عليها
+    }
+
+    // 5. حفظ وتحميل إعدادات الروابط (الإدارة)
+    function saveSettings() {
+        const settings = {
+            primaryPdfUrl: document.getElementById('primaryPdfUrl').value,
+            preparatoryPdfUrl: document.getElementById('preparatoryPdfUrl').value,
+            secondaryPdfUrl: document.getElementById('secondaryPdfUrl').value,
+            initiativePdfUrl: document.getElementById('initiativePdfUrl').value,
+            activitiesPdfUrl: document.getElementById('activitiesPdfUrl').value,
+            recordsPdfUrl: document.getElementById('recordsPdfUrl').value,
+            fontUrl: document.getElementById('fontUrl').value
+        };
+        localStorage.setItem('platformSettings', JSON.stringify(settings));
+        alert('✅ تم حفظ الروابط بنجاح!');
+    }
+
+    function loadSettings() {
+        const settings = JSON.parse(localStorage.getItem('platformSettings') || '{}');
+        document.getElementById('primaryPdfUrl').value = settings.primaryPdfUrl || '';
+        document.getElementById('preparatoryPdfUrl').value = settings.preparatoryPdfUrl || '';
+        document.getElementById('secondaryPdfUrl').value = settings.secondaryPdfUrl || '';
+        document.getElementById('initiativePdfUrl').value = settings.initiativePdfUrl || '';
+        document.getElementById('activitiesPdfUrl').value = settings.activitiesPdfUrl || '';
+        document.getElementById('recordsPdfUrl').value = settings.recordsPdfUrl || '';
+        document.getElementById('fontUrl').value = settings.fontUrl || '';
+    }
+
+    // 6. دالة التحميل ووضع العلامة المائية (السحر 🪄)
+    async function downloadWatermarked(fileKey) {
+        const statusDiv = document.getElementById('statusMessage');
+        statusDiv.innerText = "⏳ جاري تجهيز الملف وطباعة اسمك عليه...";
+        statusDiv.style.color = "#2980b9";
+
+        const settings = JSON.parse(localStorage.getItem('platformSettings'));
+        if (!settings || !settings[fileKey] || !settings.fontUrl) {
+            statusDiv.innerText = "❌ خطأ: الروابط مش محفوظة! روح للإدارة وحط الروابط الأول.";
+            statusDiv.style.color = "#c0392b";
+            return;
         }
 
-        async function registerNewUser() {
-            const name = document.getElementById('regName').value.trim(); const school = document.getElementById('regSchool').value.trim(); const admin = document.getElementById('regAdmin').value.trim(); const gov = document.getElementById('regGov').value.trim(); const phone = document.getElementById('regPhone').value.trim();
-            const phases = []; document.querySelectorAll('.phase-check-reg:checked').forEach(cb => phases.push(cb.value));
-            if(!name || !school || !admin || !gov || !phone || phases.length === 0) { alert('يرجى ملء جميع البيانات'); return; }
-            let subType = "75"; if(phases.length === 2) subType = "125"; if(phases.length === 3) subType = "150";
-            const memberID = generateMemberID(); const password = generatePassword();
-            try { await db.ref('subscribers').push({ name, school, administration: admin, governorate: gov, phone, phases, subscriptionType: subType, memberID, password, isPaid: false, isProfileConfirmed: true, createdAt: Date.now() }); document.getElementById('resCode').innerText = memberID; document.getElementById('resPass').innerText = password; showSubPage('subSuccess'); } catch(e) { alert('حدث خطأ'); }
-        }
+        const pdfUrl = settings[fileKey];
+        const fontUrl = settings.fontUrl;
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        const watermarkText = `${user.name} - ${user.school}`;
 
-        async function loginUser() {
-            const code = document.getElementById('loginCode').value.trim(); const pass = document.getElementById('loginPass').value.trim();
-            if(!code || !pass) { alert('أدخل الكود والباسوورد'); return; }
-            try {
-                const snapshot = await db.ref('subscribers').orderByChild('memberID').equalTo(code).once('value'); let found = false;
-                snapshot.forEach(child => { if(child.val().password === pass) { found = true; const user = child.val(); document.getElementById('welcomeName').innerText = user.name; if(!user.isPaid) { document.getElementById('subStatusAlert').style.display = 'block'; document.getElementById('subFilesContainer').innerHTML = ''; } else { document.getElementById('subStatusAlert').style.display = 'none'; renderUserFiles(user); } showSubPage('subDashboard'); } });
-                if(!found) alert('كود أو كلمة مرور غير صحيحة');
-            } catch(e) { alert('خطأ'); }
-        }
-
-        function renderUserFiles(user) {
-            const container = document.getElementById('subFilesContainer'); container.innerHTML = '<h3 style="margin-bottom:15px;">الملفات المتاحة:</h3>';
-            const phases = user.phases || []; const colors = { "ابتدائي": "#3498db", "إعدادي": "#2ecc71", "ثانوي": "#e74c3c" }; const keys = { "ابتدائي": "primary", "إعدادي": "preparatory", "ثانوي": "secondary" };
-            phases.forEach(phase => {
-                const url = globalSettings[keys[phase]]; if(!url) return;
-                const card = document.createElement('div'); card.className = 'phase-card'; card.style.borderRightColor = colors[phase];
-                card.innerHTML = `<div><h3><i class="fas fa-book-open"></i> مرحلة ${phase}</h3><p>الملف جاهز للتحميل بالعلامة المائية الخاصة بك.</p></div><button class="btn btn-primary btn-sm" onclick="downloadFile('${url}', '${user.memberID}', '${user.name}', '${user.school}', '${user.administration}', '${phase}')"><i class="fas fa-download"></i> تحميل</button>`;
-                container.appendChild(card);
+        try {
+            // جلب ملف الـ PDF
+            const pdfBytes = await fetch(pdfUrl).then(res => {
+                if (!res.ok) throw new Error("الملف مش موجود على السيرفر (Error 404) - تأكد إن الرابط صح");
+                return res.arrayBuffer();
             });
+            
+            // جلب ملف الخط العربي النقي
+            const fontBytes = await fetch(fontUrl).then(res => {
+                if (!res.ok) throw new Error("خط العربي مش موجود (Error 404) - تأكد إن رابط الخط صح");
+                return res.arrayBuffer();
+            });
+
+            // فتح الـ PDF وتضمين الخط
+            const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+            const cairoFont = await pdfDoc.embedFont(fontBytes); 
+            
+            // المرور على كل صفحة وكتابة العلامة المائية
+            const pages = pdfDoc.getPages();
+            for (const page of pages) {
+                const { width, height } = page.getSize();
+                const textWidth = cairoFont.widthOfTextAtSize(watermarkText, 24);
+                
+                page.drawText(watermarkText, {
+                    x: width / 2 - textWidth / 2, // توسيط أفقي
+                    y: height / 2,                // توسيط رأسي
+                    size: 24,                      // حجم الخط
+                    font: cairoFont,               // استخدام الخط العربي
+                    color: PDFLib.rgb(0.2, 0.6, 0.8), // لون أزرق جميل
+                    opacity: 0.5,                  // شفافية 50%
+                });
+            }
+
+            // حفظ وتنزيل الملف للمشترك
+            const modifiedPdfBytes = await pdfDoc.save();
+            const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${fileKey}_${user.name}.pdf`;
+            link.click();
+            
+            statusDiv.innerText = "✅ تم التحميل بنجاح! افتح الملف وتأكد إن اسمك مكتوب في النص.";
+            statusDiv.style.color = "#27ae60";
+
+        } catch (error) {
+            console.error(error);
+            statusDiv.innerText = "❌ حدث خطأ: " + error.message;
+            statusDiv.style.color = "#c0392b";
         }
+    }
+</script>
 
-        // دالة العلامة المائية المحدثة مع fontkit
-        async function downloadFile(pdfUrl, memberId, name, school, admin, phase) {
-            const overlay = document.getElementById('loadingOverlay'); overlay.style.display = 'flex';
-            try {
-                const fontUrl = globalSettings.font; 
-                if(!fontUrl) { throw new Error('لم يتم تحديد رابط الخط العربي في الإعدادات'); }
-
-                const existingPdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
-                const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
-                
-                const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
-                
-                // تفعيل fontkit لدعم الخطوط العربية
-                pdfDoc.registerFontkit(fontkit);
-                
-                const customFont = await pdfDoc.embedFont(fontBytes);
-                const pages = pdfDoc.getPages();
-                
-                for (const page of pages) {
-                    const { width, height } = page.getSize();
-                    const text = `${name} | ${school} | ${admin}`;
-                    const fontSize = 14;
-                    const textWidth = customFont.widthOfTextAtSize(text, fontSize);
-                    
-                    // العلامة المائية المائلة في المنتصف
-                    page.drawText(text, { x: width / 2 - textWidth / 2, y: height / 2, size: fontSize, font: customFont, color: PDFLib.rgb(0.7, 0.7, 0.7), opacity: 0.5, rotate: PDFLib.degrees(-45) });
-                    
-                    // كود التتبع المخفي
-                    page.drawText(`TrackID: ${memberId}`, { x: 5, y: 5, size: 3, font: customFont, color: PDFLib.rgb(1, 1, 1) });
-                }
-                
-                const pdfBytes = await pdfDoc.save();
-                const blob = new Blob([pdfBytes], { type: "application/pdf" });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = `${phase}_${memberId}.pdf`;
-                link.click();
-            } catch(e) { alert('حدث خطأ أثناء تجهيز الملف: ' + e.message); console.error(e); }
-            overlay.style.display = 'none';
-        }
-
-        function logoutUser() { showSubPage('subHome'); }
-
-        db.ref('subscribers').on('value', snapshot => {
-            let totalSubs = 0, confirmedSubs = 0, unconfirmedSubs = 0, totalMoney = 0;
-            const tableBody = document.getElementById('adminTable'); tableBody.innerHTML = '';
-            snapshot.forEach(child => { const sub = child.val(); const id = child.key; totalSubs++; if(sub.isPaid) { confirmedSubs++; totalMoney += parseInt(sub.subscriptionType || 0); } else { unconfirmedSubs++; } const tr = document.createElement('tr'); tr.innerHTML = `<td>${sub.name}</td><td>${sub.phone || '-'}</td><td>${sub.phases && sub.phases.length > 0 ? sub.phases.join(' - ') : '-'}</td><td><strong>${sub.memberID || '-'}</strong></td><td><span class="badge ${sub.isPaid ? 'badge-success' : 'badge-danger'}" onclick="togglePayment('${id}', ${sub.isPaid})">${sub.isPaid ? '✅' : '🔴'}</span></td><td><button class="btn btn-danger btn-sm" onclick="deleteSubscriber('${id}', '${sub.name}')"><i class="fas fa-trash"></i></button></td>`; tableBody.appendChild(tr); });
-            document.getElementById('statTotal').innerText = totalSubs; document.getElementById('statPaid').innerText = confirmedSubs; document.getElementById('statUnpaid').innerText = unconfirmedSubs; document.getElementById('statMoney').innerText = totalMoney + " ج.م";
-        });
-        async function togglePayment(id, s) { try { await db.ref('subscribers/' + id).update({ isPaid: !s }); } catch(e) {} }
-        async function deleteSubscriber(id, n) { if(confirm(`حذف ${n}؟`)) { try { await db.ref('subscribers/' + id).remove(); } catch(e) {} } }
-    </script>
 </body>
 </html>
