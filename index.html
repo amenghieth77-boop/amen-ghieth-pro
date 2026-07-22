@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>منصة المشتركين</title>
-    <!-- مكتبة pdf-lib لتعديل الـ PDF -->
+    <!-- مكتبة pdf-lib -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <!-- أداة fontkit عشان تفهم الخط العربي -->
-    <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.js"></script>
+    <!-- أداة fontkit بطريقة Module عشان المتصفح يفهمها -->
+    <script type="module">
+        import fontkitModule from 'https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.mjs';
+        window.fontkit = fontkitModule;
+    </script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
         .container { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
@@ -177,8 +180,8 @@
 
             const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
             
-            // الخطوة السحرية: تسجيل fontkit عشان تفهم الخط العربي
-            pdfDoc.registerFontkit(fontkit);
+            // تسجيل fontkit باستخدام window.fontkit اللي حملناه فوق
+            pdfDoc.registerFontkit(window.fontkit);
 
             const cairoFont = await pdfDoc.embedFont(fontBytes); 
             
