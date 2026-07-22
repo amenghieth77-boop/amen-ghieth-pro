@@ -3,100 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>منصة المشتركين - أمن</title>
-    <!-- خط Tajawal العصري الشيك -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <!-- مكتبة pdf-lib -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <style>
-        /* 🎨 النسخة الشياكة Premium UI */
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            margin: 0; padding: 0; min-height: 100vh;
-        }
-        .container {
-            max-width: 900px; margin: 30px auto;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            padding: 30px; border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            border: 1px solid rgba(255,255,255,0.5);
-        }
+        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); margin: 0; padding: 0; min-height: 100vh; }
+        .container { max-width: 900px; margin: 30px auto; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); padding: 30px; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.5); }
         h2, h3 { text-align: center; color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; }
         .section { display: none; animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .login-box {
-            background: rgba(255,255,255,0.6); padding: 25px;
-            border-radius: 20px; text-align: center; margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-        input[type="text"], input[type="password"], input[type="number"], select {
-            width: 85%; padding: 15px 20px; margin: 10px 0;
-            border: none; border-bottom: 3px solid #ddd;
-            background: rgba(255,255,255,0.5); border-radius: 10px;
-            font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500;
-            transition: 0.3s; outline: none;
-        }
+        .login-box { background: rgba(255,255,255,0.6); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        input[type="text"], input[type="password"], input[type="number"], select { width: 85%; padding: 15px 20px; margin: 10px 0; border: none; border-bottom: 3px solid #ddd; background: rgba(255,255,255,0.5); border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; }
         input:focus, select:focus { border-bottom: 3px solid #00bcd4; background: #fff; }
-
-        .btn {
-            padding: 12px 35px; border: none; border-radius: 50px;
-            cursor: pointer; font-size: 16px; margin: 10px 5px;
-            font-family: 'Tajawal', sans-serif; font-weight: 700;
-            color: white; transition: 0.3s; display: inline-block;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        }
+        .btn { padding: 10px 25px; border: none; border-radius: 50px; cursor: pointer; font-size: 15px; margin: 5px 2px; font-family: 'Tajawal', sans-serif; font-weight: 700; color: white; transition: 0.3s; display: inline-block; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 20px rgba(0,0,0,0.2); }
         .btn-primary { background: linear-gradient(45deg, #3f51b5, #00bcd4); }
         .btn-success { background: linear-gradient(45deg, #43a047, #00e676); }
         .btn-danger { background: linear-gradient(45deg, #e53935, #e57373); }
         .btn-warning { background: linear-gradient(45deg, #ff9800, #ffc107); color: #1a237e; }
-
-        .files-group {
-            background: linear-gradient(135deg, rgba(179, 229, 252, 0.4), rgba(129, 212, 250, 0.4));
-            padding: 20px; border-radius: 20px; margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.6);
-        }
-        .static-group {
-            background: linear-gradient(135deg, rgba(200, 230, 201, 0.4), rgba(165, 214, 167, 0.4));
-            padding: 20px; border-radius: 20px; margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.6);
-        }
-        .admin-font {
-            background: linear-gradient(135deg, rgba(225, 245, 254, 0.4), rgba(179, 229, 252, 0.4));
-            padding: 20px; border-radius: 20px; margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.6);
-        }
+        .btn-delete { background: linear-gradient(45deg, #d32f2f, #ff1744); font-size: 13px; padding: 8px 15px; }
+        .files-group { background: linear-gradient(135deg, rgba(179, 229, 252, 0.4), rgba(129, 212, 250, 0.4)); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.6); }
+        .static-group { background: linear-gradient(135deg, rgba(200, 230, 201, 0.4), rgba(165, 214, 167, 0.4)); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.6); }
+        .admin-font { background: linear-gradient(135deg, rgba(225, 245, 254, 0.4), rgba(179, 229, 252, 0.4)); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.6); }
         label { font-weight: 700; display: block; margin-top: 15px; color: #37474f; }
         .nav-links { text-align: center; margin-top: 25px; }
         .nav-links a { color: #3f51b5; font-weight: 700; font-size: 15px; text-decoration: none; transition: 0.3s; }
         .nav-links a:hover { color: #00bcd4; }
-
         #statusMessage { text-align: center; margin-top: 20px; font-weight: 700; color: #e53935; font-size: 18px; }
         .price-display { font-size: 26px; color: #e53935; font-weight: 800; text-align: center; margin: 15px 0; }
-        
         table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 20px; }
         th { background: linear-gradient(45deg, #3f51b5, #00bcd4); color: white; padding: 15px; border-radius: 10px; }
-        td { background: rgba(255,255,255,0.7); padding: 15px; border-radius: 10px; font-weight: 500; }
-        
-        .credentials-box {
-            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
-            padding: 25px; border-radius: 25px; margin-top: 25px;
-            border: 3px solid #ffc107;
-            box-shadow: 0 10px 20px rgba(255,193,7,0.2);
-        }
-        .disabled-btn {
-            background: linear-gradient(45deg, #bdc3c7, #ecf0f1) !important;
-            color: #7f8c8d !important; cursor: not-allowed !important;
-            box-shadow: none !important; transform: none !important;
-        }
-        #paymentWarning {
-            background: linear-gradient(135deg, #ffebee, #ffcdd2);
-            border: 2px solid #e53935; border-radius: 15px;
-            padding: 15px; text-align: center; margin-bottom: 15px;
-        }
+        td { background: rgba(255,255,255,0.7); padding: 12px 15px; border-radius: 10px; font-weight: 500; text-align: center; }
+        .credentials-box { background: linear-gradient(135deg, #fff3e0, #ffe0b2); padding: 25px; border-radius: 25px; margin-top: 25px; border: 3px solid #ffc107; box-shadow: 0 10px 20px rgba(255,193,7,0.2); }
+        .disabled-btn { background: linear-gradient(45deg, #bdc3c7, #ecf0f1) !important; color: #7f8c8d !important; cursor: not-allowed !important; box-shadow: none !important; transform: none !important; }
+        #paymentWarning { background: linear-gradient(135deg, #ffebee, #ffcdd2); border: 2px solid #e53935; border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -104,392 +43,169 @@
 <div class="container">
     <h2>🎓 منصة المشتركين</h2>
 
-    <!-- 1️⣿ قسم التسجيل -->
     <div id="registrationSection" class="section">
         <div class="login-box">
             <h3>📝 تسجيل مشترك جديد</h3>
             <input type="text" id="regName" placeholder="اكتب اسمك بالكامل...">
             <input type="text" id="regSchool" placeholder="اكتب اسم المدرسة...">
             <input type="text" id="regPhone" placeholder="رقم التليفون...">
-            <label>اختر المراحل المراد الاشتراك فيها:</label>
-            <select id="regStages">
-                <option value="1">1 مرحلة (75 جنيه)</option>
-                <option value="2">2 مرحلة (125 جنيه)</option>
-                <option value="3">3 مرحلة (150 جنيه)</option>
-            </select>
-            <div class="price-display">المبلغ المطلوب: <span id="priceDisplay">75</span> جنيه</div>
-            <button class="btn btn-primary" onclick="window.registerUser()">تسجيل وطلب اشتراك</button>
+            <label>اختر المراحل:</label>
+            <select id="regStages"><option value="1">1 مرحلة (75 ج)</option><option value="2">2 مرحلة (125 ج)</option><option value="3">3 مرحلة (150 ج)</option></select>
+            <div class="price-display">المبلغ: <span id="priceDisplay">75</span> جنيه</div>
+            <button class="btn btn-primary" onclick="window.registerUser()">تسجيل</button>
             <div id="regStatusMessage" style="color:#e53935; text-align:center; margin-top:10px; font-weight:700;"></div>
-            <div class="nav-links">
-                <a href="#" onclick="window.showLogin()">🔑 لديك كود وباسورد؟ ادخل هنا</a>
-                <br>
-                <a href="#" onclick="window.showAdmin()">⚙️ الدخول كإدارة</a>
-            </div>
+            <div class="nav-links"><a href="#" onclick="window.showLogin()">🔑 لديك كود؟ ادخل هنا</a><br><a href="#" onclick="window.showAdmin()">⚙️ إدارة</a></div>
         </div>
         <div id="credentialsBox" class="credentials-box" style="display:none; text-align:center;">
-            <h3>🎉 تم تسجيلك بنجاح!</h3>
-            <p style="font-weight:700;">احفظ الكود والباسورد ده عشان تدخل بيهم كل شهر:</p>
-            <p><strong>الكود (Code):</strong> <span id="generatedCode" style="color:#3f51b5; font-size:24px; font-weight:800;"></span></p>
-            <p><strong>الباسورد (Password):</strong> <span id="generatedPass" style="color:#3f51b5; font-size:24px; font-weight:800;"></span></p>
-            <button class="btn btn-success" onclick="window.showLogin()">🔑 الدخول للبوابة</button>
+            <h3>🎉 تم التسجيل بنجاح!</h3><p style="font-weight:700;">احفظ الكود والباسورد:</p>
+            <p><strong>الكود:</strong> <span id="generatedCode" style="color:#3f51b5; font-size:24px; font-weight:800;"></span></p>
+            <p><strong>الباسورد:</strong> <span id="generatedPass" style="color:#3f51b5; font-size:24px; font-weight:800;"></span></p>
+            <button class="btn btn-success" onclick="window.showLogin()">🔑 الدخول</button>
         </div>
     </div>
 
-    <!-- 2️⣿ قسم الدخول -->
     <div id="loginSection" class="section">
         <div class="login-box">
             <h3>🔑 دخول المشتركين</h3>
-            <input type="text" id="loginCode" placeholder="اكتب الكود (Code)...">
-            <input type="password" id="loginPass" placeholder="اكتب الباسورد (Password)...">
-            <button class="btn btn-primary" onclick="window.loginUser()">تسجيل الدخول</button>
+            <input type="text" id="loginCode" placeholder="الكود...">
+            <input type="password" id="loginPass" placeholder="الباسورد...">
+            <button class="btn btn-primary" onclick="window.loginUser()">دخول</button>
             <div id="loginStatusMessage" style="color:#e53935; text-align:center; margin-top:10px; font-weight:700;"></div>
-            <div class="nav-links">
-                <a href="#" onclick="window.showRegistration()">📝 مشترك جديد؟ سجل هنا</a>
-                <br>
-                <a href="#" onclick="window.showAdmin()">⚙️ الدخول كإدارة</a>
-            </div>
+            <div class="nav-links"><a href="#" onclick="window.showRegistration()">📝 سجل جديد</a><br><a href="#" onclick="window.showAdmin()">⚙️ إدارة</a></div>
         </div>
     </div>
 
-    <!-- 3️⣿ بوابة المشترك -->
     <div id="portalSection" class="section">
         <h3>مرحباً <span id="welcomeName"></span>! 🎉</h3>
-        <div id="paymentWarning" style="display:none;">
-            <p style="color:#e53935; font-weight:800;">⚠️ اشتراك الشهر الحالي غير مفعّل! برجاء تأكيد السداد مع الإدارة لفتح ملفات الشهر.</p>
-        </div>
-
+        <div id="paymentWarning" style="display:none;"><p style="color:#e53935; font-weight:800;">⚠️ اشتراك الشهر غير مفعّل!</p></div>
         <div class="static-group">
-            <h3>📌 ملفات مجانية (متاحة دايماً)</h3>
-            <button class="btn btn-success" onclick="window.downloadWatermarked('initiativePdfUrl')">📥 تحميل ملف المبادرة</button>
-            <button class="btn btn-success" onclick="window.downloadWatermarked('activitiesPdfUrl')">📥 تحميل أنشطة إضافية</button>
-            <button class="btn btn-success" onclick="window.downloadWatermarked('recordsPdfUrl')">📥 تحميل السجلات</button>
+            <h3>📌 مجانية</h3>
+            <button class="btn btn-success" onclick="window.downloadWatermarked('initiativePdfUrl')">📥 المبادرة</button>
+            <button class="btn btn-success" onclick="window.downloadWatermarked('activitiesPdfUrl')">📥 أنشطة</button>
+            <button class="btn btn-success" onclick="window.downloadWatermarked('recordsPdfUrl')">📥 السجلات</button>
         </div>
-
         <div class="files-group">
-            <h3>📅 ملفات الشهر الحالي (بتتغير كل شهر)</h3>
-            <button class="btn btn-primary disabled-btn" id="btnPrimary" onclick="window.downloadWatermarked('primaryPdfUrl')">📥 تحميل الابتدائي</button>
-            <button class="btn btn-primary disabled-btn" id="btnPreparatory" onclick="window.downloadWatermarked('preparatoryPdfUrl')">📥 تحميل الإعدادي</button>
-            <button class="btn btn-primary disabled-btn" id="btnSecondary" onclick="window.downloadWatermarked('secondaryPdfUrl')">📥 تحميل الثانوي</button>
+            <h3>📅 الشهر الحالي</h3>
+            <button class="btn btn-primary disabled-btn" id="btnPrimary" onclick="window.downloadWatermarked('primaryPdfUrl')">📥 ابتدائي</button>
+            <button class="btn btn-primary disabled-btn" id="btnPreparatory" onclick="window.downloadWatermarked('preparatoryPdfUrl')">📥 إعدادي</button>
+            <button class="btn btn-primary disabled-btn" id="btnSecondary" onclick="window.downloadWatermarked('secondaryPdfUrl')">📥 ثانوي</button>
         </div>
-
         <div id="statusMessage"></div>
-        <div class="nav-links">
-            <button class="btn btn-danger" onclick="window.logout()">🚪 تسجيل الخروج</button>
-            <a href="#" onclick="window.showAdmin()">⚙️ الدخول كإدارة</a>
-        </div>
+        <div class="nav-links"><button class="btn btn-danger" onclick="window.logout()">🚪 خروج</button><a href="#" onclick="window.showAdmin()">⚙️ إدارة</a></div>
     </div>
 
-    <!-- 4️⣿ لوحة الإدارة -->
     <div id="adminSection" class="section">
         <h3>⚙️ لوحة الإدارة</h3>
-        
         <div class="files-group">
-            <h3>👥 إدارة المشتركين والسداد</h3>
-            <button class="btn btn-warning" onclick="window.resetMonth()">🔄 بدء شهر جديد (مسح سداد الكل)</button>
-            <table id="usersTable">
-                <thead>
-                    <tr><th>الاسم</th><th>المدرسة</th><th>التليفون</th><th>المراحل</th><th>المبلغ</th><th>حالة السداد</th><th>إجراء</th></tr>
-                </thead>
-                <tbody id="usersTableBody"></tbody>
-            </table>
+            <h3>👥 المشتركين</h3>
+            <button class="btn btn-warning" onclick="window.resetMonth()">🔄 بدء شهر جديد</button>
+            <table id="usersTable"><thead><tr><th>الاسم</th><th>المدرسة</th><th>تليفون</th><th>مراحل</th><th>مبلغ</th><th>حالة</th><th>إجراء</th></tr></thead><tbody id="usersTableBody"></tbody></table>
         </div>
-
         <div class="files-group">
-            <h3>📅 روابط الشهر الحالي</h3>
-            <label>رابط ابتدائي:</label><input type="text" id="primaryPdfUrl">
-            <label>رابط إعدادي:</label><input type="text" id="preparatoryPdfUrl">
-            <label>رابط ثانوي:</label><input type="text" id="secondaryPdfUrl">
+            <h3>📅 روابط الشهر</h3>
+            <label>ابتدائي:</label><input type="text" id="primaryPdfUrl"><label>إعدادي:</label><input type="text" id="preparatoryPdfUrl"><label>ثانوي:</label><input type="text" id="secondaryPdfUrl">
         </div>
         <div class="static-group">
-            <h3>📌 روابط الملفات الثابتة</h3>
-            <label>رابط ملف المبادرة:</label><input type="text" id="initiativePdfUrl">
-            <label>رابط أنشطة إضافية:</label><input type="text" id="activitiesPdfUrl">
-            <label>رابط السجلات:</label><input type="text" id="recordsPdfUrl">
+            <h3>📌 ثابتة</h3>
+            <label>المبادرة:</label><input type="text" id="initiativePdfUrl"><label>أنشطة:</label><input type="text" id="activitiesPdfUrl"><label>السجلات:</label><input type="text" id="recordsPdfUrl">
         </div>
         <div class="admin-font">
-            <h3>🔤 رابط الخط العربي</h3>
-            <label>رابط الخط:</label><input type="text" id="fontUrl">
+            <h3>🔤 الخط</h3><label>رابط الخط:</label><input type="text" id="fontUrl">
         </div>
-        <button class="btn btn-success" onclick="window.saveSettings()" style="width:100%; font-size:20px;">💾 حفظ الإعدادات</button>
-        <div class="nav-links"><a href="#" onclick="window.showLogin()">🔙 الرجوع للدخول</a></div>
+        <button class="btn btn-success" onclick="window.saveSettings()" style="width:100%; font-size:20px;">💾 حفظ</button>
+        <div class="nav-links"><a href="#" onclick="window.showLogin()">🔙 دخول</a></div>
     </div>
 </div>
 
-<!-- 🪄 كود Firebase والـ JS المتكامل (بدون أي تغيير في الشغل) -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+    // 🪄 أضفت deleteDoc هنا عشان نقدر نحذف المشترك
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
     const firebaseConfig = {
-        apiKey: "AIzaSyBCZtlz3AF3_YWxWAJgV0M9XSXFVgmrLvM",
-        authDomain: "amenghiethpro.firebaseapp.com",
-        databaseURL: "https://amenghiethpro-default-rtdb.firebaseio.com",
-        projectId: "amenghiethpro",
-        storageBucket: "amenghiethpro.firebasestorage.app",
-        messagingSenderId: "1008593828554",
-        appId: "1:1008593828554:web:8fdc8e25cbe9c2f5821233",
-        measurementId: "G-EKD6T41E2N"
+        apiKey: "AIzaSyBCZtlz3AF3_YWxWAJgV0M9XSXFVgmrLvM", authDomain: "amenghiethpro.firebaseapp.com",
+        databaseURL: "https://amenghiethpro-default-rtdb.firebaseio.com", projectId: "amenghiethpro",
+        storageBucket: "amenghiethpro.firebasestorage.app", messagingSenderId: "1008593828554",
+        appId: "1:1008593828554:web:8fdc8e25cbe9c2f5821233", measurementId: "G-EKD6T41E2N"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    let currentUser = null; let currentSettings = null;
 
-    let currentUser = null;
-    let currentSettings = null;
+    document.getElementById('regStages').addEventListener('change', (e) => { let price = e.target.value == 1 ? 75 : (e.target.value == 2 ? 125 : 150); document.getElementById('priceDisplay').innerText = price; });
 
-    document.getElementById('regStages').addEventListener('change', (e) => {
-        const stages = e.target.value;
-        let price = 75;
-        if (stages == 2) price = 125;
-        if (stages == 3) price = 150;
-        document.getElementById('priceDisplay').innerText = price;
-    });
-
-    function showRegistration() {
-        document.getElementById('registrationSection').style.display = 'block';
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('portalSection').style.display = 'none';
-        document.getElementById('adminSection').style.display = 'none';
-    }
-
-    function showLogin() {
-        document.getElementById('registrationSection').style.display = 'none';
-        document.getElementById('loginSection').style.display = 'block';
-        document.getElementById('portalSection').style.display = 'none';
-        document.getElementById('adminSection').style.display = 'none';
-    }
-
-    function showPortal() {
-        document.getElementById('registrationSection').style.display = 'none';
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('portalSection').style.display = 'block';
-        document.getElementById('adminSection').style.display = 'none';
-        document.getElementById('statusMessage').innerText = '';
-    }
-
-    function showAdmin() {
-        document.getElementById('registrationSection').style.display = 'none';
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('portalSection').style.display = 'none';
-        document.getElementById('adminSection').style.display = 'block';
-        loadSettings();
-        loadUsersForAdmin();
-    }
+    function showRegistration() { document.getElementById('registrationSection').style.display='block'; document.getElementById('loginSection').style.display='none'; document.getElementById('portalSection').style.display='none'; document.getElementById('adminSection').style.display='none'; }
+    function showLogin() { document.getElementById('registrationSection').style.display='none'; document.getElementById('loginSection').style.display='block'; document.getElementById('portalSection').style.display='none'; document.getElementById('adminSection').style.display='none'; }
+    function showPortal() { document.getElementById('registrationSection').style.display='none'; document.getElementById('loginSection').style.display='none'; document.getElementById('portalSection').style.display='block'; document.getElementById('adminSection').style.display='none'; document.getElementById('statusMessage').innerText=''; }
+    function showAdmin() { document.getElementById('registrationSection').style.display='none'; document.getElementById('loginSection').style.display='none'; document.getElementById('portalSection').style.display='none'; document.getElementById('adminSection').style.display='block'; loadSettings(); loadUsersForAdmin(); }
 
     async function registerUser() {
-        const name = document.getElementById('regName').value.trim();
-        const school = document.getElementById('regSchool').value.trim();
-        const phone = document.getElementById('regPhone').value.trim();
-        const stages = document.getElementById('regStages').value;
-
-        if (!name || !school || !phone) {
-            document.getElementById('regStatusMessage').innerText = "❌ لازم تكتب كل البيانات!";
-            return;
-        }
-
-        const code = 'C-' + Math.floor(1000 + Math.random() * 9000);
-        const pass = 'P-' + Math.floor(1000 + Math.random() * 9000);
-
-        try {
-            await addDoc(collection(db, "users"), {
-                name: name, school: school, phone: phone,
-                stages: parseInt(stages), code: code, password: pass, isPaidThisMonth: false
-            });
-
-            document.getElementById('generatedCode').innerText = code;
-            document.getElementById('generatedPass').innerText = pass;
-            document.getElementById('credentialsBox').style.display = 'block';
-            document.getElementById('regStatusMessage').innerText = "";
-
-        } catch (error) {
-            document.getElementById('regStatusMessage').innerText = "❌ حدث خطأ في التسجيل: " + error.message;
-        }
+        const name=document.getElementById('regName').value.trim(); const school=document.getElementById('regSchool').value.trim(); const phone=document.getElementById('regPhone').value.trim(); const stages=document.getElementById('regStages').value;
+        if(!name||!school||!phone) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب كل البيانات!"; return; }
+        const code='C-'+Math.floor(1000+Math.random()*9000); const pass='P-'+Math.floor(1000+Math.random()*9000);
+        try { await addDoc(collection(db,"users"),{name,school,phone,stages:parseInt(stages),code,password:pass,isPaidThisMonth:false});
+            document.getElementById('generatedCode').innerText=code; document.getElementById('generatedPass').innerText=pass; document.getElementById('credentialsBox').style.display='block'; document.getElementById('regStatusMessage').innerText="";
+        } catch(error) { document.getElementById('regStatusMessage').innerText="❌ خطأ: "+error.message; }
     }
 
     async function loginUser() {
-        const code = document.getElementById('loginCode').value.trim();
-        const pass = document.getElementById('loginPass').value.trim();
-
-        if (!code || !pass) {
-            document.getElementById('loginStatusMessage').innerText = "❌ اكتب الكود والباسورد!";
-            return;
-        }
-
-        try {
-            const q = query(collection(db, "users"), where("code", "==", code), where("password", "==", pass));
-            const querySnapshot = await getDocs(q);
-
-            if (querySnapshot.empty) {
-                document.getElementById('loginStatusMessage').innerText = "❌ كود أو باسورد غلط!";
-                return;
-            }
-
-            querySnapshot.forEach((docSnap) => {
-                currentUser = { id: docSnap.id, ...docSnap.data() };
-            });
-
-            document.getElementById('welcomeName').innerText = currentUser.name;
-            
-            if (currentUser.isPaidThisMonth) {
-                document.getElementById('paymentWarning').style.display = 'none';
-                document.getElementById('btnPrimary').classList.remove('disabled-btn');
-                document.getElementById('btnPreparatory').classList.remove('disabled-btn');
-                document.getElementById('btnSecondary').classList.remove('disabled-btn');
-            } else {
-                document.getElementById('paymentWarning').style.display = 'block';
-                document.getElementById('btnPrimary').classList.add('disabled-btn');
-                document.getElementById('btnPreparatory').classList.add('disabled-btn');
-                document.getElementById('btnSecondary').classList.add('disabled-btn');
-            }
-
+        const code=document.getElementById('loginCode').value.trim(); const pass=document.getElementById('loginPass').value.trim();
+        if(!code||!pass) { document.getElementById('loginStatusMessage').innerText="❌ اكتب الكود والباسورد!"; return; }
+        try { const q=query(collection(db,"users"),where("code","==",code),where("password","==",pass)); const snap=await getDocs(q);
+            if(snap.empty) { document.getElementById('loginStatusMessage').innerText="❌ كود أو باسورد غلط!"; return; }
+            snap.forEach((d)=>{ currentUser={id:d.id,...d.data()}; });
+            document.getElementById('welcomeName').innerText=currentUser.name;
+            if(currentUser.isPaidThisMonth) { document.getElementById('paymentWarning').style.display='none'; document.getElementById('btnPrimary').classList.remove('disabled-btn'); document.getElementById('btnPreparatory').classList.remove('disabled-btn'); document.getElementById('btnSecondary').classList.remove('disabled-btn'); }
+            else { document.getElementById('paymentWarning').style.display='block'; document.getElementById('btnPrimary').classList.add('disabled-btn'); document.getElementById('btnPreparatory').classList.add('disabled-btn'); document.getElementById('btnSecondary').classList.add('disabled-btn'); }
             showPortal();
-
-        } catch (error) {
-            document.getElementById('loginStatusMessage').innerText = "❌ حدث خطأ: " + error.message;
-        }
+        } catch(error) { document.getElementById('loginStatusMessage').innerText="❌ خطأ: "+error.message; }
     }
 
-    function logout() { currentUser = null; showLogin(); }
+    function logout() { currentUser=null; showLogin(); }
 
     async function loadUsersForAdmin() {
-        const tbody = document.getElementById('usersTableBody');
-        tbody.innerHTML = '';
-
-        const querySnapshot = await getDocs(collection(db, "users"));
-        querySnapshot.forEach((docSnap) => {
-            const user = docSnap.data();
-            const price = user.stages == 1 ? 75 : (user.stages == 2 ? 125 : 150);
-            const statusText = user.isPaidThisMonth ? "✅ مدفع" : "❌ معلق";
-            const btnAction = user.isPaidThisMonth 
-                ? `<button class="btn btn-danger" onclick="window.unconfirmPayment('${docSnap.id}')">❌ إلغاء</button>`
-                : `<button class="btn btn-success" onclick="window.confirmPayment('${docSnap.id}')">✅ تأكيد</button>`;
-
-            tbody.innerHTML += `
-                <tr>
-                    <td>${user.name}</td><td>${user.school}</td><td>${user.phone}</td>
-                    <td>${user.stages}</td><td>${price} ج</td><td>${statusText}</td><td>${btnAction}</td>
-                </tr>
-            `;
+        const tbody=document.getElementById('usersTableBody'); tbody.innerHTML='';
+        const snap=await getDocs(collection(db,"users"));
+        snap.forEach((d)=>{ const u=d.data(); const price=u.stages==1?75:(u.stages==2?125:150); const status=u.isPaidThisMonth?"✅ مدفع":"❌ معلق";
+            const btnAction=u.isPaidThisMonth?`<button class="btn btn-danger" onclick="window.unconfirmPayment('${d.id}')">❌ إلغاء</button>`:`<button class="btn btn-success" onclick="window.confirmPayment('${d.id}')">✅ تأكيد</button>`;
+            // 🪄 أضفت زرار الحذف هنا
+            const deleteBtn=`<button class="btn btn-delete" onclick="window.deleteUser('${d.id}')">🗑️ حذف</button>`;
+            tbody.innerHTML+=`<tr><td>${u.name}</td><td>${u.school}</td><td>${u.phone}</td><td>${u.stages}</td><td>${price} ج</td><td>${status}</td><td>${btnAction} ${deleteBtn}</td></tr>`;
         });
     }
 
-    async function confirmPayment(userId) {
-        try { await updateDoc(doc(db, "users", userId), { isPaidThisMonth: true }); alert("✅ تم تأكيد السداد!"); loadUsersForAdmin(); } catch (error) { alert("❌ خطأ: " + error.message); }
+    async function confirmPayment(id) { try{await updateDoc(doc(db,"users",id),{isPaidThisMonth:true});alert("✅ تأكيد!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
+    async function unconfirmPayment(id) { try{await updateDoc(doc(db,"users",id),{isPaidThisMonth:false});alert("❌ إلغاء!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
+    
+    // 🪄 دالة الحذف الجديدة
+    async function deleteUser(id) {
+        if(!confirm("⚠️ هل أنت متأكد إنك عايز تحذف المشترك ده نهائياً؟ ده مش هيقدر يدخل تاني!")) return;
+        try { await deleteDoc(doc(db,"users",id)); alert("🗑️ تم حذف المشترك بنجاح!"); loadUsersForAdmin(); } catch(e) { alert("❌ خطأ: "+e.message); }
     }
 
-    async function unconfirmPayment(userId) {
-        try { await updateDoc(doc(db, "users", userId), { isPaidThisMonth: false }); alert("❌ تم إلغاء تأكيد السداد!"); loadUsersForAdmin(); } catch (error) { alert("❌ خطأ: " + error.message); }
-    }
+    async function resetMonth() { if(!confirm("⚠️ مسح سداد الكل؟")) return; try{const s=await getDocs(collection(db,"users"));s.forEach(async(d)=>{await updateDoc(doc(db,"users",d.id),{isPaidThisMonth:false})});alert("🔄 شهر جديد!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
 
-    async function resetMonth() {
-        if (!confirm("⚠️ هل أنت متأكد إنك عايز تبدأ شهر جديد؟")) return;
-        try {
-            const querySnapshot = await getDocs(collection(db, "users"));
-            querySnapshot.forEach(async (docSnap) => { await updateDoc(doc(db, "users", docSnap.id), { isPaidThisMonth: false }); });
-            alert("🔄 تم بدء شهر جديد!"); loadUsersForAdmin();
-        } catch (error) { alert("❌ خطأ: " + error.message); }
-    }
-
-    async function loadSettings() {
-        try {
-            const docRef = doc(db, "settings", "config");
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                currentSettings = docSnap.data();
-                document.getElementById('primaryPdfUrl').value = currentSettings.primaryPdfUrl || '';
-                document.getElementById('preparatoryPdfUrl').value = currentSettings.preparatoryPdfUrl || '';
-                document.getElementById('secondaryPdfUrl').value = currentSettings.secondaryPdfUrl || '';
-                document.getElementById('initiativePdfUrl').value = currentSettings.initiativePdfUrl || '';
-                document.getElementById('activitiesPdfUrl').value = currentSettings.activitiesPdfUrl || '';
-                document.getElementById('recordsPdfUrl').value = currentSettings.recordsPdfUrl || '';
-                document.getElementById('fontUrl').value = currentSettings.fontUrl || '';
-            }
-        } catch (error) { console.error("Error loading settings", error); }
-    }
-
-    async function saveSettings() {
-        const settings = {
-            primaryPdfUrl: document.getElementById('primaryPdfUrl').value,
-            preparatoryPdfUrl: document.getElementById('preparatoryPdfUrl').value,
-            secondaryPdfUrl: document.getElementById('secondaryPdfUrl').value,
-            initiativePdfUrl: document.getElementById('initiativePdfUrl').value,
-            activitiesPdfUrl: document.getElementById('activitiesPdfUrl').value,
-            recordsPdfUrl: document.getElementById('recordsPdfUrl').value,
-            fontUrl: document.getElementById('fontUrl').value
-        };
-        try { await setDoc(doc(db, "settings", "config"), settings); alert('✅ تم حفظ الروابط في السيرفر بنجاح!'); } catch (error) { alert('❌ خطأ: ' + error.message); }
-    }
+    async function loadSettings() { try{const s=await getDoc(doc(db,"settings","config"));if(s.exists()){currentSettings=s.data();document.getElementById('primaryPdfUrl').value=currentSettings.primaryPdfUrl||'';document.getElementById('preparatoryPdfUrl').value=currentSettings.preparatoryPdfUrl||'';document.getElementById('secondaryPdfUrl').value=currentSettings.secondaryPdfUrl||'';document.getElementById('initiativePdfUrl').value=currentSettings.initiativePdfUrl||'';document.getElementById('activitiesPdfUrl').value=currentSettings.activitiesPdfUrl||'';document.getElementById('recordsPdfUrl').value=currentSettings.recordsPdfUrl||'';document.getElementById('fontUrl').value=currentSettings.fontUrl||'';}}catch(e){console.error(e);} }
+    async function saveSettings() { const s={primaryPdfUrl:document.getElementById('primaryPdfUrl').value,preparatoryPdfUrl:document.getElementById('preparatoryPdfUrl').value,secondaryPdfUrl:document.getElementById('secondaryPdfUrl').value,initiativePdfUrl:document.getElementById('initiativePdfUrl').value,activitiesPdfUrl:document.getElementById('activitiesPdfUrl').value,recordsPdfUrl:document.getElementById('recordsPdfUrl').value,fontUrl:document.getElementById('fontUrl').value}; try{await setDoc(doc(db,"settings","config"),s);alert('✅ حفظ!');}catch(e){alert('❌ خطأ: '+e.message);} }
 
     async function downloadWatermarked(fileKey) {
-        const statusDiv = document.getElementById('statusMessage');
-        statusDiv.innerText = "⏳ جاري تجهيز الملف وطباعة اسمك عليه...";
-        statusDiv.style.color = "#3f51b5";
-
-        if (!currentSettings && currentUser) {
-            try { const docSnap = await getDoc(doc(db, "settings", "config")); if (docSnap.exists()) currentSettings = docSnap.data(); } catch (e) {}
-        }
-
-        if (!currentSettings || !currentSettings[fileKey] || !currentSettings.fontUrl) {
-            statusDiv.innerText = "❌ خطأ: الروابط مش محفوظة في لوحة الإدارة!";
-            statusDiv.style.color = "#e53935"; return;
-        }
-
-        const pdfUrl = currentSettings[fileKey];
-        const fontUrl = currentSettings.fontUrl;
-        const watermarkText = `${currentUser.name} - ${currentUser.school}`;
-
-        try {
-            const pdfBytes = await fetch(pdfUrl).then(res => { if (!res.ok) throw new Error("الملف مش موجود (Error 404)"); return res.arrayBuffer(); });
-            const fontBytes = await fetch(fontUrl).then(res => { if (!res.ok) throw new Error("الخط مش موجود (Error 404)"); return res.arrayBuffer(); });
-
-            const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
-            const fontkitModule = await import('https://esm.sh/@pdf-lib/fontkit@1.1.1');
-            pdfDoc.registerFontkit(fontkitModule.default);
-
-            const cairoFont = await pdfDoc.embedFont(fontBytes); 
-            
-            const pages = pdfDoc.getPages();
-            for (const page of pages) {
-                const { width, height } = page.getSize();
-                const textWidth = cairoFont.widthOfTextAtSize(watermarkText, 24);
-                page.drawText(watermarkText, {
-                    x: width / 2 - textWidth / 2, y: height / 2,
-                    size: 24, font: cairoFont,
-                    color: PDFLib.rgb(0.2, 0.6, 0.8), opacity: 0.5,
-                });
-            }
-
-            const modifiedPdfBytes = await pdfDoc.save();
-            const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${fileKey}_${currentUser.name}.pdf`;
-            link.click();
-            
-            statusDiv.innerText = "✅ تم التحميل بنجاح! افتح الملف وتأكد من اسمك ومدرستك.";
-            statusDiv.style.color = "#43a047";
-
-        } catch (error) {
-            console.error(error);
-            statusDiv.innerText = "❌ حدث خطأ: " + error.message;
-            statusDiv.style.color = "#e53935";
-        }
+        const statusDiv=document.getElementById('statusMessage'); statusDiv.innerText="⏳ تجهيز..."; statusDiv.style.color="#3f51b5";
+        if(!currentSettings&&currentUser){try{const s=await getDoc(doc(db,"settings","config"));if(s.exists())currentSettings=s.data();}catch(e){}}
+        if(!currentSettings||!currentSettings[fileKey]||!currentSettings.fontUrl){statusDiv.innerText="❌ روابط مش محفوظة!";statusDiv.style.color="#e53935";return;}
+        const pdfUrl=currentSettings[fileKey]; const fontUrl=currentSettings.fontUrl; const watermarkText=`${currentUser.name} - ${currentUser.school}`;
+        try { const pdfBytes=await fetch(pdfUrl).then(r=>{if(!r.ok)throw new Error("404");return r.arrayBuffer()}); const fontBytes=await fetch(fontUrl).then(r=>{if(!r.ok)throw new Error("404");return r.arrayBuffer()});
+            const pdfDoc=await PDFLib.PDFDocument.load(pdfBytes); const fkModule=await import('https://esm.sh/@pdf-lib/fontkit@1.1.1'); pdfDoc.registerFontkit(fkModule.default); const cairoFont=await pdfDoc.embedFont(fontBytes);
+            const pages=pdfDoc.getPages(); for(const page of pages){const{width,height}=page.getSize();const tw=cairoFont.widthOfTextAtSize(watermarkText,24);page.drawText(watermarkText,{x:width/2-tw/2,y:height/2,size:24,font:cairoFont,color:PDFLib.rgb(0.2,0.6,0.8),opacity:0.5});}
+            const modifiedBytes=await pdfDoc.save(); const blob=new Blob([modifiedBytes],{type:'application/pdf'}); const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=`${fileKey}_${currentUser.name}.pdf`;link.click();
+            statusDiv.innerText="✅ تم التحميل!"; statusDiv.style.color="#43a047";
+        } catch(error) { console.error(error); statusDiv.innerText="❌ خطأ: "+error.message; statusDiv.style.color="#e53935"; }
     }
 
-    window.registerUser = registerUser;
-    window.loginUser = loginUser;
-    window.logout = logout;
-    window.showRegistration = showRegistration;
-    window.showLogin = showLogin;
-    window.showPortal = showPortal;
-    window.showAdmin = showAdmin;
-    window.confirmPayment = confirmPayment;
-    window.unconfirmPayment = unconfirmPayment;
-    window.resetMonth = resetMonth;
-    window.loadUsersForAdmin = loadUsersForAdmin;
-    window.loadSettings = loadSettings;
-    window.saveSettings = saveSettings;
-    window.downloadWatermarked = downloadWatermarked;
+    window.registerUser=registerUser; window.loginUser=loginUser; window.logout=logout;
+    window.showRegistration=showRegistration; window.showLogin=showLogin; window.showPortal=showPortal; window.showAdmin=showAdmin;
+    window.confirmPayment=confirmPayment; window.unconfirmPayment=unconfirmPayment; window.deleteUser=deleteUser; window.resetMonth=resetMonth;
+    window.loadUsersForAdmin=loadUsersForAdmin; window.loadSettings=loadSettings; window.saveSettings=saveSettings; window.downloadWatermarked=downloadWatermarked;
 
     showRegistration();
 </script>
