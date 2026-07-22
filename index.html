@@ -3,30 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>منصة المشتركين</title>
-    <!-- مكتبة pdf-lib لتعديل الـ PDF والعلامة المائية -->
+    <!-- مكتبة pdf-lib لتعديل الـ PDF -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <!-- أداة fontkit عشان تفهم الخط العربي -->
+    <script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.js"></script>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
         .container { max-width: 800px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         h2, h3 { text-align: center; color: #2c3e50; }
-        
-        /* تنسيق تسجيل الدخول */
         .login-box { background: #ecf0f1; padding: 20px; border-radius: 8px; text-align: center; }
         input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
         .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 5px; }
         .btn-primary { background: #3498db; color: white; }
         .btn-success { background: #27ae60; color: white; }
         .btn-danger { background: #c0392b; color: white; }
-        .btn-secondary { background: #7f8c8d; color: white; }
-        .btn:hover { opacity: 0.9; }
-
-        /* تنسيق البوابة والإدارة */
         .section { display: none; }
         .files-group { background: #d6eaf8; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .static-group { background: #d5f5e3; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .admin-group { background: #fdf2e9; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .admin-font { background: #ebf5fb; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        
         label { font-weight: bold; display: block; margin-top: 10px; }
         .nav-links { text-align: center; margin-top: 20px; }
         #statusMessage { text-align: center; margin-top: 15px; font-weight: bold; color: #c0392b; font-size: 18px; }
@@ -37,110 +32,74 @@
 <div class="container">
     <h2>🎓 منصة المشتركين</h2>
 
-    <!-- 1️⣿ قسم تسجيل الدخول (بوابة المشترك) -->
     <div id="loginSection" class="section">
         <div class="login-box">
             <h3>تسجيل دخول المشترك</h3>
             <input type="text" id="userName" placeholder="اكتب اسمك هنا...">
             <input type="text" id="userSchool" placeholder="اكتب اسم مدرستك هنا...">
-            <button class="btn btn-primary" onclick="login()">تسجيل الدخول والدخول للبوابة</button>
-            <div class="nav-links">
-                <a href="#" onclick="showAdmin()" style="color:#c0392b; font-size:14px;">⚙️ الدخول كإدارة (لتعديل الروابط)</a>
-            </div>
+            <button class="btn btn-primary" onclick="login()">تسجيل الدخول</button>
+            <div class="nav-links"><a href="#" onclick="showAdmin()" style="color:#c0392b; font-size:14px;">⚙️ الدخول كإدارة</a></div>
         </div>
     </div>
 
-    <!-- 2️⣿ قسم بوابة المشترك (تحميل الملفات) -->
     <div id="portalSection" class="section">
-        <h3>مرحباً <span id="welcomeName"></span>! 🎉 اختر الملف للتحميل</h3>
-        <p style="text-align:center; color:#7f8c8d;">(سيتم طباعة اسمك ومدرستك على الملف تلقائياً)</p>
-
+        <h3>مرحباً <span id="welcomeName"></span>! 🎉</h3>
         <div class="files-group">
-            <h3>📅 ملفات الشهر الحالي (سبتمبر)</h3>
+            <h3>📅 ملفات الشهر الحالي</h3>
             <button class="btn btn-primary" onclick="downloadWatermarked('primaryPdfUrl')">📥 تحميل الابتدائي</button>
             <button class="btn btn-primary" onclick="downloadWatermarked('preparatoryPdfUrl')">📥 تحميل الإعدادي</button>
             <button class="btn btn-primary" onclick="downloadWatermarked('secondaryPdfUrl')">📥 تحميل الثانوي</button>
         </div>
-
         <div class="static-group">
-            <h3>📌 ملفات ثابتة (لا تتغير)</h3>
+            <h3>📌 ملفات ثابتة</h3>
             <button class="btn btn-success" onclick="downloadWatermarked('initiativePdfUrl')">📥 تحميل ملف المبادرة</button>
             <button class="btn btn-success" onclick="downloadWatermarked('activitiesPdfUrl')">📥 تحميل أنشطة إضافية</button>
             <button class="btn btn-success" onclick="downloadWatermarked('recordsPdfUrl')">📥 تحميل السجلات</button>
         </div>
-
         <div id="statusMessage"></div>
-
         <div class="nav-links">
             <button class="btn btn-danger" onclick="logout()">🚪 تسجيل الخروج</button>
             <a href="#" onclick="showAdmin()" style="color:#c0392b; font-size:14px; margin-right:15px;">⚙️ الدخول كإدارة</a>
         </div>
     </div>
 
-    <!-- 3️⣿ قسم لوحة الإدارة (وضع الروابط) -->
     <div id="adminSection" class="section">
-        <h3>⚙️ لوحة الإدارة - إعدادات الروابط</h3>
-        
+        <h3>⚙️ لوحة الإدارة</h3>
         <div class="files-group">
-            <h3>📅 روابط الشهر الحالي (تتغير كل شهر)</h3>
-            <label>رابط ابتدائي:</label>
-            <input type="text" id="primaryPdfUrl" style="width:100%;">
-            <label>رابط إعدادي:</label>
-            <input type="text" id="preparatoryPdfUrl" style="width:100%;">
-            <label>رابط ثانوي:</label>
-            <input type="text" id="secondaryPdfUrl" style="width:100%;">
+            <h3>📅 روابط الشهر الحالي</h3>
+            <label>رابط ابتدائي:</label><input type="text" id="primaryPdfUrl" style="width:100%;">
+            <label>رابط إعدادي:</label><input type="text" id="preparatoryPdfUrl" style="width:100%;">
+            <label>رابط ثانوي:</label><input type="text" id="secondaryPdfUrl" style="width:100%;">
         </div>
-
         <div class="static-group">
             <h3>📌 روابط الملفات الثابتة</h3>
-            <label>رابط ملف المبادرة:</label>
-            <input type="text" id="initiativePdfUrl" style="width:100%;">
-            <label>رابط أنشطة إضافية:</label>
-            <input type="text" id="activitiesPdfUrl" style="width:100%;">
-            <label>رابط السجلات:</label>
-            <input type="text" id="recordsPdfUrl" style="width:100%;">
+            <label>رابط ملف المبادرة:</label><input type="text" id="initiativePdfUrl" style="width:100%;">
+            <label>رابط أنشطة إضافية:</label><input type="text" id="activitiesPdfUrl" style="width:100%;">
+            <label>رابط السجلات:</label><input type="text" id="recordsPdfUrl" style="width:100%;">
         </div>
-
         <div class="admin-font">
-            <h3>🔤 رابط الخط العربي (Cairo-Regular.ttf)</h3>
-            <label>رابط الخط النقي:</label>
-            <input type="text" id="fontUrl" style="width:100%;">
+            <h3>🔤 رابط الخط العربي</h3>
+            <label>رابط الخط:</label><input type="text" id="fontUrl" style="width:100%;">
         </div>
-
         <button class="btn btn-success" onclick="saveSettings()" style="width:100%; font-size:18px;">💾 حفظ الإعدادات</button>
-
-        <div class="nav-links">
-            <a href="#" onclick="showPortal()" style="color:#3498db; font-size:14px;">🔙 الرجوع لبوابة المشترك</a>
-        </div>
+        <div class="nav-links"><a href="#" onclick="showPortal()" style="color:#3498db; font-size:14px;">🔙 الرجوع للبوابة</a></div>
     </div>
 </div>
 
 <script>
-    // ================= بداية كود الجافاسكريبت =================
-
-    // 1. فتح الصفحة الأولى (تسجيل الدخول)
     window.onload = function() {
         const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
-        if (user) {
-            showPortal(); // لو سجل دخول قبل كده، يروح للبوابة على طول
-        } else {
-            document.getElementById('loginSection').style.display = 'block';
-        }
+        if (user) { showPortal(); } else { document.getElementById('loginSection').style.display = 'block'; }
     };
 
-    // 2. دالة تسجيل الدخول
     function login() {
         const name = document.getElementById('userName').value.trim();
         const school = document.getElementById('userSchool').value.trim();
-        if (!name || !school) {
-            alert("لازم تكتب اسمك ومدرستك!");
-            return;
-        }
+        if (!name || !school) { alert("لازم تكتب اسمك ومدرستك!"); return; }
         localStorage.setItem('currentUser', JSON.stringify({ name, school }));
         showPortal();
     }
 
-    // 3. دالة تسجيل الخروج
     function logout() {
         localStorage.removeItem('currentUser');
         document.getElementById('loginSection').style.display = 'block';
@@ -148,7 +107,6 @@
         document.getElementById('adminSection').style.display = 'none';
     }
 
-    // 4. التنقل بين الصفحات
     function showPortal() {
         const user = JSON.parse(localStorage.getItem('currentUser'));
         if (!user) { document.getElementById('loginSection').style.display = 'block'; return; }
@@ -163,10 +121,9 @@
         document.getElementById('loginSection').style.display = 'none';
         document.getElementById('portalSection').style.display = 'none';
         document.getElementById('adminSection').style.display = 'block';
-        loadSettings(); // نجيب الروابط اللي محفوظة عشان تعدل عليها
+        loadSettings();
     }
 
-    // 5. حفظ وتحميل إعدادات الروابط (الإدارة)
     function saveSettings() {
         const settings = {
             primaryPdfUrl: document.getElementById('primaryPdfUrl').value,
@@ -192,7 +149,6 @@
         document.getElementById('fontUrl').value = settings.fontUrl || '';
     }
 
-    // 6. دالة التحميل ووضع العلامة المائية (السحر 🪄)
     async function downloadWatermarked(fileKey) {
         const statusDiv = document.getElementById('statusMessage');
         statusDiv.innerText = "⏳ جاري تجهيز الملف وطباعة اسمك عليه...";
@@ -201,8 +157,7 @@
         const settings = JSON.parse(localStorage.getItem('platformSettings'));
         if (!settings || !settings[fileKey] || !settings.fontUrl) {
             statusDiv.innerText = "❌ خطأ: الروابط مش محفوظة! روح للإدارة وحط الروابط الأول.";
-            statusDiv.style.color = "#c0392b";
-            return;
+            statusDiv.style.color = "#c0392b"; return;
         }
 
         const pdfUrl = settings[fileKey];
@@ -211,39 +166,36 @@
         const watermarkText = `${user.name} - ${user.school}`;
 
         try {
-            // جلب ملف الـ PDF
             const pdfBytes = await fetch(pdfUrl).then(res => {
-                if (!res.ok) throw new Error("الملف مش موجود على السيرفر (Error 404) - تأكد إن الرابط صح");
+                if (!res.ok) throw new Error("الملف مش موجود (Error 404)");
                 return res.arrayBuffer();
             });
-            
-            // جلب ملف الخط العربي النقي
             const fontBytes = await fetch(fontUrl).then(res => {
-                if (!res.ok) throw new Error("خط العربي مش موجود (Error 404) - تأكد إن رابط الخط صح");
+                if (!res.ok) throw new Error("الخط مش موجود (Error 404)");
                 return res.arrayBuffer();
             });
 
-            // فتح الـ PDF وتضمين الخط
             const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+            
+            // الخطوة السحرية: تسجيل fontkit عشان تفهم الخط العربي
+            pdfDoc.registerFontkit(fontkit);
+
             const cairoFont = await pdfDoc.embedFont(fontBytes); 
             
-            // المرور على كل صفحة وكتابة العلامة المائية
             const pages = pdfDoc.getPages();
             for (const page of pages) {
                 const { width, height } = page.getSize();
                 const textWidth = cairoFont.widthOfTextAtSize(watermarkText, 24);
-                
                 page.drawText(watermarkText, {
-                    x: width / 2 - textWidth / 2, // توسيط أفقي
-                    y: height / 2,                // توسيط رأسي
-                    size: 24,                      // حجم الخط
-                    font: cairoFont,               // استخدام الخط العربي
-                    color: PDFLib.rgb(0.2, 0.6, 0.8), // لون أزرق جميل
-                    opacity: 0.5,                  // شفافية 50%
+                    x: width / 2 - textWidth / 2,
+                    y: height / 2,
+                    size: 24,
+                    font: cairoFont,
+                    color: PDFLib.rgb(0.2, 0.6, 0.8),
+                    opacity: 0.5,
                 });
             }
 
-            // حفظ وتنزيل الملف للمشترك
             const modifiedPdfBytes = await pdfDoc.save();
             const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
             const link = document.createElement('a');
@@ -251,7 +203,7 @@
             link.download = `${fileKey}_${user.name}.pdf`;
             link.click();
             
-            statusDiv.innerText = "✅ تم التحميل بنجاح! افتح الملف وتأكد إن اسمك مكتوب في النص.";
+            statusDiv.innerText = "✅ تم التحميل بنجاح! افتح الملف وتأكد من اسمك ومدرستك.";
             statusDiv.style.color = "#27ae60";
 
         } catch (error) {
