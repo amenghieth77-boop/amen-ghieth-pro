@@ -9,14 +9,17 @@
     <style>
         body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin: 0; padding: 0; min-height: 100vh; background-image: radial-gradient(circle at 20% 20%, rgba(30, 41, 59, 0.8), transparent), radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.8), transparent); }
         .container { max-width: 900px; margin: 40px auto; background: #ffffff; padding: 40px 30px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-top: 6px solid #d97706; }
-        .logo-header { font-size: 38px; font-weight: 900; text-align: center; line-height: 1.3; background: linear-gradient(45deg, #92400e, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; letter-spacing: 1px; }
+        
+        /* 🖼️ CSS for SVG Logo Image */
+        .logo-image-container { text-align: center; margin-bottom: 10px; }
         .logo-sub { font-size: 17px; color: #64748b; font-weight: 500; text-align: center; margin-bottom: 30px; font-style: italic; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
+
         h3 { text-align: center; color: #1e293b; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; }
         .section { display: none; animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .login-box { background: #f8fafc; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px solid #e2e8f0; }
-        input[type="text"], input[type="password"], input[type="number"], select { width: 85%; padding: 15px 20px; margin: 10px 0; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; color: #1e293b; }
-        input:focus, select:focus { border: 2px solid #d97706; background: #fffbeb; }
+        input[type="text"], input[type="password"] { width: 85%; padding: 15px 20px; margin: 10px 0; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; color: #1e293b; }
+        input:focus { border: 2px solid #d97706; background: #fffbeb; }
         .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 16px; margin: 8px 4px; font-family: 'Tajawal', sans-serif; font-weight: 700; color: white; transition: 0.3s; display: inline-block; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
         .btn-primary { background: linear-gradient(45deg, #1e3a8a, #0ea5e9); }
@@ -36,7 +39,6 @@
         .admin-secret-link:hover { opacity: 0.8; }
         #statusMessage { text-align: center; margin-top: 20px; font-weight: 700; color: #ef4444; font-size: 18px; }
         .price-display { font-size: 28px; color: #b45309; font-weight: 900; text-align: center; margin: 15px 0; }
-        /* 🎨 Stats Card & Search CSS */
         .stats-card { display: flex; justify-content: space-around; background: linear-gradient(45deg, #1e293b, #334155); color: #fbbf24; padding: 20px; border-radius: 15px; margin-bottom: 20px; font-weight: 800; text-align: center; }
         .stats-item span { display: block; font-size: 24px; color: #ffffff; }
         .admin-search { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #cbd5e1; font-family: 'Tajawal'; font-size: 16px; font-weight: 700; background: #f8fafc; }
@@ -47,15 +49,40 @@
         .credentials-box { background: #fffbeb; padding: 25px; border-radius: 25px; margin-top: 25px; border: 3px solid #fbbf24; box-shadow: 0 10px 20px rgba(217, 119, 6, 0.1); }
         .disabled-btn { background: linear-gradient(45deg, #94a3b8, #cbd5e1) !important; color: #64748b !important; cursor: not-allowed !important; box-shadow: none !important; transform: none !important; }
         #paymentWarning { background: #fef2f2; border: 2px solid #ef4444; border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 15px; }
-        /* Dynamic Schools Styling */
         .dynamic-school-input { width: 85%; padding: 15px 20px; margin: 5px 0; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; color: #1e293b; }
         .dynamic-school-input:focus { border: 2px solid #d97706; background: #fffbeb; }
+        /* 🎨 Styling for Checkboxes */
+        .checkbox-group { display: flex; justify-content: center; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
+        .checkbox-item { display: flex; align-items: center; background: #f1f5f9; padding: 15px 20px; border-radius: 10px; border: 2px solid #cbd5e1; cursor: pointer; transition: 0.3s; }
+        .checkbox-item:hover { border-color: #d97706; background: #fffbeb; }
+        .checkbox-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #d97706; cursor: pointer; }
+        .checkbox-item label { margin: 0 10px; font-weight: 800; color: #1e293b; cursor: pointer; font-size: 18px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo-header">منصة امين غيث<br>للتربية النفسية</div>
+    <!-- 🖼️ SVG Logo Image -->
+    <div class="logo-image-container">
+        <svg viewBox="0 0 240 240" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer Circle with text -->
+            <defs>
+                <path id="outerCirclePath" d="M 120,120 m -95,0 a 95,95 0 1,1 190,0 a 95,95 0 1,1 -190,0" fill="none"/>
+            </defs>
+            <circle cx="120" cy="120" r="115" fill="#1e293b" stroke="#fbbf24" stroke-width="3"/>
+            <text fill="#fbbf24" font-family="Tajawal" font-size="18" font-weight="500" letter-spacing="3">
+                <textPath href="#outerCirclePath" startOffset="0%">منصة امين غيث للتربية النفسية منصة امين غيث للتربية النفسية</textPath>
+            </text>
+            <!-- Inner Shield/Circle -->
+            <circle cx="120" cy="120" r="75" fill="#0f172a" stroke="#fbbf24" stroke-width="5"/>
+            <!-- Main Text inside -->
+            <text x="120" y="110" text-anchor="middle" font-family="Tajawal" font-size="38" font-weight="900" fill="#fbbf24">أمين</text>
+            <text x="120" y="150" text-anchor="middle" font-family="Tajawal" font-size="38" font-weight="900" fill="#fbbf24">غيث</text>
+            <!-- Decorative Stars -->
+            <polygon points="120,8 122,15 129,15 123,20 125,27 120,23 115,27 117,20 111,15 118,15" fill="#fbbf24"/>
+            <polygon points="120,232 122,225 129,225 123,220 125,213 120,217 115,213 117,220 111,225 118,225" fill="#fbbf24"/>
+        </svg>
+    </div>
     <div class="logo-sub">المعلم الحقيقي هو من ينير دروب الاخرين</div>
 
     <div id="registrationSection" class="section">
@@ -63,10 +90,14 @@
             <h3>📝 تسجيل مشترك جديد</h3>
             <input type="text" id="regName" placeholder="اكتب اسمك بالكامل...">
             <input type="text" id="regPhone" placeholder="رقم التليفون...">
-            <label>اختر المراحل:</label>
-            <select id="regStages"><option value="1">1 مرحلة (75 ج)</option><option value="2">2 مرحلة (125 ج)</option><option value="3">3 مرحلة (150 ج)</option></select>
-            <div class="price-display">المبلغ: <span id="priceDisplay">75</span> جنيه</div>
-            <!-- 🏫 المدارس المتغيرة حسب عدد المراحل -->
+            <label>اختر المراحل (اختار المرحلة واكتب مدرستها):</label>
+            <!-- 🏫 Dynamic Checkboxes -->
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" id="chkPrimary"><label for="chkPrimary">ابتدائي</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="chkPreparatory"><label for="chkPreparatory">اعدادي</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="chkSecondary"><label for="chkSecondary">ثانوي</label></div>
+            </div>
+            <div class="price-display">المبلغ: <span id="priceDisplay">0</span> جنيه</div>
             <div id="regSchoolsContainer"></div>
             <button class="btn btn-primary" onclick="window.registerUser()">تسجيل</button>
             <div id="regStatusMessage" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
@@ -120,9 +151,12 @@
             <h3>📝 تعديل البيانات</h3>
             <label>الاسم:</label><input type="text" id="editName" placeholder="الاسم...">
             <label>التليفون:</label><input type="text" id="editPhone" placeholder="التليفون...">
-            <label>المراحل:</label>
-            <select id="editStages"><option value="1">1 مرحلة (75 ج)</option><option value="2">2 مرحلة (125 ج)</option><option value="3">3 مرحلة (150 ج)</option></select>
-            <!-- 🏫 المدارس في التعديل -->
+            <label>اختر المراحل:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" id="editChkPrimary"><label for="editChkPrimary">ابتدائي</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="editChkPreparatory"><label for="editChkPreparatory">اعدادي</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="editChkSecondary"><label for="editChkSecondary">ثانوي</label></div>
+            </div>
             <div id="editSchoolsContainer"></div>
             <button class="btn btn-success" onclick="window.saveProfile()">💾 حفظ</button>
             <button class="btn btn-danger" onclick="window.showPortal()">🔙 رجوع</button>
@@ -141,20 +175,17 @@
 
     <div id="adminSection" class="section">
         <h3>⚙️ لوحة الإدارة</h3>
-        <!-- 📊 Stats Card -->
         <div class="stats-card">
             <div class="stats-item"><span id="statTotal">0</span>مسجلين</div>
             <div class="stats-item"><span id="statPaid">0</span>مدفوعين</div>
             <div class="stats-item"><span id="statRevenue">0 ج</span>إجمالي</div>
         </div>
-
         <div class="files-group">
             <h3>👥 المشتركين</h3>
             <button class="btn btn-warning" onclick="window.resetMonth()">🔄 بدء شهر جديد</button>
             <button class="btn btn-excel" onclick="window.exportToExcel()">📥 تصدير Excel منسق</button>
-            <!-- 🔍 Search Box -->
             <input type="text" id="adminSearch" class="admin-search" placeholder="🔍 بحث باسم أو تليفون...">
-            <table id="usersTable"><thead><tr><th>الاسم</th><th>م.ابتدائي</th><th>م.اعدادي</th><th>م.ثانوي</th><th>تليفون</th><th>مراحل</th><th>مبلغ</th><th>الكود</th><th>الباسورد</th><th>حالة</th><th>إجراء</th></tr></thead><tbody id="usersTableBody"></tbody></table>
+            <table id="usersTable"><thead><tr><th>الاسم</th><th>م.ابتدائي</th><th>م.اعدادي</th><th>م.ثانوي</th><th>تليفون</th><th>المراحل المختارة</th><th>مبلغ</th><th>الكود</th><th>الباسورد</th><th>حالة</th><th>إجراء</th></tr></thead><tbody id="usersTableBody"></tbody></table>
         </div>
         <div class="files-group"><h3>📅 روابط الشهر</h3><label>ابتدائي:</label><input type="text" id="primaryPdfUrl"><label>إعدادي:</label><input type="text" id="preparatoryPdfUrl"><label>ثانوي:</label><input type="text" id="secondaryPdfUrl"></div>
         <div class="static-group"><h3>📌 ثابتة</h3><label>المبادرة:</label><input type="text" id="initiativePdfUrl"><label>أنشطة:</label><input type="text" id="activitiesPdfUrl"><label>السجلات:</label><input type="text" id="recordsPdfUrl"></div>
@@ -180,58 +211,70 @@
     let currentUser = null; let currentSettings = null;
     const ADMIN_PASSWORD = "Amen2024";
 
-    // 🏫 Dynamic Schools Generation Logic
-    function generateSchoolInputs(containerId, stagesValue, data=null) {
+    // 🏫 Dynamic Schools Generation Logic (Based on Checkboxes)
+    function updatePriceAndInputs(chkPrimaryId, chkPrepId, chkSecId, containerId, data=null) {
+        const chkP = document.getElementById(chkPrimaryId);
+        const chkPr = document.getElementById(chkPrepId);
+        const chkS = document.getElementById(chkSecId);
         const container = document.getElementById(containerId);
         container.innerHTML = '';
-        const stages = parseInt(stagesValue);
-        const labels = ["مدرسة المرحلة الأولى (ابتدائي)", "مدرسة المرحلة الثانية (اعدادي)", "مدرسة المرحلة الثالثة (ثانوي)"];
-        const keys = ["primarySchool", "preparatorySchool", "secondarySchool"];
-        for (let i=0; i<stages; i++) {
-            const val = data ? (data[keys[i]] || '') : '';
-            container.innerHTML += `<label>${labels[i]}:</label><input type="text" class="dynamic-school-input" id="${containerId}_${keys[i]}" value="${val}" placeholder="اسم المدرسة...">`;
-        }
+        let price = 0;
+        
+        if(chkP.checked) { price+=75; const val=data?data.primarySchool:''; container.innerHTML+=`<label>مدرسة ابتدائي:</label><input type="text" class="dynamic-school-input" id="${containerId}_primarySchool" value="${val}" placeholder="اسم المدرسة...">`; }
+        if(chkPr.checked) { price+=50; const val=data?data.preparatorySchool:''; container.innerHTML+=`<label>مدرسة اعدادى:</label><input type="text" class="dynamic-school-input" id="${containerId}_preparatorySchool" value="${val}" placeholder="اسم المدرسة...">`; }
+        if(chkS.checked) { price+=25; const val=data?data.secondarySchool:''; container.innerHTML+=`<label>مدرسة ثانوي:</label><input type="text" class="dynamic-school-input" id="${containerId}_secondarySchool" value="${val}" placeholder="اسم المدرسة...">`; }
+
+        // Update Price Display (Find it nearby)
+        const priceEl = containerId === 'regSchoolsContainer' ? document.getElementById('priceDisplay') : null;
+        if(priceEl) priceEl.innerText = price;
+        
+        return price;
     }
 
-    document.getElementById('regStages').addEventListener('change', (e) => { 
-        let price = e.target.value == 1 ? 75 : (e.target.value == 2 ? 125 : 150); 
-        document.getElementById('priceDisplay').innerText = price; 
-        generateSchoolInputs('regSchoolsContainer', e.target.value);
-    });
+    // Event Listeners for Checkboxes
+    document.getElementById('chkPrimary').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
+    document.getElementById('chkPreparatory').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
+    document.getElementById('chkSecondary').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
 
-    document.getElementById('editStages').addEventListener('change', (e) => { 
-        generateSchoolInputs('editSchoolsContainer', e.target.value, currentUser);
-    });
+    document.getElementById('editChkPrimary').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
+    document.getElementById('editChkPreparatory').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
+    document.getElementById('editChkSecondary').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
 
     // 🔍 Admin Search Filter Logic
     document.getElementById('adminSearch').addEventListener('input', (e) => {
         const term = e.target.value.trim().toLowerCase();
         const rows = document.querySelectorAll('#usersTableBody tr');
-        rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(term) ? '' : 'none';
-        });
+        rows.forEach(row => { const text = row.textContent.toLowerCase(); row.style.display = text.includes(term) ? '' : 'none'; });
     });
 
-    function showRegistration() { document.getElementById('registrationSection').style.display='block'; hideAllExcept('registrationSection'); generateSchoolInputs('regSchoolsContainer', 1); }
+    function showRegistration() { document.getElementById('registrationSection').style.display='block'; hideAllExcept('registrationSection'); }
     function showLogin() { document.getElementById('loginSection').style.display='block'; hideAllExcept('loginSection'); }
     function showPortal() { document.getElementById('portalSection').style.display='block'; hideAllExcept('portalSection'); document.getElementById('statusMessage').innerText=''; }
     function showEditProfile() { 
         document.getElementById('editProfileSection').style.display='block'; hideAllExcept('editProfileSection'); 
-        document.getElementById('editName').value=currentUser.name; document.getElementById('editPhone').value=currentUser.phone; document.getElementById('editStages').value=currentUser.stages;
-        generateSchoolInputs('editSchoolsContainer', currentUser.stages, currentUser);
+        document.getElementById('editName').value=currentUser.name; document.getElementById('editPhone').value=currentUser.phone;
+        document.getElementById('editChkPrimary').checked = currentUser.stages >= 1 && currentUser.primarySchool;
+        document.getElementById('editChkPreparatory').checked = currentUser.stages >= 2 || currentUser.preparatorySchool;
+        document.getElementById('editChkSecondary').checked = currentUser.stages >= 3 || currentUser.secondarySchool;
+        updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser);
     }
     function showAdminLogin() { document.getElementById('adminLoginSection').style.display='block'; hideAllExcept('adminLoginSection'); document.getElementById('adminLoginMsg').innerText=''; }
     function showAdmin() { document.getElementById('adminSection').style.display='block'; hideAllExcept('adminSection'); loadSettings(); loadUsersForAdmin(); }
     function hideAllExcept(id) { ['registrationSection','loginSection','portalSection','editProfileSection','adminLoginSection','adminSection'].forEach(s => document.getElementById(s).style.display = (s===id?'block':'none')); }
 
     async function registerUser() {
-        const name=document.getElementById('regName').value.trim(); const phone=document.getElementById('regPhone').value.trim(); const stages=document.getElementById('regStages').value;
+        const name=document.getElementById('regName').value.trim(); const phone=document.getElementById('regPhone').value.trim();
         if(!name||!phone) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب الاسم والتليفون!"; return; }
         
+        // 🏫 Check if at least 1 stage is selected
+        const chkP = document.getElementById('chkPrimary').checked;
+        const chkPr = document.getElementById('chkPreparatory').checked;
+        const chkS = document.getElementById('chkSecondary').checked;
+        if(!chkP && !chkPr && !chkS) { document.getElementById('regStatusMessage').innerText="❌ لازم تختار مرحلة واحدة على الأقل!"; return; }
+
         // 🛑 Check Duplicate Phone
         try { const q=query(collection(db,"users"),where("phone","==",phone)); const phoneCheck=await getDocs(q);
-            if(!phoneCheck.empty) { document.getElementById('regStatusMessage').innerText="❌ الرقم مسجل من قبل!"; return; }
+            if(!phoneCheck.empty) { document.getElementById('regStatusMessage').innerText="❌ الرقم مسجل من قبل! لو نسيت كودك ادخل من هنا."; return; }
         } catch(e) { console.error(e); }
 
         // 🏫 Collect Dynamic Schools
@@ -239,15 +282,18 @@
         const pS = document.getElementById('regSchoolsContainer_primarySchool');
         const prS = document.getElementById('regSchoolsContainer_preparatorySchool');
         const sS = document.getElementById('regSchoolsContainer_secondarySchool');
-        if(pS) { primarySchool = pS.value.trim(); school = primarySchool; }
-        if(prS) preparatorySchool = prS.value.trim();
-        if(sS) secondarySchool = sS.value.trim();
-        if(!primarySchool && !preparatorySchool && !secondarySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب المدرسة!"; return; }
-        if(stages==2 && !preparatorySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الاعدادي!"; return; }
-        if(stages==3 && !secondarySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الثانوي!"; return; }
+        if(chkP && pS) primarySchool = pS.value.trim();
+        if(chkPr && prS) preparatorySchool = prS.value.trim();
+        if(chkS && sS) secondarySchool = sS.value.trim();
+        school = primarySchool || preparatorySchool || secondarySchool; // General fallback
 
+        if(chkP && !primarySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الابتدائي!"; return; }
+        if(chkPr && !preparatorySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الاعدادي!"; return; }
+        if(chkS && !secondarySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الثانوي!"; return; }
+
+        const stages = (chkP?1:0) + (chkPr?1:0) + (chkS?1:0);
         const code='C-'+Math.floor(1000+Math.random()*9000); const pass='P-'+Math.floor(1000+Math.random()*9000);
-        try { await addDoc(collection(db,"users"),{name,phone,school,primarySchool,preparatorySchool,secondarySchool,stages:parseInt(stages),code,password:pass,isPaidThisMonth:false});
+        try { await addDoc(collection(db,"users"),{name,phone,school,primarySchool,preparatorySchool,secondarySchool,stages,code,password:pass,isPaidThisMonth:false});
             document.getElementById('generatedCode').innerText=code; document.getElementById('generatedPass').innerText=pass; document.getElementById('credentialsBox').style.display='block'; document.getElementById('regStatusMessage').innerText="";
         } catch(error) { document.getElementById('regStatusMessage').innerText="❌ خطأ: "+error.message; }
     }
@@ -268,21 +314,24 @@
     function logout() { currentUser=null; showLogin(); }
 
     async function saveProfile() {
-        const newName=document.getElementById('editName').value.trim(); const newPhone=document.getElementById('editPhone').value.trim(); const newStages=document.getElementById('editStages').value;
+        const newName=document.getElementById('editName').value.trim(); const newPhone=document.getElementById('editPhone').value.trim();
+        const chkP = document.getElementById('editChkPrimary').checked;
+        const chkPr = document.getElementById('editChkPreparatory').checked;
+        const chkS = document.getElementById('editChkSecondary').checked;
         if(!newName||!newPhone) { alert("اكتب كل البيانات!"); return; }
         
-        // 🏫 Collect Edited Schools
         let newPrimarySchool='', newPreparatorySchool='', newSecondarySchool='', newSchool='';
         const pS = document.getElementById('editSchoolsContainer_primarySchool');
         const prS = document.getElementById('editSchoolsContainer_preparatorySchool');
         const sS = document.getElementById('editSchoolsContainer_secondarySchool');
-        if(pS) newPrimarySchool = pS.value.trim();
-        if(prS) newPreparatorySchool = prS.value.trim();
-        if(sS) newSecondarySchool = sS.value.trim();
+        if(chkP && pS) newPrimarySchool = pS.value.trim();
+        if(chkPr && prS) newPreparatorySchool = prS.value.trim();
+        if(chkS && sS) newSecondarySchool = sS.value.trim();
         newSchool = newPrimarySchool || newPreparatorySchool || newSecondarySchool;
+        const newStages = (chkP?1:0) + (chkPr?1:0) + (chkS?1:0);
 
-        try { await updateDoc(doc(db,"users",currentUser.id),{name:newName,phone:newPhone,stages:parseInt(newStages),school:newSchool,primarySchool:newPrimarySchool,preparatorySchool:newPreparatorySchool,secondarySchool:newSecondarySchool});
-            currentUser.name=newName; currentUser.phone=newPhone; currentUser.stages=parseInt(newStages); currentUser.school=newSchool; currentUser.primarySchool=newPrimarySchool; currentUser.preparatorySchool=newPreparatorySchool; currentUser.secondarySchool=newSecondarySchool;
+        try { await updateDoc(doc(db,"users",currentUser.id),{name:newName,phone:newPhone,stages:newStages,school:newSchool,primarySchool:newPrimarySchool,preparatorySchool:newPreparatorySchool,secondarySchool:newSecondarySchool});
+            currentUser.name=newName; currentUser.phone=newPhone; currentUser.stages=newStages; currentUser.school=newSchool; currentUser.primarySchool=newPrimarySchool; currentUser.preparatorySchool=newPreparatorySchool; currentUser.secondarySchool=newSecondarySchool;
             alert("✅ تم تعديل البيانات!"); showPortal();
         } catch(e) { alert("❌ خطأ: "+e.message); }
     }
@@ -295,19 +344,27 @@
         let totalRev=0, paidCount=0;
         
         snap.forEach((d)=>{ 
-            const u=d.data(); const price=u.stages==1?75:(u.stages==2?125:150); 
+            const u=d.data(); 
+            // 🏫 Calculate price based on stages array or number
+            const price=u.stages==1?75:(u.stages==2?125:(u.stages==3?150:0)); 
             const status=u.isPaidThisMonth?"✅ مدفع":"❌ معلق";
             if(u.isPaidThisMonth) { paidCount++; totalRev+=price; }
             
             const btnAction=u.isPaidThisMonth?`<button class="btn btn-danger" onclick="window.unconfirmPayment('${d.id}')">❌ إلغاء</button>`:`<button class="btn btn-success" onclick="window.confirmPayment('${d.id}')">✅ تأكيد</button>`;
             const deleteBtn=`<button class="btn btn-delete" onclick="window.deleteUser('${d.id}')">🗑️</button>`;
             
-            // 🏫 Display specific schools or fallback to general school
-            const pSch = u.primarySchool || u.school || '-';
-            const prSch = u.preparatorySchool || u.school || '-';
-            const sSch = u.secondarySchool || u.school || '-';
+            const pSch = u.primarySchool || '-';
+            const prSch = u.preparatorySchool || '-';
+            const sSch = u.secondarySchool || '-';
             
-            tbody.innerHTML+=`<tr><td>${u.name}</td><td>${pSch}</td><td>${prSch}</td><td>${sSch}</td><td>${u.phone}</td><td>${u.stages}</td><td>${price} ج</td><td style="font-weight:800; color:#1e3a8a;">${u.code}</td><td style="font-weight:800; color:#b45309;">${u.password}</td><td>${status}</td><td>${btnAction} ${deleteBtn}</td></tr>`;
+            // 🏫 Display selected stages
+            const selectedStages = [];
+            if(u.primarySchool) selectedStages.push("ابتدائي");
+            if(u.preparatorySchool) selectedStages.push("اعدادي");
+            if(u.secondarySchool) selectedStages.push("ثانوي");
+            const stagesText = selectedStages.join(" , ");
+
+            tbody.innerHTML+=`<tr><td>${u.name}</td><td>${pSch}</td><td>${prSch}</td><td>${sSch}</td><td>${u.phone}</td><td style="font-weight:800; color:#1e3a8a;">${stagesText}</td><td>${price} ج</td><td style="font-weight:800; color:#1e3a8a;">${u.code}</td><td style="font-weight:800; color:#b45309;">${u.password}</td><td>${status}</td><td>${btnAction} ${deleteBtn}</td></tr>`;
         });
         
         // 📊 Update Stats
@@ -324,11 +381,11 @@
     async function exportToExcel() {
         try { const snap=await getDocs(collection(db,"users"));
             const data=[];
-            snap.forEach((d)=>{ const u=d.data(); const price=u.stages==1?75:(u.stages==2?125:150); const status=u.isPaidThisMonth?"مدفع":"معلق";
-                const pSch = u.primarySchool || u.school || '';
-                const prSch = u.preparatorySchool || u.school || '';
-                const sSch = u.secondarySchool || u.school || '';
-                data.push({"الاسم":u.name,"مدرسة ابتدائي":pSch,"مدرسة اعدادى":prSch,"مدرسة ثانوي":sSch,"التليفون":u.phone,"المراحل":u.stages,"المبلغ":price,"الكود":u.code,"الباسورد":u.password,"حالة السداد":status});
+            snap.forEach((d)=>{ const u=d.data(); const price=u.stages==1?75:(u.stages==2?125:(u.stages==3?150:0)); const status=u.isPaidThisMonth?"مدفع":"معلق";
+                const pSch = u.primarySchool || ''; const prSch = u.preparatorySchool || ''; const sSch = u.secondarySchool || '';
+                const selectedStages = [];
+                if(u.primarySchool) selectedStages.push("ابتدائي"); if(u.preparatorySchool) selectedStages.push("اعدادي"); if(u.secondarySchool) selectedStages.push("ثانوي");
+                data.push({"الاسم":u.name,"مدرسة ابتدائي":pSch,"مدرسة اعدادى":prSch,"مدرسة ثانوي":sSch,"التليفون":u.phone,"المراحل":selectedStages.join(", "),"المبلغ":price,"الكود":u.code,"الباسورد":u.password,"حالة السداد":status});
             });
             const ws=XLSX.utils.json_to_sheet(data);
             const wb=XLSX.utils.book_new();
@@ -348,7 +405,7 @@
         const pdfUrl=currentSettings[fileKey]; const fontUrl=currentSettings.fontUrl;
         
         // 🏫 Determine the specific school for this file
-        let schoolText = currentUser.school || ''; // Fallback for old users
+        let schoolText = currentUser.school || '';
         if (fileKey === 'primaryPdfUrl' && currentUser.primarySchool) schoolText = currentUser.primarySchool;
         if (fileKey === 'preparatoryPdfUrl' && currentUser.preparatorySchool) schoolText = currentUser.preparatorySchool;
         if (fileKey === 'secondaryPdfUrl' && currentUser.secondarySchool) schoolText = currentUser.secondarySchool;
