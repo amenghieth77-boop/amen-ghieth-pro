@@ -5,62 +5,93 @@
     <title>منصة امين غيث للتربية النفسية</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <!-- مكتبة SheetJs عشان تصدير Excel حقيقي منسق -->
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <style>
-        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); margin: 0; padding: 0; min-height: 100vh; }
-        .container { max-width: 900px; margin: 30px auto; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); padding: 30px; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.5); }
-        
-        /* 🎨 تصميم اللوجو الرسمي الشياكة */
-        .logo-header {
-            font-size: 32px; font-weight: 900; text-align: center; color: #1a237e;
-            letter-spacing: 2px; margin-bottom: 25px; line-height: 1.2;
-            background: linear-gradient(45deg, #1a237e, #00bcd4);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            border-bottom: 4px solid #ffc107; padding-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        /* 🎨 النسخة الاحترافية Fintech/Premium UI */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            margin: 0; padding: 0; min-height: 100vh;
+            background-image: radial-gradient(circle at 20% 20%, rgba(30, 41, 59, 0.8), transparent),
+                              radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.8), transparent);
         }
-        .logo-sub { font-size: 14px; color: #37474f; font-weight: 700; text-align: center; margin-top: -15px; margin-bottom: 20px; }
+        .container {
+            max-width: 900px; margin: 40px auto;
+            background: #ffffff; padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-top: 6px solid #d97706; /* الخط الذهبي الفاصل فوق */
+        }
+        
+        /* 🎨 تصميم اللوجو الاحترافي */
+        .logo-header {
+            font-size: 38px; font-weight: 900; text-align: center; line-height: 1.3;
+            background: linear-gradient(45deg, #92400e, #fbbf24);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 5px; letter-spacing: 1px;
+        }
+        .logo-sub {
+            font-size: 17px; color: #64748b; font-weight: 500; text-align: center;
+            margin-bottom: 30px; font-style: italic;
+            border-bottom: 2px solid #e2e8f0; padding-bottom: 20px;
+        }
 
-        h3 { text-align: center; color: #1a237e; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; }
+        h3 { text-align: center; color: #1e293b; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; }
         .section { display: none; animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .login-box { background: rgba(255,255,255,0.6); padding: 25px; border-radius: 20px; text-align: center; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        input[type="text"], input[type="password"], input[type="number"], select { width: 85%; padding: 15px 20px; margin: 10px 0; border: none; border-bottom: 3px solid #ddd; background: rgba(255,255,255,0.5); border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; }
-        input:focus, select:focus { border-bottom: 3px solid #00bcd4; background: #fff; }
-        .btn { padding: 10px 25px; border: none; border-radius: 50px; cursor: pointer; font-size: 15px; margin: 5px 2px; font-family: 'Tajawal', sans-serif; font-weight: 700; color: white; transition: 0.3s; display: inline-block; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 20px rgba(0,0,0,0.2); }
-        .btn-primary { background: linear-gradient(45deg, #3f51b5, #00bcd4); }
-        .btn-success { background: linear-gradient(45deg, #43a047, #00e676); }
-        .btn-danger { background: linear-gradient(45deg, #e53935, #e57373); }
-        .btn-warning { background: linear-gradient(45deg, #ff9800, #ffc107); color: #1a237e; }
-        .btn-delete { background: linear-gradient(45deg, #d32f2f, #ff1744); font-size: 13px; padding: 8px 15px; }
-        .btn-excel { background: linear-gradient(45deg, #1b5e20, #43a047); font-size: 18px; width: 100%; margin-top: 10px; }
-        .files-group { background: linear-gradient(135deg, rgba(179, 229, 252, 0.4), rgba(129, 212, 250, 0.4)); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.6); }
-        .static-group { background: linear-gradient(135deg, rgba(200, 230, 201, 0.4), rgba(165, 214, 167, 0.4)); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.6); }
-        .admin-font { background: linear-gradient(135deg, rgba(225, 245, 254, 0.4), rgba(179, 229, 252, 0.4)); padding: 20px; border-radius: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.6); }
-        label { font-weight: 700; display: block; margin-top: 15px; color: #37474f; }
+        .login-box {
+            background: #f8fafc; padding: 25px; border-radius: 15px;
+            text-align: center; margin-bottom: 20px; border: 1px solid #e2e8f0;
+        }
+        input[type="text"], input[type="password"], input[type="number"], select {
+            width: 85%; padding: 15px 20px; margin: 10px 0;
+            border: 1px solid #cbd5e1; background: #ffffff;
+            border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px;
+            font-weight: 500; transition: 0.3s; outline: none; color: #1e293b;
+        }
+        input:focus, select:focus { border: 2px solid #d97706; background: #fffbeb; }
+        .btn {
+            padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer;
+            font-size: 16px; margin: 8px 4px; font-family: 'Tajawal', sans-serif;
+            font-weight: 700; color: white; transition: 0.3s; display: inline-block;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+        .btn-primary { background: linear-gradient(45deg, #1e3a8a, #0ea5e9); }
+        .btn-success { background: linear-gradient(45deg, #15803d, #10b981); }
+        .btn-danger { background: linear-gradient(45deg, #991b1b, #ef4444); }
+        .btn-warning { background: linear-gradient(45deg, #b45309, #fbbf24); color: #1e293b; }
+        .btn-delete { background: linear-gradient(45deg, #7f1d1d, #dc2626); font-size: 13px; padding: 8px 15px; }
+        .btn-excel { background: linear-gradient(45deg, #1b5e20, #43a047); font-size: 18px; width: 100%; margin-top: 15px; }
+        
+        .files-group { background: #eff6ff; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #bfdbfe; }
+        .static-group { background: #f0fdf4; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #bbf7d0; }
+        .admin-font { background: #ecfeff; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #a5f3fc; }
+        label { font-weight: 700; display: block; margin-top: 15px; color: #475569; }
         .nav-links { text-align: center; margin-top: 25px; }
-        .nav-links a { color: #3f51b5; font-weight: 700; font-size: 15px; text-decoration: none; transition: 0.3s; }
-        .nav-links a:hover { color: #00bcd4; }
-        .admin-secret-link { text-align: center; margin-top: 30px; font-size: 12px; opacity: 0.5; transition: 0.3s; }
-        .admin-secret-link:hover { opacity: 1; }
-        #statusMessage { text-align: center; margin-top: 20px; font-weight: 700; color: #e53935; font-size: 18px; }
-        .price-display { font-size: 26px; color: #e53935; font-weight: 800; text-align: center; margin: 15px 0; }
+        .nav-links a { color: #1e3a8a; font-weight: 700; font-size: 15px; text-decoration: none; transition: 0.3s; }
+        .nav-links a:hover { color: #d97706; }
+        .admin-secret-link { text-align: center; margin-top: 30px; font-size: 12px; opacity: 0.3; transition: 0.3s; }
+        .admin-secret-link:hover { opacity: 0.8; }
+        #statusMessage { text-align: center; margin-top: 20px; font-weight: 700; color: #ef4444; font-size: 18px; }
+        .price-display { font-size: 28px; color: #b45309; font-weight: 900; text-align: center; margin: 15px 0; }
         table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 20px; font-size: 13px; }
-        th { background: linear-gradient(45deg, #3f51b5, #00bcd4); color: white; padding: 12px; border-radius: 10px; }
-        td { background: rgba(255,255,255,0.7); padding: 12px; border-radius: 10px; font-weight: 500; text-align: center; }
-        .credentials-box { background: linear-gradient(135deg, #fff3e0, #ffe0b2); padding: 25px; border-radius: 25px; margin-top: 25px; border: 3px solid #ffc107; box-shadow: 0 10px 20px rgba(255,193,7,0.2); }
-        .disabled-btn { background: linear-gradient(45deg, #bdc3c7, #ecf0f1) !important; color: #7f8c8d !important; cursor: not-allowed !important; box-shadow: none !important; transform: none !important; }
-        #paymentWarning { background: linear-gradient(135deg, #ffebee, #ffcdd2); border: 2px solid #e53935; border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 15px; }
+        th { background: linear-gradient(45deg, #1e3a8a, #0ea5e9); color: white; padding: 12px; border-radius: 10px; }
+        td { background: #ffffff; padding: 12px; border-radius: 10px; font-weight: 500; text-align: center; color: #334155; border: 1px solid #e2e8f0; }
+        .credentials-box {
+            background: #fffbeb; padding: 25px; border-radius: 25px; margin-top: 25px;
+            border: 3px solid #fbbf24; box-shadow: 0 10px 20px rgba(217, 119, 6, 0.1);
+        }
+        .disabled-btn { background: linear-gradient(45deg, #94a3b8, #cbd5e1) !important; color: #64748b !important; cursor: not-allowed !important; box-shadow: none !important; transform: none !important; }
+        #paymentWarning { background: #fef2f2; border: 2px solid #ef4444; border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- اللوجو واسم المنصة -->
+    <!-- اللوجو الاحترافي -->
     <div class="logo-header">منصة امين غيث<br>للتربية النفسية</div>
-    <div class="logo-sub">🌟 التطوير · الإرادة · النفسية 🌟</div>
+    <div class="logo-sub">المعلم الحقيقي هو من ينير دروب الاخرين</div>
 
     <div id="registrationSection" class="section">
         <div class="login-box">
@@ -72,13 +103,13 @@
             <select id="regStages"><option value="1">1 مرحلة (75 ج)</option><option value="2">2 مرحلة (125 ج)</option><option value="3">3 مرحلة (150 ج)</option></select>
             <div class="price-display">المبلغ: <span id="priceDisplay">75</span> جنيه</div>
             <button class="btn btn-primary" onclick="window.registerUser()">تسجيل</button>
-            <div id="regStatusMessage" style="color:#e53935; text-align:center; margin-top:10px; font-weight:700;"></div>
+            <div id="regStatusMessage" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
             <div class="nav-links"><a href="#" onclick="window.showLogin()">🔑 لديك كود؟ ادخل هنا</a></div>
         </div>
         <div id="credentialsBox" class="credentials-box" style="display:none; text-align:center;">
             <h3>🎉 تم التسجيل بنجاح!</h3><p style="font-weight:700;">احفظ الكود والباسورد:</p>
-            <p><strong>الكود:</strong> <span id="generatedCode" style="color:#3f51b5; font-size:24px; font-weight:800;"></span></p>
-            <p><strong>الباسورد:</strong> <span id="generatedPass" style="color:#3f51b5; font-size:24px; font-weight:800;"></span></p>
+            <p><strong>الكود:</strong> <span id="generatedCode" style="color:#1e3a8a; font-size:24px; font-weight:800;"></span></p>
+            <p><strong>الباسورد:</strong> <span id="generatedPass" style="color:#1e3a8a; font-size:24px; font-weight:800;"></span></p>
             <button class="btn btn-success" onclick="window.showLogin()">🔑 الدخول</button>
         </div>
         <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
@@ -90,7 +121,7 @@
             <input type="text" id="loginCode" placeholder="الكود...">
             <input type="password" id="loginPass" placeholder="الباسورد...">
             <button class="btn btn-primary" onclick="window.loginUser()">دخول</button>
-            <div id="loginStatusMessage" style="color:#e53935; text-align:center; margin-top:10px; font-weight:700;"></div>
+            <div id="loginStatusMessage" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
             <div class="nav-links"><a href="#" onclick="window.showRegistration()">📝 سجل جديد</a></div>
         </div>
         <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
@@ -101,7 +132,7 @@
         <button class="btn btn-warning" onclick="window.showEditProfile()">📝 تعديل البيانات</button>
         <button class="btn btn-danger" onclick="window.logout()">🚪 خروج</button>
         
-        <div id="paymentWarning" style="display:none; margin-top:15px;"><p style="color:#e53935; font-weight:800;">⚠️ اشتراك الشهر غير مفعّل!</p></div>
+        <div id="paymentWarning" style="display:none; margin-top:15px;"><p style="color:#ef4444; font-weight:800;">⚠️ اشتراك الشهر غير مفعّل!</p></div>
         <div class="static-group" style="margin-top:15px;">
             <h3>📌 مجانية</h3>
             <button class="btn btn-success" onclick="window.downloadWatermarked('initiativePdfUrl')">📥 المبادرة</button>
@@ -118,7 +149,6 @@
         <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
     </div>
 
-    <!-- صفحة تعديل البيانات الكاملة -->
     <div id="editProfileSection" class="section">
         <div class="login-box">
             <h3>📝 تعديل البيانات</h3>
@@ -137,7 +167,7 @@
             <h3>🔒 دخول الإدارة</h3>
             <input type="password" id="adminPassInput" placeholder="كلمة سر الإدارة...">
             <button class="btn btn-primary" onclick="window.adminLogin()">دخول</button>
-            <div id="adminLoginMsg" style="color:#e53935; text-align:center; margin-top:10px; font-weight:700;"></div>
+            <div id="adminLoginMsg" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
             <div class="nav-links"><a href="#" onclick="window.showLogin()">🔙 رجوع</a></div>
         </div>
     </div>
@@ -231,7 +261,7 @@
         snap.forEach((d)=>{ const u=d.data(); const price=u.stages==1?75:(u.stages==2?125:150); const status=u.isPaidThisMonth?"✅ مدفع":"❌ معلق";
             const btnAction=u.isPaidThisMonth?`<button class="btn btn-danger" onclick="window.unconfirmPayment('${d.id}')">❌ إلغاء</button>`:`<button class="btn btn-success" onclick="window.confirmPayment('${d.id}')">✅ تأكيد</button>`;
             const deleteBtn=`<button class="btn btn-delete" onclick="window.deleteUser('${d.id}')">🗑️</button>`;
-            tbody.innerHTML+=`<tr><td>${u.name}</td><td>${u.school}</td><td>${u.phone}</td><td>${u.stages}</td><td>${price} ج</td><td style="font-weight:800; color:#3f51b5;">${u.code}</td><td style="font-weight:800; color:#e53935;">${u.password}</td><td>${status}</td><td>${btnAction} ${deleteBtn}</td></tr>`;
+            tbody.innerHTML+=`<tr><td>${u.name}</td><td>${u.school}</td><td>${u.phone}</td><td>${u.stages}</td><td>${price} ج</td><td style="font-weight:800; color:#1e3a8a;">${u.code}</td><td style="font-weight:800; color:#b45309;">${u.password}</td><td>${status}</td><td>${btnAction} ${deleteBtn}</td></tr>`;
         });
     }
 
@@ -240,7 +270,6 @@
     async function deleteUser(id) { if(!confirm("⚠️ حذف المشترك نهائياً؟")) return; try{await deleteDoc(doc(db,"users",id));alert("🗑️ تم الحذف!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
     async function resetMonth() { if(!confirm("⚠️ مسح سداد الكل؟")) return; try{const s=await getDocs(collection(db,"users"));s.forEach(async(d)=>{await updateDoc(doc(db,"users",d.id),{isPaidThisMonth:false})});alert("🔄 شهر جديد!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
 
-    // 🪄 دالة التصدير المنسق لـ Excel حقيقي XLSX
     async function exportToExcel() {
         try { const snap=await getDocs(collection(db,"users"));
             const data=[];
@@ -258,16 +287,16 @@
     async function saveSettings() { const s={primaryPdfUrl:document.getElementById('primaryPdfUrl').value,preparatoryPdfUrl:document.getElementById('preparatoryPdfUrl').value,secondaryPdfUrl:document.getElementById('secondaryPdfUrl').value,initiativePdfUrl:document.getElementById('initiativePdfUrl').value,activitiesPdfUrl:document.getElementById('activitiesPdfUrl').value,recordsPdfUrl:document.getElementById('recordsPdfUrl').value,fontUrl:document.getElementById('fontUrl').value}; try{await setDoc(doc(db,"settings","config"),s);alert('✅ حفظ!');}catch(e){alert('❌ خطأ: '+e.message);} }
 
     async function downloadWatermarked(fileKey) {
-        const statusDiv=document.getElementById('statusMessage'); statusDiv.innerText="⏳ تجهيز..."; statusDiv.style.color="#3f51b5";
+        const statusDiv=document.getElementById('statusMessage'); statusDiv.innerText="⏳ تجهيز..."; statusDiv.style.color="#1e3a8a";
         if(!currentSettings&&currentUser){try{const s=await getDoc(doc(db,"settings","config"));if(s.exists())currentSettings=s.data();}catch(e){}}
-        if(!currentSettings||!currentSettings[fileKey]||!currentSettings.fontUrl){statusDiv.innerText="❌ روابط مش محفوظة!";statusDiv.style.color="#e53935";return;}
+        if(!currentSettings||!currentSettings[fileKey]||!currentSettings.fontUrl){statusDiv.innerText="❌ روابط مش محفوظة!";statusDiv.style.color="#ef4444";return;}
         const pdfUrl=currentSettings[fileKey]; const fontUrl=currentSettings.fontUrl; const watermarkText=`${currentUser.name} - ${currentUser.school}`;
         try { const pdfBytes=await fetch(pdfUrl).then(r=>{if(!r.ok)throw new Error("404");return r.arrayBuffer()}); const fontBytes=await fetch(fontUrl).then(r=>{if(!r.ok)throw new Error("404");return r.arrayBuffer()});
             const pdfDoc=await PDFLib.PDFDocument.load(pdfBytes); const fkModule=await import('https://esm.sh/@pdf-lib/fontkit@1.1.1'); pdfDoc.registerFontkit(fkModule.default); const cairoFont=await pdfDoc.embedFont(fontBytes);
-            const pages=pdfDoc.getPages(); for(const page of pages){const{width,height}=page.getSize();const tw=cairoFont.widthOfTextAtSize(watermarkText,24);page.drawText(watermarkText,{x:width/2-tw/2,y:height/2,size:24,font:cairoFont,color:PDFLib.rgb(0.2,0.6,0.8),opacity:0.5});}
+            const pages=pdfDoc.getPages(); for(const page of pages){const{width,height}=page.getSize();const tw=cairoFont.widthOfTextAtSize(watermarkText,24);page.drawText(watermarkText,{x:width/2-tw/2,y:height/2,size:24,font:cairoFont,color:PDFLib.rgb(0.7,0.5,0.1),opacity:0.5});}
             const modifiedBytes=await pdfDoc.save(); const blob=new Blob([modifiedBytes],{type:'application/pdf'}); const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=`${fileKey}_${currentUser.name}.pdf`;link.click();
-            statusDiv.innerText="✅ تم التحميل!"; statusDiv.style.color="#43a047";
-        } catch(error) { console.error(error); statusDiv.innerText="❌ خطأ: "+error.message; statusDiv.style.color="#e53935"; }
+            statusDiv.innerText="✅ تم التحميل!"; statusDiv.style.color="#15803d";
+        } catch(error) { console.error(error); statusDiv.innerText="❌ خطأ: "+error.message; statusDiv.style.color="#ef4444"; }
     }
 
     window.registerUser=registerUser; window.loginUser=loginUser; window.logout=logout; window.saveProfile=saveProfile;
