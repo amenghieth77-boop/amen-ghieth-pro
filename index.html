@@ -78,7 +78,7 @@
             75% { transform:translate(35px,15px) scale(1.01); }
         }
 
-        /* ===== الواجهة الرئيسية (Landing) ===== */
+        /* ===== الواجهة الرئيسية ===== */
         .landing-wrapper {
             position: fixed; inset: 0; z-index: 1000;
             display: flex; align-items: center; justify-content: center;
@@ -137,13 +137,9 @@
             100% { background-position: 200% center; }
         }
 
-        .landing-subtitle {
-            font-size: 15px; font-weight: 400; color: var(--text-secondary); margin-top: 8px;
-        }
+        .landing-subtitle { font-size: 15px; font-weight: 400; color: var(--text-secondary); margin-top: 8px; }
 
-        .landing-btns {
-            display: flex; flex-direction: column; gap: 14px; margin-top: 28px;
-        }
+        .landing-btns { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
 
         .landing-btn {
             padding: 16px 24px; border-radius: 14px;
@@ -152,22 +148,13 @@
             display: flex; align-items: center; justify-content: center; gap: 10px;
         }
 
-        .landing-btn.admin-btn {
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dim));
-            color: var(--bg-deep);
-        }
+        .landing-btn.admin-btn { background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dim)); color: var(--bg-deep); }
         .landing-btn.admin-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(212,168,83,0.35); }
 
-        .landing-btn.register-btn {
-            background: linear-gradient(135deg, var(--accent-teal), #15806d);
-            color: #fff;
-        }
+        .landing-btn.register-btn { background: linear-gradient(135deg, var(--accent-teal), #15806d); color: #fff; }
         .landing-btn.register-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(26,138,125,0.35); }
 
-        .landing-btn.subscriber-btn {
-            background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
+        .landing-btn.subscriber-btn { background: rgba(255,255,255,0.06); border: 1px solid var(--border-color); color: var(--text-secondary); }
         .landing-btn.subscriber-btn:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); border-color: var(--accent-gold); }
 
         /* ===== المودالات ===== */
@@ -224,9 +211,7 @@
         .form-input::placeholder { color: var(--text-muted); }
 
         .form-group { margin-bottom: 16px; }
-
         .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
-
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
         .btn-gold {
@@ -256,7 +241,6 @@
         }
         .btn-outline:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); border-color: var(--accent-gold); }
 
-        /* اختيار المراحل */
         .phase-checkboxes { display: flex; gap: 10px; flex-wrap: wrap; }
 
         .phase-checkbox {
@@ -278,7 +262,36 @@
         .subscription-display .label { font-size: 14px; color: var(--text-secondary); }
         .subscription-display .value { font-size: 24px; font-weight: 900; color: var(--accent-gold); font-family: 'Tajawal'; }
 
-        /* ===== التطبيق (Dashboard) ===== */
+        /* ===== كود وباسوورد المشترك ===== */
+        .credentials-box {
+            background: rgba(26,138,125,0.1); border: 1px solid rgba(26,138,125,0.3);
+            border-radius: 14px; padding: 20px; margin-bottom: 16px;
+            text-align: center;
+        }
+        .credentials-box .cred-title {
+            font-size: 15px; font-weight: 700; color: var(--accent-teal-light);
+            margin-bottom: 14px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .credentials-box .cred-row {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            margin-bottom: 8px;
+        }
+        .credentials-box .cred-label {
+            font-size: 13px; font-weight: 600; color: var(--text-secondary);
+        }
+        .credentials-box .cred-value {
+            font-size: 20px; font-weight: 900; color: var(--accent-gold);
+            font-family: 'Tajawal'; padding: 6px 16px;
+            background: rgba(212,168,83,0.12); border-radius: 8px;
+            letter-spacing: 1px;
+        }
+        .credentials-box .cred-note {
+            font-size: 12px; color: var(--warning); margin-top: 12px;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+
+        /* ===== Dashboard ===== */
         .app-wrapper {
             position: relative; z-index: 1; min-height: 100vh;
             padding: 20px; max-width: 1400px; margin: 0 auto;
@@ -310,11 +323,7 @@
         }
 
         .header-right { display: flex; align-items: center; gap: 14px; }
-
-        .header-user-info {
-            display: flex; align-items: center; gap: 8px;
-            color: var(--text-secondary); font-size: 14px;
-        }
+        .header-user-info { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 14px; }
 
         .header-logout {
             background: rgba(231,76,60,0.1); border: 1px solid rgba(231,76,60,0.3);
@@ -371,9 +380,7 @@
         .stat-card.red .stat-value { color: var(--danger); }
         .stat-card.green .stat-value { color: var(--success); }
 
-        /* ===== الإجراءات والبحث ===== */
         .actions-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
-
         .search-filter-bar { display: flex; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
 
         .search-input-wrapper { flex: 1; min-width: 220px; position: relative; }
@@ -403,12 +410,11 @@
         @keyframes tableAppear { from { transform: translateY(25px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .table-scroll { overflow-x: auto; }
-
-        table { width: 100%; border-collapse: collapse; min-width: 900px; }
+        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
         thead { background: rgba(212,168,83,0.08); }
-        th { padding: 14px 14px; font-size: 13px; font-weight: 700; color: var(--accent-gold); text-align: right; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
-        td { padding: 12px 14px; font-size: 14px; color: var(--text-primary); border-bottom: 1px solid rgba(42,53,72,0.5); white-space: nowrap; }
-        tbody tr { transition: all 0.2s; }
+        th { padding: 14px 12px; font-size: 13px; font-weight: 700; color: var(--accent-gold); text-align: right; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+        td { padding: 12px 12px; font-size: 14px; color: var(--text-primary); border-bottom: 1px solid rgba(42,53,72,0.5); white-space: nowrap; }
+        tbody tr { transition: all 0.2s; position: relative; }
         tbody tr:hover { background: rgba(255,255,255,0.03); }
         tbody tr::before {
             content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 3px;
@@ -416,22 +422,16 @@
             opacity: 0; transition: opacity 0.3s;
         }
         tbody tr:hover::before { opacity: 1; }
-        tbody tr { position: relative; }
         tbody tr:last-child td { border-bottom: none; }
 
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
-        }
+        .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
         .status-badge.paid { background: rgba(39,174,96,0.15); color: var(--success); border: 1px solid rgba(39,174,96,0.3); }
         .status-badge.unpaid { background: rgba(231,76,60,0.15); color: var(--danger); border: 1px solid rgba(231,76,60,0.3); }
         .status-badge.partial { background: rgba(243,156,18,0.15); color: var(--warning); border: 1px solid rgba(243,156,18,0.3); }
 
-        .phase-badge {
-            display: inline-flex; align-items: center; gap: 4px;
-            padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
-            background: rgba(26,138,125,0.12); color: var(--accent-teal-light); border: 1px solid rgba(26,138,125,0.25);
-        }
+        .phase-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: rgba(26,138,125,0.12); color: var(--accent-teal-light); border: 1px solid rgba(26,138,125,0.25); }
+
+        .code-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; background: rgba(212,168,83,0.12); color: var(--accent-gold); border: 1px solid rgba(212,168,83,0.25); letter-spacing: 1px; }
 
         .action-btns { display: flex; gap: 6px; }
         .action-btn {
@@ -448,7 +448,6 @@
 
         .no-data-row td { text-align: center; color: var(--text-muted); padding: 40px; font-size: 15px; }
 
-        /* ===== Pagination ===== */
         .pagination { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 14px; }
         .page-btn {
             width: 34px; height: 34px; border-radius: 8px;
@@ -459,7 +458,6 @@
         .page-btn:hover { background: rgba(212,168,83,0.1); color: var(--accent-gold); }
         .page-btn.active { background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dim)); color: var(--bg-deep); border-color: var(--accent-gold); }
 
-        /* ===== تأكيد الحذف ===== */
         .confirm-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.7);
             backdrop-filter: blur(6px); z-index: 1200;
@@ -473,31 +471,15 @@
             border-radius: 16px; padding: 28px; width: 360px; max-width: 90vw;
             text-align: center; animation: modalIn 0.3s ease-out;
         }
-        .confirm-icon {
-            width: 56px; height: 56px; border-radius: 50%;
-            background: rgba(231,76,60,0.15); color: var(--danger);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 26px; margin: 0 auto 14px;
-        }
+        .confirm-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(231,76,60,0.15); color: var(--danger); display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 14px; }
         .confirm-title { font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
         .confirm-msg { font-size: 14px; color: var(--text-secondary); margin-bottom: 18px; }
         .confirm-btns { display: flex; gap: 12px; justify-content: center; }
-
-        .btn-danger {
-            background: rgba(231,76,60,0.8); color: #fff; padding: 10px 22px;
-            border-radius: 10px; font-family: 'Cairo'; font-weight: 700; font-size: 14px;
-            border: none; cursor: pointer; transition: all 0.2s;
-        }
+        .btn-danger { background: rgba(231,76,60,0.8); color: #fff; padding: 10px 22px; border-radius: 10px; font-family: 'Cairo'; font-weight: 700; font-size: 14px; border: none; cursor: pointer; }
         .btn-danger:hover { background: var(--danger); }
-        .btn-cancel {
-            background: rgba(255,255,255,0.08); border: 1px solid var(--border-color);
-            color: var(--text-secondary); padding: 10px 22px; border-radius: 10px;
-            font-family: 'Cairo'; font-weight: 600; font-size: 14px;
-            cursor: pointer; transition: all 0.2s;
-        }
+        .btn-cancel { background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 10px 22px; border-radius: 10px; font-family: 'Cairo'; font-weight: 600; font-size: 14px; cursor: pointer; }
         .btn-cancel:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
 
-        /* ===== رسائل التنبيه ===== */
         .toast {
             position: fixed; top: 20px; left: 50%;
             transform: translateX(-50%) translateY(-100px);
@@ -530,13 +512,10 @@
 </head>
 <body>
 
-    <!-- الخلفية -->
     <div class="bg-pattern"></div>
     <div class="floating-orb"></div>
     <div class="floating-orb"></div>
     <div class="floating-orb"></div>
-
-    <!-- Toast -->
     <div id="toast" class="toast"></div>
 
     <!-- تأكيد الحذف -->
@@ -544,7 +523,7 @@
         <div class="confirm-box">
             <div class="confirm-icon"><i class="fas fa-trash-alt"></i></div>
             <div class="confirm-title">تأكيد الحذف</div>
-            <div class="confirm-msg" id="confirmMsg">هل أنت متأكد من حذف هذا المشترك؟</div>
+            <div class="confirm-msg" id="confirmMsg">هل أنت متأكد؟</div>
             <div class="confirm-btns">
                 <button class="btn-danger" id="confirmYes">نعم، احذف</button>
                 <button class="btn-cancel" id="confirmNo">إلغاء</button>
@@ -552,7 +531,7 @@
         </div>
     </div>
 
-    <!-- ===== الواجهة الرئيسية (Landing Page) ===== -->
+    <!-- ===== الواجهة الرئيسية ===== -->
     <div id="landingWrapper" class="landing-wrapper">
         <div class="landing-card">
             <div style="text-align:center;margin-bottom:28px;">
@@ -561,18 +540,9 @@
                 <div class="landing-subtitle">نظام إدارة المشتركين والاشتراكات</div>
             </div>
             <div class="landing-btns">
-                <!-- دخول الإدارة (مقتصر على المدير فقط) -->
-                <button class="landing-btn admin-btn" id="adminLoginBtn">
-                    <i class="fas fa-shield-alt"></i> دخول الإدارة
-                </button>
-                <!-- تسجيل مشترك جديد -->
-                <button class="landing-btn register-btn" id="registerBtn">
-                    <i class="fas fa-user-plus"></i> تسجيل مشترك جديد
-                </button>
-                <!-- مشاهدة كإدارة للمنصة -->
-                <button class="landing-btn subscriber-btn" id="subscriberLoginBtn">
-                    <i class="fas fa-user"></i> دخول المشترك
-                </button>
+                <button class="landing-btn admin-btn" id="adminLoginBtn"><i class="fas fa-shield-alt"></i> دخول الإدارة</button>
+                <button class="landing-btn register-btn" id="registerBtn"><i class="fas fa-user-plus"></i> تسجيل مشترك جديد</button>
+                <button class="landing-btn subscriber-btn" id="subscriberLoginBtn"><i class="fas fa-key"></i> دخول المشترك</button>
             </div>
         </div>
     </div>
@@ -609,21 +579,29 @@
         </div>
     </div>
 
-    <!-- ===== مودال دخول المشترك ===== -->
+    <!-- ===== مودال دخول المشترك (بالكود والباسوورد) ===== -->
     <div id="subscriberLoginModal" class="modal-overlay hidden">
         <div class="modal-box">
             <div class="modal-header">
-                <div class="modal-title"><i class="fas fa-user" style="margin-left:8px;"></i> دخول المشترك</div>
+                <div class="modal-title"><i class="fas fa-key" style="margin-left:8px;"></i> دخول المشترك</div>
                 <button class="modal-close" onclick="closeModal('subscriberLoginModal')"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
+                <div style="background:rgba(26,138,125,0.08);border:1px solid rgba(26,138,125,0.2);border-radius:12px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-info-circle" style="color:var(--accent-teal-light);font-size:18px;"></i>
+                    <span style="color:var(--accent-teal-light);font-size:13px;font-weight:600;">ادخل الكود والباسوورد اللي حصلت عليه عند التسجيل</span>
+                </div>
                 <form id="subscriberLoginForm" autocomplete="off">
                     <div class="form-group">
-                        <label class="form-label"><i class="fas fa-phone" style="margin-left:6px;"></i> رقم الهاتف</label>
-                        <input type="tel" id="subLoginPhone" class="form-input" placeholder="أدخل رقم الهاتف" required>
+                        <label class="form-label"><i class="fas fa-hashtag" style="margin-left:6px;"></i> كود المشترك</label>
+                        <input type="text" id="subLoginCode" class="form-input" placeholder="أدخل كود المشترك (مثال: AG-1001)" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-lock" style="margin-left:6px;"></i> كلمة المرور</label>
+                        <input type="password" id="subLoginPass" class="form-input" placeholder="أدخل كلمة المرور" required>
                     </div>
                     <div id="subLoginError" style="color:var(--danger);font-size:13px;margin-bottom:10px;display:none;text-align:center;">
-                        <i class="fas fa-exclamation-circle"></i> رقم الهاتف غير موجود
+                        <i class="fas fa-exclamation-circle"></i> الكود أو كلمة المرور غير صحيحة
                     </div>
                     <button type="submit" class="btn-teal" style="width:100%;justify-content:center;">
                         <i class="fas fa-sign-in-alt"></i> دخول
@@ -657,26 +635,21 @@
                         </div>
                     </div>
 
-                    <!-- اختيار المراحل -->
                     <div class="form-group">
                         <label class="form-label"><i class="fas fa-layer-group" style="margin-left:6px;color:var(--accent-teal-light);"></i> عدد المراحل</label>
                         <div class="phase-checkboxes" id="regPhaseChecks">
                             <div class="phase-checkbox" data-phase="1" onclick="toggleRegPhase(1)">
-                                <input type="checkbox" id="regPhase1">
-                                <span>مرحلة واحدة (75 جنيه)</span>
+                                <input type="checkbox" id="regPhase1"><span>مرحلة واحدة (75 جنيه)</span>
                             </div>
                             <div class="phase-checkbox" data-phase="2" onclick="toggleRegPhase(2)">
-                                <input type="checkbox" id="regPhase2">
-                                <span>مرحلتين (125 جنيه)</span>
+                                <input type="checkbox" id="regPhase2"><span>مرحلتين (125 جنيه)</span>
                             </div>
                             <div class="phase-checkbox" data-phase="3" onclick="toggleRegPhase(3)">
-                                <input type="checkbox" id="regPhase3">
-                                <span>ثلاث مراحل (150 جنيه)</span>
+                                <input type="checkbox" id="regPhase3"><span>ثلاث مراحل (150 جنيه)</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- عرض قيمة الاشتراك -->
                     <div class="subscription-display" id="regSubscriptionDisplay">
                         <div class="label"><i class="fas fa-coins" style="margin-left:6px;"></i> قيمة الاشتراك</div>
                         <div class="value" id="regSubscriptionValue">0 جنيه</div>
@@ -704,7 +677,37 @@
         </div>
     </div>
 
-    <!-- ===== مودال إضافة مشترك (من داخل الإدارة) ===== -->
+    <!-- ===== مودال عرض الكود والباسوورد بعد التسجيل ===== -->
+    <div id="credentialsModal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-check-circle" style="margin-left:8px;"></i> تم التسجيل بنجاح</div>
+                <button class="modal-close" onclick="closeModal('credentialsModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="credentials-box">
+                    <div class="cred-title"><i class="fas fa-key"></i> كود وباسوورد الدخول الخاص بك</div>
+                    <div class="cred-row">
+                        <div class="cred-label">الكود:</div>
+                        <div class="cred-value" id="credCode">—</div>
+                    </div>
+                    <div class="cred-row">
+                        <div class="cred-label">الباسوورد:</div>
+                        <div class="cred-value" id="credPass">—</div>
+                    </div>
+                    <div class="cred-note"><i class="fas fa-exclamation-triangle"></i> احتفظ بالكود والباسوورد في مكان آمن - لن يتم عرضهما مرة أخرى</div>
+                </div>
+                <div style="text-align:center;margin-top:16px;font-size:14px;color:var(--text-secondary);">
+                    يمكنك الآن الدخول من زر "دخول المشترك" باستخدام هذا الكود والباسوورد
+                </div>
+                <button class="btn-gold" style="width:100%;justify-content:center;margin-top:16px;" onclick="closeModal('credentialsModal')">
+                    <i class="fas fa-check"></i> تم، فهمت
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== مودال إضافة مشترك من الإدارة ===== -->
     <div id="addModal" class="modal-overlay hidden">
         <div class="modal-box">
             <div class="modal-header">
@@ -732,16 +735,13 @@
                         <label class="form-label"><i class="fas fa-layer-group" style="margin-left:6px;color:var(--accent-teal-light);"></i> عدد المراحل</label>
                         <div class="phase-checkboxes" id="addPhaseChecks">
                             <div class="phase-checkbox" data-phase="1" onclick="toggleAddPhase(1)">
-                                <input type="checkbox" id="addPhase1">
-                                <span>مرحلة واحدة (75 جنيه)</span>
+                                <input type="checkbox" id="addPhase1"><span>مرحلة واحدة (75 جنيه)</span>
                             </div>
                             <div class="phase-checkbox" data-phase="2" onclick="toggleAddPhase(2)">
-                                <input type="checkbox" id="addPhase2">
-                                <span>مرحلتين (125 جنيه)</span>
+                                <input type="checkbox" id="addPhase2"><span>مرحلتين (125 جنيه)</span>
                             </div>
                             <div class="phase-checkbox" data-phase="3" onclick="toggleAddPhase(3)">
-                                <input type="checkbox" id="addPhase3">
-                                <span>ثلاث مراحل (150 جنيه)</span>
+                                <input type="checkbox" id="addPhase3"><span>ثلاث مراحل (150 جنيه)</span>
                             </div>
                         </div>
                     </div>
@@ -783,6 +783,20 @@
             <div class="modal-body">
                 <form id="editForm" autocomplete="off">
                     <input type="hidden" id="editId">
+
+                    <!-- عرض الكود والباسوورد في التعديل (للإدارة فقط) -->
+                    <div class="credentials-box" style="margin-bottom:18px;">
+                        <div class="cred-title"><i class="fas fa-key"></i> كود وباسوورد المشترك</div>
+                        <div class="cred-row">
+                            <div class="cred-label">الكود:</div>
+                            <div class="cred-value" id="editCredCode">—</div>
+                        </div>
+                        <div class="cred-row">
+                            <div class="cred-label">الباسوورد:</div>
+                            <div class="cred-value" id="editCredPass">—</div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="form-label">الاسم الكامل</label>
                         <input type="text" id="editName" class="form-input" required>
@@ -798,28 +812,23 @@
                         </div>
                     </div>
 
-                    <!-- تعديل المراحل -->
                     <div class="form-group">
                         <label class="form-label"><i class="fas fa-layer-group" style="margin-left:6px;color:var(--accent-teal-light);"></i> تعديل عدد المراحل</label>
                         <div class="phase-checkboxes" id="editPhaseChecks">
                             <div class="phase-checkbox" data-phase="1" onclick="toggleEditPhase(1)">
-                                <input type="checkbox" id="editPhase1">
-                                <span>مرحلة واحدة (75 جنيه)</span>
+                                <input type="checkbox" id="editPhase1"><span>مرحلة واحدة (75 جنيه)</span>
                             </div>
                             <div class="phase-checkbox" data-phase="2" onclick="toggleEditPhase(2)">
-                                <input type="checkbox" id="editPhase2">
-                                <span>مرحلتين (125 جنيه)</span>
+                                <input type="checkbox" id="editPhase2"><span>مرحلتين (125 جنيه)</span>
                             </div>
                             <div class="phase-checkbox" data-phase="3" onclick="toggleEditPhase(3)">
-                                <input type="checkbox" id="editPhase3">
-                                <span>ثلاث مراحل (150 جنيه)</span>
+                                <input type="checkbox" id="editPhase3"><span>ثلاث مراحل (150 جنيه)</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- عرض قيمة الاشتراك المتحدثة تلقائياً -->
                     <div class="subscription-display" id="editSubscriptionDisplay">
-                        <div class="label"><i class="fas fa-coins" style="margin-left:6px;"></i> قيمة الاشتراك (تتحدث تلقائياً مع المراحل)</div>
+                        <div class="label"><i class="fas fa-coins" style="margin-left:6px;"></i> قيمة الاشتراك (تتحدث تلقائياً)</div>
                         <div class="value" id="editSubscriptionValue">0 جنيه</div>
                     </div>
 
@@ -845,7 +854,7 @@
         </div>
     </div>
 
-    <!-- ===== مودال عرض بيانات المشترك (للمشترك بعد الدخول) ===== -->
+    <!-- ===== مودال عرض بيانات المشترك ===== -->
     <div id="subscriberViewModal" class="modal-overlay hidden">
         <div class="modal-box">
             <div class="modal-header">
@@ -856,10 +865,8 @@
         </div>
     </div>
 
-    <!-- ===== التطبيق الرئيسي (Dashboard) ===== -->
+    <!-- ===== Dashboard ===== -->
     <div id="appWrapper" class="app-wrapper" style="display:none;">
-
-        <!-- الهيدر -->
         <header class="app-header">
             <div class="header-brand">
                 <div class="header-brand-icon"><i class="fas fa-graduation-cap"></i></div>
@@ -874,52 +881,25 @@
             </div>
         </header>
 
-        <!-- إحصائيات -->
         <div class="stats-grid">
-            <div class="stat-card gold">
-                <div class="stat-icon"><i class="fas fa-users"></i></div>
-                <div class="stat-label">إجمالي المشتركين</div>
-                <div class="stat-value" id="statTotal">0</div>
-            </div>
-            <div class="stat-card teal">
-                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-                <div class="stat-label">المدفوعين</div>
-                <div class="stat-value" id="statPaid">0</div>
-            </div>
-            <div class="stat-card red">
-                <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
-                <div class="stat-label">غير المدفوعين</div>
-                <div class="stat-value" id="statUnpaid">0</div>
-            </div>
-            <div class="stat-card green">
-                <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
-                <div class="stat-label">إجمالي الإيرادات</div>
-                <div class="stat-value" id="statRevenue">0</div>
-            </div>
-            <div class="stat-card gold">
-                <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
-                <div class="stat-label">مرحلة واحدة</div>
-                <div class="stat-value" id="statPhase1">0</div>
-            </div>
-            <div class="stat-card teal">
-                <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
-                <div class="stat-label">مرحلتين</div>
-                <div class="stat-value" id="statPhase2">0</div>
-            </div>
+            <div class="stat-card gold"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-label">إجمالي المشتركين</div><div class="stat-value" id="statTotal">0</div></div>
+            <div class="stat-card teal"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-label">المدفوعين</div><div class="stat-value" id="statPaid">0</div></div>
+            <div class="stat-card red"><div class="stat-icon"><i class="fas fa-times-circle"></i></div><div class="stat-label">غير المدفوعين</div><div class="stat-value" id="statUnpaid">0</div></div>
+            <div class="stat-card green"><div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div><div class="stat-label">إجمالي الإيرادات</div><div class="stat-value" id="statRevenue">0</div></div>
+            <div class="stat-card gold"><div class="stat-icon"><i class="fas fa-layer-group"></i></div><div class="stat-label">مرحلة واحدة</div><div class="stat-value" id="statPhase1">0</div></div>
+            <div class="stat-card teal"><div class="stat-icon"><i class="fas fa-layer-group"></i></div><div class="stat-label">مرحلتين</div><div class="stat-value" id="statPhase2">0</div></div>
         </div>
 
-        <!-- الإجراءات -->
         <div class="actions-bar">
             <button class="btn-teal" id="addBtn"><i class="fas fa-plus"></i> إضافة مشترك جديد</button>
             <button class="btn-outline" id="exportPdfBtn"><i class="fas fa-file-pdf"></i> تصدير PDF</button>
             <button class="btn-outline" id="printBtn"><i class="fas fa-print"></i> طباعة</button>
         </div>
 
-        <!-- البحث والفلترة -->
         <div class="search-filter-bar">
             <div class="search-input-wrapper">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="بحث بالاسم أو رقم الهاتف...">
+                <input type="text" id="searchInput" placeholder="بحث بالاسم أو الكود أو رقم الهاتف...">
             </div>
             <select class="filter-select" id="filterPhase">
                 <option value="all">جميع المراحل</option>
@@ -935,19 +915,19 @@
             </select>
         </div>
 
-        <!-- الجدول -->
         <div class="table-container">
             <div class="table-scroll">
                 <table>
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>الكود</th>
                             <th>الاسم</th>
                             <th>رقم الهاتف</th>
                             <th>المراحل</th>
                             <th>قيمة الاشتراك</th>
                             <th>حالة الدفع</th>
-                            <th>تاريخ التسجيل</th>
+                            <th>التاريخ</th>
                             <th>ملاحظات</th>
                             <th>إجراءات</th>
                         </tr>
@@ -960,10 +940,9 @@
     </div>
 
     <script>
-        // ===== بيانات المستخدمين للإدارة =====
+        // ===== بيانات دخول الإدارة =====
         const ADMIN_USERS = [
-            { username: 'admin', password: 'admin123', name: 'المدير' },
-            { username: 'amengoith', password: 'amengoith123', name: 'أمين غيث' }
+            { username: 'Amenghieth', password: 'SHZAM2008', name: 'أمين غيث' }
         ];
 
         // ===== أسعار الاشتراكات =====
@@ -980,53 +959,85 @@
         let isLoggedIn = false;
         let loggedInUser = null;
 
+        // ===== توليد كود المشترك =====
+        function generateSubCode() {
+            // رقم متزايد: AG-1001, AG-1002, etc.
+            let maxNum = 1000;
+            subscribers.forEach(s => {
+                if (s.subCode) {
+                    const num = parseInt(s.subCode.replace('AG-', ''));
+                    if (num > maxNum) maxNum = num;
+                }
+            });
+            return 'AG-' + (maxNum + 1);
+        }
+
+        // ===== توليد باسوورد المشترك =====
+        function generateSubPassword() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // بدون حروف متشابهة
+            let pass = '';
+            for (let i = 0; i < 6; i++) {
+                pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return pass;
+        }
+
+        // ===== إعطاء كود وباسوورد للمشتركين القديمين الذين لا يملكونها =====
+        function assignMissingCredentials() {
+            let nextNum = 1001;
+            subscribers.forEach(s => {
+                if (!s.subCode || !s.subPassword) {
+                    // البحث عن رقم غير مستخدم
+                    let code = 'AG-' + nextNum;
+                    while (subscribers.some(other => other.subCode === code && other.id !== s.id)) {
+                        nextNum++;
+                        code = 'AG-' + nextNum;
+                    }
+                    s.subCode = code;
+                    s.subPassword = generateSubPassword();
+                    nextNum++;
+                }
+            });
+            saveData();
+        }
+
+        // تشغيل فور تحميل البيانات
+        assignMissingCredentials();
+
         // ===== حساب قيمة الاشتراك =====
-        function calcSub(phases) {
-            return PHASE_PRICES[phases] || 0;
-        }
+        function calcSub(phases) { return PHASE_PRICES[phases] || 0; }
 
-        // ===== إغلاق مودال =====
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        // ===== فتح مودال =====
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-        }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
 
         // ===== الواجهة الرئيسية =====
         const landingWrapper = document.getElementById('landingWrapper');
         const appWrapper = document.getElementById('appWrapper');
 
-        // دخول الإدارة
         document.getElementById('adminLoginBtn').addEventListener('click', function() {
             document.getElementById('adminLoginForm').reset();
             document.getElementById('adminLoginError').style.display = 'none';
             openModal('adminLoginModal');
         });
 
-        // تسجيل مشترك جديد من الواجهة
         document.getElementById('registerBtn').addEventListener('click', function() {
             selectedRegPhase = 0;
             document.getElementById('registerForm').reset();
             document.getElementById('regSubscriptionValue').textContent = '0 جنيه';
             document.querySelectorAll('#regPhaseChecks .phase-checkbox').forEach(el => {
-                el.classList.remove('active');
-                el.querySelector('input[type="checkbox"]').checked = false;
+                el.classList.remove('active'); el.querySelector('input[type="checkbox"]').checked = false;
             });
             document.getElementById('regDate').value = new Date().toISOString().split('T')[0];
             openModal('registerModal');
         });
 
-        // دخول المشترك
         document.getElementById('subscriberLoginBtn').addEventListener('click', function() {
             document.getElementById('subscriberLoginForm').reset();
             document.getElementById('subLoginError').style.display = 'none';
             openModal('subscriberLoginModal');
         });
 
-        // ===== دخول الإدارة (تسجيل) =====
+        // ===== دخول الإدارة =====
         document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const u = document.getElementById('adminUser').value.trim();
@@ -1034,8 +1045,7 @@
             const found = ADMIN_USERS.find(user => user.username === u && user.password === p);
             if (found) {
                 document.getElementById('adminLoginError').style.display = 'none';
-                loggedInUser = found;
-                isLoggedIn = true;
+                loggedInUser = found; isLoggedIn = true;
                 document.getElementById('currentUser').textContent = found.name;
                 closeModal('adminLoginModal');
                 landingWrapper.classList.add('hidden');
@@ -1048,15 +1058,15 @@
             }
         });
 
-        // ===== دخول المشترك =====
+        // ===== دخول المشترك بالكود والباسوورد =====
         document.getElementById('subscriberLoginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const phone = document.getElementById('subLoginPhone').value.trim();
-            const found = subscribers.find(s => s.phone === phone);
+            const code = document.getElementById('subLoginCode').value.trim().toUpperCase();
+            const pass = document.getElementById('subLoginPass').value.trim();
+            const found = subscribers.find(s => s.subCode === code && s.subPassword === pass);
             if (found) {
                 document.getElementById('subLoginError').style.display = 'none';
                 closeModal('subscriberLoginModal');
-                // عرض بيانات المشترك في مودال
                 showSubscriberView(found);
                 showToast('تم تسجيل الدخول بنجاح', 'success');
             } else {
@@ -1066,103 +1076,95 @@
 
         // عرض بيانات المشترك
         function showSubscriberView(sub) {
-            const phaseLabel = sub.phases === 1 ? 'مرحلة واحدة' : sub.phases === 2 ? 'مرحلتين' : 'ثلاث مراحل';
-            const statusLabel = sub.paymentStatus === 'paid' ? 'مدفوع' : sub.paymentStatus === 'unpaid' ? 'غير مدفوع' : 'مدفوع جزئياً';
-            const statusClass = sub.paymentStatus === 'paid' ? 'color:var(--success)' : sub.paymentStatus === 'unpaid' ? 'color:var(--danger)' : 'color:var(--warning)';
+            const ph = sub.phases === 1 ? 'مرحلة واحدة' : sub.phases === 2 ? 'مرحلتين' : 'ثلاث مراحل';
+            const st = sub.paymentStatus === 'paid' ? 'مدفوع' : sub.paymentStatus === 'unpaid' ? 'غير مدفوع' : 'مدفوع جزئياً';
+            const sc = sub.paymentStatus === 'paid' ? 'color:var(--success)' : sub.paymentStatus === 'unpaid' ? 'color:var(--danger)' : 'color:var(--warning)';
 
             document.getElementById('subscriberViewContent').innerHTML =
                 '<div style="text-align:center;margin-bottom:20px;">' +
                     '<div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent-teal),#15806d);display:inline-flex;align-items:center;justify-content:center;font-size:24px;color:#fff;"><i class="fas fa-user"></i></div>' +
                     '<div style="font-size:20px;font-weight:700;margin-top:10px;">' + sub.name + '</div>' +
+                    '<div style="font-size:14px;color:var(--accent-teal-light);margin-top:4px;">كود: ' + sub.subCode + '</div>' +
                 '</div>' +
                 '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">' +
-                    '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;">' +
-                        '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">رقم الهاتف</div>' +
-                        '<div style="font-weight:600;">' + sub.phone + '</div>' +
-                    '</div>' +
-                    '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;">' +
-                        '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">المراحل</div>' +
-                        '<div style="font-weight:600;color:var(--accent-teal-light);">' + phaseLabel + '</div>' +
-                    '</div>' +
-                    '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;">' +
-                        '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">قيمة الاشتراك</div>' +
-                        '<div style="font-weight:700;color:var(--accent-gold);font-size:18px;">' + sub.subscription + ' جنيه</div>' +
-                    '</div>' +
-                    '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;">' +
-                        '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">حالة الدفع</div>' +
-                        '<div style="font-weight:600;' + statusClass + ';">' + statusLabel + '</div>' +
-                    '</div>' +
+                    '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">رقم الهاتف</div><div style="font-weight:600;">' + sub.phone + '</div></div>' +
+                    '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">المراحل</div><div style="font-weight:600;color:var(--accent-teal-light);">' + ph + '</div></div>' +
+                    '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">قيمة الاشتراك</div><div style="font-weight:700;color:var(--accent-gold);font-size:18px;">' + sub.subscription + ' جنيه</div></div>' +
+                    '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">حالة الدفع</div><div style="font-weight:600;' + sc + ';">' + st + '</div></div>' +
                 '</div>' +
-                '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;margin-top:12px;">' +
-                    '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">تاريخ التسجيل</div>' +
-                    '<div style="font-weight:600;">' + sub.date + '</div>' +
-                '</div>' +
+                '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;margin-top:12px;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">تاريخ التسجيل</div><div style="font-weight:600;">' + sub.date + '</div></div>' +
                 (sub.notes ? '<div style="background:rgba(255,255,255,0.05);border:1px solid var(--border-color);border-radius:12px;padding:12px;margin-top:12px;"><div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">ملاحظات</div><div>' + sub.notes + '</div></div>' : '');
 
             openModal('subscriberViewModal');
         }
 
-        // ===== تسجيل مشترك جديد من الواجهة =====
-        function toggleRegPhase(phaseNum) {
-            selectedRegPhase = phaseNum;
+        // ===== اختيار المراحل =====
+        function toggleRegPhase(n) {
+            selectedRegPhase = n;
             document.querySelectorAll('#regPhaseChecks .phase-checkbox').forEach(el => {
-                const p = parseInt(el.dataset.phase);
-                const cb = el.querySelector('input[type="checkbox"]');
-                if (p === phaseNum) { el.classList.add('active'); cb.checked = true; }
-                else { el.classList.remove('active'); cb.checked = false; }
+                const p = parseInt(el.dataset.phase); const cb = el.querySelector('input[type="checkbox"]');
+                if (p === n) { el.classList.add('active'); cb.checked = true; } else { el.classList.remove('active'); cb.checked = false; }
             });
-            const val = calcSub(selectedRegPhase);
             const d = document.getElementById('regSubscriptionValue');
-            d.textContent = val + ' جنيه';
-            d.classList.add('counter-animate');
-            setTimeout(() => d.classList.remove('counter-animate'), 400);
+            d.textContent = calcSub(n) + ' جنيه'; d.classList.add('counter-animate'); setTimeout(() => d.classList.remove('counter-animate'), 400);
         }
 
+        function toggleAddPhase(n) {
+            selectedAddPhase = n;
+            document.querySelectorAll('#addPhaseChecks .phase-checkbox').forEach(el => {
+                const p = parseInt(el.dataset.phase); const cb = el.querySelector('input[type="checkbox"]');
+                if (p === n) { el.classList.add('active'); cb.checked = true; } else { el.classList.remove('active'); cb.checked = false; }
+            });
+            const d = document.getElementById('addSubscriptionValue');
+            d.textContent = calcSub(n) + ' جنيه'; d.classList.add('counter-animate'); setTimeout(() => d.classList.remove('counter-animate'), 400);
+        }
+
+        function toggleEditPhase(n) {
+            selectedEditPhase = n;
+            document.querySelectorAll('#editPhaseChecks .phase-checkbox').forEach(el => {
+                const p = parseInt(el.dataset.phase); const cb = el.querySelector('input[type="checkbox"]');
+                if (p === n) { el.classList.add('active'); cb.checked = true; } else { el.classList.remove('active'); cb.checked = false; }
+            });
+            const d = document.getElementById('editSubscriptionValue');
+            d.textContent = calcSub(n) + ' جنيه'; d.classList.add('counter-animate'); setTimeout(() => d.classList.remove('counter-animate'), 400);
+        }
+
+        // ===== تسجيل مشترك جديد من الواجهة =====
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             if (selectedRegPhase === 0) { showToast('يجب اختيار عدد المراحل', 'warning'); return; }
 
+            const phone = document.getElementById('regPhone').value.trim();
+            if (subscribers.find(s => s.phone === phone)) { showToast('رقم الهاتف مسجل مسبقاً', 'warning'); return; }
+
+            const newCode = generateSubCode();
+            const newPass = generateSubPassword();
+
             const newSub = {
                 id: Date.now(),
                 name: document.getElementById('regName').value.trim(),
-                phone: document.getElementById('regPhone').value.trim(),
+                phone: phone,
                 phases: selectedRegPhase,
                 subscription: calcSub(selectedRegPhase),
                 paymentStatus: document.getElementById('regPaymentStatus').value,
                 date: document.getElementById('regDate').value,
-                notes: document.getElementById('regNotes').value.trim()
+                notes: document.getElementById('regNotes').value.trim(),
+                subCode: newCode,
+                subPassword: newPass
             };
-
-            // التحقق من عدم تكرار رقم الهاتف
-            if (subscribers.find(s => s.phone === newSub.phone)) {
-                showToast('رقم الهاتف مسجل مسبقاً', 'warning');
-                return;
-            }
 
             subscribers.push(newSub);
             saveData();
             closeModal('registerModal');
-            showToast('تم تسجيل المشترك بنجاح', 'success');
 
-            // إذا كان المدير داخل، نعرض الجدول
-            if (isLoggedIn) { renderAll(); }
+            // عرض الكود والباسوورد للمشترك
+            document.getElementById('credCode').textContent = newCode;
+            document.getElementById('credPass').textContent = newPass;
+            openModal('credentialsModal');
+
+            showToast('تم التسجيل بنجاح', 'success');
+            if (isLoggedIn) renderAll();
         });
-
-        // ===== اختيار المراحل في الإضافة (من الإدارة) =====
-        function toggleAddPhase(phaseNum) {
-            selectedAddPhase = phaseNum;
-            document.querySelectorAll('#addPhaseChecks .phase-checkbox').forEach(el => {
-                const p = parseInt(el.dataset.phase);
-                const cb = el.querySelector('input[type="checkbox"]');
-                if (p === phaseNum) { el.classList.add('active'); cb.checked = true; }
-                else { el.classList.remove('active'); cb.checked = false; }
-            });
-            const val = calcSub(selectedAddPhase);
-            const d = document.getElementById('addSubscriptionValue');
-            d.textContent = val + ' جنيه';
-            d.classList.add('counter-animate');
-            setTimeout(() => d.classList.remove('counter-animate'), 400);
-        }
 
         // ===== إضافة مشترك من الإدارة =====
         document.getElementById('addBtn').addEventListener('click', function() {
@@ -1170,8 +1172,7 @@
             document.getElementById('addForm').reset();
             document.getElementById('addSubscriptionValue').textContent = '0 جنيه';
             document.querySelectorAll('#addPhaseChecks .phase-checkbox').forEach(el => {
-                el.classList.remove('active');
-                el.querySelector('input[type="checkbox"]').checked = false;
+                el.classList.remove('active'); el.querySelector('input[type="checkbox"]').checked = false;
             });
             document.getElementById('addDate').value = new Date().toISOString().split('T')[0];
             openModal('addModal');
@@ -1182,10 +1183,7 @@
             if (selectedAddPhase === 0) { showToast('يجب اختيار عدد المراحل', 'warning'); return; }
 
             const phone = document.getElementById('addPhone').value.trim();
-            if (subscribers.find(s => s.phone === phone)) {
-                showToast('رقم الهاتف مسجل مسبقاً', 'warning');
-                return;
-            }
+            if (subscribers.find(s => s.phone === phone)) { showToast('رقم الهاتف مسجل مسبقاً', 'warning'); return; }
 
             const newSub = {
                 id: Date.now(),
@@ -1195,31 +1193,17 @@
                 subscription: calcSub(selectedAddPhase),
                 paymentStatus: document.getElementById('addPaymentStatus').value,
                 date: document.getElementById('addDate').value,
-                notes: document.getElementById('addNotes').value.trim()
+                notes: document.getElementById('addNotes').value.trim(),
+                subCode: generateSubCode(),
+                subPassword: generateSubPassword()
             };
 
             subscribers.push(newSub);
             saveData();
             closeModal('addModal');
             renderAll();
-            showToast('تم إضافة المشترك بنجاح', 'success');
+            showToast('تم إضافة المشترك بنجاح - كوده: ' + newSub.subCode, 'success');
         });
-
-        // ===== اختيار المراحل في التعديل =====
-        function toggleEditPhase(phaseNum) {
-            selectedEditPhase = phaseNum;
-            document.querySelectorAll('#editPhaseChecks .phase-checkbox').forEach(el => {
-                const p = parseInt(el.dataset.phase);
-                const cb = el.querySelector('input[type="checkbox"]');
-                if (p === phaseNum) { el.classList.add('active'); cb.checked = true; }
-                else { el.classList.remove('active'); cb.checked = false; }
-            });
-            const val = calcSub(selectedEditPhase);
-            const d = document.getElementById('editSubscriptionValue');
-            d.textContent = val + ' جنيه';
-            d.classList.add('counter-animate');
-            setTimeout(() => d.classList.remove('counter-animate'), 400);
-        }
 
         // ===== تعديل مشترك =====
         function openEditModal(id) {
@@ -1235,11 +1219,13 @@
             document.getElementById('editNotes').value = sub.notes || '';
             document.getElementById('editSubscriptionValue').textContent = calcSub(sub.phases) + ' جنيه';
 
+            // عرض الكود والباسوورد
+            document.getElementById('editCredCode').textContent = sub.subCode || '—';
+            document.getElementById('editCredPass').textContent = sub.subPassword || '—';
+
             document.querySelectorAll('#editPhaseChecks .phase-checkbox').forEach(el => {
-                const p = parseInt(el.dataset.phase);
-                const cb = el.querySelector('input[type="checkbox"]');
-                if (p === sub.phases) { el.classList.add('active'); cb.checked = true; }
-                else { el.classList.remove('active'); cb.checked = false; }
+                const p = parseInt(el.dataset.phase); const cb = el.querySelector('input[type="checkbox"]');
+                if (p === sub.phases) { el.classList.add('active'); cb.checked = true; } else { el.classList.remove('active'); cb.checked = false; }
             });
 
             openModal('editModal');
@@ -1253,24 +1239,18 @@
             const sub = subscribers.find(s => s.id === id);
             if (!sub) return;
 
-            // التحقق من تكرار رقم الهاتف (فقط إذا تغير)
             const newPhone = document.getElementById('editPhone').value.trim();
-            if (newPhone !== sub.phone && subscribers.find(s => s.phone === newPhone)) {
-                showToast('رقم الهاتف مسجل مسبقاً لدى مشترك آخر', 'warning');
-                return;
-            }
+            if (newPhone !== sub.phone && subscribers.find(s => s.phone === newPhone)) { showToast('رقم الهاتف مسجل مسبقاً', 'warning'); return; }
 
             sub.name = document.getElementById('editName').value.trim();
             sub.phone = newPhone;
             sub.date = document.getElementById('editDate').value;
             sub.phases = selectedEditPhase;
-            sub.subscription = calcSub(selectedEditPhase); // تحديث الاشتراك مع المراحل
+            sub.subscription = calcSub(selectedEditPhase);
             sub.paymentStatus = document.getElementById('editPaymentStatus').value;
             sub.notes = document.getElementById('editNotes').value.trim();
 
-            saveData();
-            closeModal('editModal');
-            renderAll();
+            saveData(); closeModal('editModal'); renderAll();
             showToast('تم تعديل البيانات بنجاح', 'success');
         });
 
@@ -1279,70 +1259,52 @@
             const sub = subscribers.find(s => s.id === id);
             if (!sub) return;
             deleteTargetId = id;
-            document.getElementById('confirmMsg').textContent = 'هل أنت متأكد من حذف المشترك "' + sub.name + '"؟';
+            document.getElementById('confirmMsg').textContent = 'هل أنت متأكد من حذف "' + sub.name + '" (كود: ' + sub.subCode + ')؟';
             openModal('confirmOverlay');
         }
 
         document.getElementById('confirmYes').addEventListener('click', function() {
             if (deleteTargetId) {
                 subscribers = subscribers.filter(s => s.id !== deleteTargetId);
-                saveData();
-                renderAll();
-                showToast('تم حذف المشترك', 'error');
+                saveData(); renderAll(); showToast('تم حذف المشترك', 'error');
             }
-            closeModal('confirmOverlay');
-            deleteTargetId = null;
+            closeModal('confirmOverlay'); deleteTargetId = null;
         });
 
         document.getElementById('confirmNo').addEventListener('click', function() {
-            closeModal('confirmOverlay');
-            deleteTargetId = null;
+            closeModal('confirmOverlay'); deleteTargetId = null;
         });
 
         // ===== تسجيل الخروج =====
         document.getElementById('logoutBtn').addEventListener('click', function() {
-            isLoggedIn = false;
-            loggedInUser = null;
+            isLoggedIn = false; loggedInUser = null;
             appWrapper.style.display = 'none';
             landingWrapper.classList.remove('hidden');
             localStorage.removeItem('session_amengoith');
             showToast('تم تسجيل الخروج', 'success');
         });
 
-        // ===== حفظ البيانات =====
-        function saveData() {
-            localStorage.setItem('subscribers_amengoith', JSON.stringify(subscribers));
-        }
+        function saveData() { localStorage.setItem('subscribers_amengoith', JSON.stringify(subscribers)); }
 
-        // ===== عرض الجدول والإحصائيات =====
         function renderAll() { renderStats(); renderTable(); }
 
         function renderStats() {
-            const total = subscribers.length;
-            const paid = subscribers.filter(s => s.paymentStatus === 'paid').length;
-            const unpaid = subscribers.filter(s => s.paymentStatus === 'unpaid').length;
-            const revenue = subscribers.filter(s => s.paymentStatus === 'paid').reduce((sum, s) => sum + s.subscription, 0);
-            const p1 = subscribers.filter(s => s.phases === 1).length;
-            const p2 = subscribers.filter(s => s.phases === 2).length;
-
-            animateCounter('statTotal', total);
-            animateCounter('statPaid', paid);
-            animateCounter('statUnpaid', unpaid);
-            animateCounter('statRevenue', revenue);
-            animateCounter('statPhase1', p1);
-            animateCounter('statPhase2', p2);
+            animateCounter('statTotal', subscribers.length);
+            animateCounter('statPaid', subscribers.filter(s => s.paymentStatus === 'paid').length);
+            animateCounter('statUnpaid', subscribers.filter(s => s.paymentStatus === 'unpaid').length);
+            animateCounter('statRevenue', subscribers.filter(s => s.paymentStatus === 'paid').reduce((sum, s) => sum + s.subscription, 0));
+            animateCounter('statPhase1', subscribers.filter(s => s.phases === 1).length);
+            animateCounter('statPhase2', subscribers.filter(s => s.phases === 2).length);
         }
 
         function animateCounter(elId, target) {
             const el = document.getElementById(elId);
             const cur = parseInt(el.textContent) || 0;
             if (cur === target) return;
-            const dur = 500; const steps = 15;
-            const inc = (target - cur) / steps;
+            const dur = 500, steps = 15, inc = (target - cur) / steps;
             let step = 0;
             const timer = setInterval(() => {
-                step++;
-                el.textContent = Math.round(cur + inc * step);
+                step++; el.textContent = Math.round(cur + inc * step);
                 if (step >= steps) { el.textContent = target; clearInterval(timer); }
             }, dur / steps);
             el.classList.add('counter-animate');
@@ -1354,8 +1316,7 @@
             const search = document.getElementById('searchInput').value.trim().toLowerCase();
             const phaseF = document.getElementById('filterPhase').value;
             const statusF = document.getElementById('filterStatus').value;
-
-            if (search) filtered = filtered.filter(s => s.name.toLowerCase().includes(search) || s.phone.includes(search));
+            if (search) filtered = filtered.filter(s => s.name.toLowerCase().includes(search) || s.phone.includes(search) || (s.subCode && s.subCode.toLowerCase().includes(search)));
             if (phaseF !== 'all') filtered = filtered.filter(s => s.phases === parseInt(phaseF));
             if (statusF !== 'all') filtered = filtered.filter(s => s.paymentStatus === statusF);
             return filtered;
@@ -1370,27 +1331,14 @@
             const tbody = document.getElementById('tableBody');
 
             if (pageData.length === 0) {
-                tbody.innerHTML = '<tr class="no-data-row"><td colspan="9"><i class="fas fa-inbox" style="font-size:24px;display:block;margin-bottom:8px;color:var(--text-muted);"></i>لا توجد بيانات لعرضها</td></tr>';
+                tbody.innerHTML = '<tr class="no-data-row"><td colspan="10"><i class="fas fa-inbox" style="font-size:24px;display:block;margin-bottom:8px;color:var(--text-muted);"></i>لا توجد بيانات</td></tr>';
             } else {
                 tbody.innerHTML = pageData.map((s, i) => {
                     const num = start + i + 1;
-                    const phaseLabel = s.phases === 1 ? 'مرحلة واحدة' : s.phases === 2 ? 'مرحلتين' : 'ثلاث مراحل';
-                    const statusLabel = s.paymentStatus === 'paid' ? 'مدفوع' : s.paymentStatus === 'unpaid' ? 'غير مدفوع' : 'مدفوع جزئياً';
-                    const statusClass = s.paymentStatus;
-                    return '<tr>' +
-                        '<td>' + num + '</td>' +
-                        '<td style="font-weight:600;">' + s.name + '</td>' +
-                        '<td>' + s.phone + '</td>' +
-                        '<td><span class="phase-badge"><i class="fas fa-layer-group"></i> ' + phaseLabel + '</span></td>' +
-                        '<td style="color:var(--accent-gold);font-weight:700;">' + s.subscription + ' جنيه</td>' +
-                        '<td><span class="status-badge ' + statusClass + '"><i class="fas fa-' + (statusClass === 'paid' ? 'check-circle' : statusClass === 'unpaid' ? 'times-circle' : 'clock') + '"></i> ' + statusLabel + '</span></td>' +
-                        '<td>' + s.date + '</td>' +
-                        '<td style="color:var(--text-muted);max-width:150px;overflow:hidden;text-overflow:ellipsis;">' + (s.notes || '—') + '</td>' +
-                        '<td><div class="action-btns">' +
-                            '<button class="action-btn edit" onclick="openEditModal(' + s.id + ')" title="تعديل"><i class="fas fa-edit"></i></button>' +
-                            '<button class="action-btn delete" onclick="confirmDelete(' + s.id + ')" title="حذف"><i class="fas fa-trash-alt"></i></button>' +
-                            '<button class="action-btn print" onclick="printSubscriber(' + s.id + ')" title="طباعة"><i class="fas fa-print"></i></button>' +
-                        '</div></td></tr>';
+                    const ph = s.phases === 1 ? 'مرحلة واحدة' : s.phases === 2 ? 'مرحلتين' : 'ثلاث مراحل';
+                    const st = s.paymentStatus === 'paid' ? 'مدفوع' : s.paymentStatus === 'unpaid' ? 'غير مدفوع' : 'مدفوع جزئياً';
+                    const sc = s.paymentStatus;
+                    return '<tr><td>' + num + '</td><td><span class="code-badge">' + (s.subCode || '—') + '</span></td><td style="font-weight:600;">' + s.name + '</td><td>' + s.phone + '</td><td><span class="phase-badge"><i class="fas fa-layer-group"></i> ' + ph + '</span></td><td style="color:var(--accent-gold);font-weight:700;">' + s.subscription + ' جنيه</td><td><span class="status-badge ' + sc + '"><i class="fas fa-' + (sc === 'paid' ? 'check-circle' : sc === 'unpaid' ? 'times-circle' : 'clock') + '"></i> ' + st + '</span></td><td>' + s.date + '</td><td style="color:var(--text-muted);max-width:150px;overflow:hidden;text-overflow:ellipsis;">' + (s.notes || '—') + '</td><td><div class="action-btns"><button class="action-btn edit" onclick="openEditModal(' + s.id + ')"><i class="fas fa-edit"></i></button><button class="action-btn delete" onclick="confirmDelete(' + s.id + ')"><i class="fas fa-trash-alt"></i></button><button class="action-btn print" onclick="printSubscriber(' + s.id + ')"><i class="fas fa-print"></i></button></div></td></tr>';
                 }).join('');
             }
             renderPagination(filtered.length, totalPages);
@@ -1401,8 +1349,7 @@
             if (totalPages <= 1) { pag.innerHTML = ''; return; }
             let html = '<button class="page-btn" ' + (currentPage === 1 ? 'disabled style="opacity:0.4;cursor:default;"' : '') + ' onclick="goToPage(' + (currentPage - 1) + ')"><i class="fas fa-chevron-right"></i></button>';
             const maxVis = 5;
-            let sp = Math.max(1, currentPage - 2);
-            let ep = Math.min(totalPages, sp + maxVis - 1);
+            let sp = Math.max(1, currentPage - 2), ep = Math.min(totalPages, sp + maxVis - 1);
             if (ep - sp < maxVis - 1) sp = Math.max(1, ep - maxVis + 1);
             for (let p = sp; p <= ep; p++) html += '<button class="page-btn ' + (p === currentPage ? 'active' : '') + '" onclick="goToPage(' + p + ')">' + p + '</button>';
             html += '<button class="page-btn" ' + (currentPage === totalPages ? 'disabled style="opacity:0.4;cursor:default;"' : '') + ' onclick="goToPage(' + (currentPage + 1) + ')"><i class="fas fa-chevron-left"></i></button>';
@@ -1412,12 +1359,10 @@
 
         function goToPage(p) { currentPage = p; renderTable(); }
 
-        // ===== البحث والفلترة =====
         document.getElementById('searchInput').addEventListener('input', function() { currentPage = 1; renderTable(); });
         document.getElementById('filterPhase').addEventListener('change', function() { currentPage = 1; renderTable(); });
         document.getElementById('filterStatus').addEventListener('change', function() { currentPage = 1; renderTable(); });
 
-        // ===== Toast =====
         function showToast(msg, type) {
             const t = document.getElementById('toast');
             t.className = 'toast ' + type;
@@ -1427,83 +1372,58 @@
             setTimeout(() => t.classList.remove('show'), 3000);
         }
 
-        // ===== طباعة مشترك =====
         function printSubscriber(id) {
             const sub = subscribers.find(s => s.id === id);
             if (!sub) return;
-            const phaseLabel = sub.phases === 1 ? 'مرحلة واحدة' : sub.phases === 2 ? 'مرحلتين' : 'ثلاث مراحل';
-            const statusLabel = sub.paymentStatus === 'paid' ? 'مدفوع' : sub.paymentStatus === 'unpaid' ? 'غير مدفوع' : 'مدفوع جزئياً';
+            const ph = sub.phases === 1 ? 'مرحلة واحدة' : sub.phases === 2 ? 'مرحلتين' : 'ثلاث مراحل';
+            const st = sub.paymentStatus === 'paid' ? 'مدفوع' : sub.paymentStatus === 'unpaid' ? 'غير مدفوع' : 'مدفوع جزئياً';
 
-            const content = '<div style="font-family:Cairo,sans-serif;direction:rtl;padding:40px;max-width:500px;margin:auto;">' +
-                '<div style="text-align:center;margin-bottom:24px;">' +
-                    '<div style="font-size:26px;font-weight:900;color:#d4a853;">منصة أمين غيث</div>' +
-                    '<div style="font-size:14px;color:#888;margin-top:4px;">بيانات المشترك</div>' +
-                    '<div style="height:2px;background:linear-gradient(90deg,#d4a853,#1a8a7d);margin-top:12px;"></div>' +
-                '</div>' +
-                '<table style="width:100%;border-collapse:collapse;font-size:14px;">' +
-                    '<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">الاسم</td><td style="padding:10px;border-bottom:1px solid #eee;">' + sub.name + '</td></tr>' +
-                    '<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">رقم الهاتف</td><td style="padding:10px;border-bottom:1px solid #eee;">' + sub.phone + '</td></tr>' +
-                    '<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">المراحل</td><td style="padding:10px;border-bottom:1px solid #eee;">' + phaseLabel + '</td></tr>' +
-                    '<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">قيمة الاشتراك</td><td style="padding:10px;border-bottom:1px solid #eee;color:#d4a853;font-weight:700;">' + sub.subscription + ' جنيه</td></tr>' +
-                    '<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">حالة الدفع</td><td style="padding:10px;border-bottom:1px solid #eee;">' + statusLabel + '</td></tr>' +
-                    '<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">تاريخ التسجيل</td><td style="padding:10px;border-bottom:1px solid #eee;">' + sub.date + '</td></tr>' +
-                    (sub.notes ? '<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">ملاحظات</td><td style="padding:10px;border-bottom:1px solid #eee;">' + sub.notes + '</td></tr>' : '') +
-                '</table>' +
-                '<div style="text-align:center;margin-top:24px;font-size:12px;color:#aaa;">تم الطباعة من منصة أمين غيث</div></div>';
+            const content = '<div style="font-family:Cairo,sans-serif;direction:rtl;padding:40px;max-width:500px;margin:auto;"><div style="text-align:center;margin-bottom:24px;"><div style="font-size:26px;font-weight:900;color:#d4a853;">منصة أمين غيث</div><div style="font-size:14px;color:#888;margin-top:4px;">بيانات المشترك</div><div style="height:2px;background:linear-gradient(90deg,#d4a853,#1a8a7d);margin-top:12px;"></div></div><table style="width:100%;border-collapse:collapse;font-size:14px;"><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">الكود</td><td style="padding:10px;border-bottom:1px solid #eee;color:#d4a853;font-weight:700;">' + sub.subCode + '</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">الاسم</td><td style="padding:10px;border-bottom:1px solid #eee;">' + sub.name + '</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">رقم الهاتف</td><td style="padding:10px;border-bottom:1px solid #eee;">' + sub.phone + '</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">المراحل</td><td style="padding:10px;border-bottom:1px solid #eee;">' + ph + '</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">قيمة الاشتراك</td><td style="padding:10px;border-bottom:1px solid #eee;color:#d4a853;font-weight:700;">' + sub.subscription + ' جنيه</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">حالة الدفع</td><td style="padding:10px;border-bottom:1px solid #eee;">' + st + '</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">تاريخ التسجيل</td><td style="padding:10px;border-bottom:1px solid #eee;">' + sub.date + '</td></tr>' + (sub.notes ? '<tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555;">ملاحظات</td><td style="padding:10px;border-bottom:1px solid #eee;">' + sub.notes + '</td></tr>' : '') + '</table><div style="text-align:center;margin-top:24px;font-size:12px;color:#aaa;">تم الطباعة من منصة أمين غيث</div></div>';
 
             const win = window.open('', '_blank', 'width=600,height=500');
-            win.document.write('<html><head><title>طباعة - منصة أمين غيث</title><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"></head><body>' + content + '</body></html>');
-            win.document.close();
-            setTimeout(() => win.print(), 500);
+            win.document.write('<html><head><title>منصة أمين غيث</title><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"></head><body>' + content + '</body></html>');
+            win.document.close(); setTimeout(() => win.print(), 500);
         }
 
         // ===== تصدير PDF =====
         document.getElementById('exportPdfBtn').addEventListener('click', function() {
             const filtered = getFilteredSubscribers();
-            if (filtered.length === 0) { showToast('لا توجد بيانات للتصدير', 'warning'); return; }
+            if (filtered.length === 0) { showToast('لا توجد بيانات', 'warning'); return; }
 
             let rows = filtered.map((s, i) => {
-                const ph = s.phases === 1 ? 'مرحلة واحدة' : s.phases === 2 ? 'مرحلتين' : 'ثلاث مراحل';
-                const st = s.paymentStatus === 'paid' ? 'مدفوع' : s.paymentStatus === 'unpaid' ? 'غير مدفوع' : 'مدفوع جزئياً';
-                return '<tr><td style="padding:8px;border:1px solid #ddd;text-align:center;">' + (i+1) + '</td><td style="padding:8px;border:1px solid #ddd;text-align:right;">' + s.name + '</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">' + s.phone + '</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">' + ph + '</td><td style="padding:8px;border:1px solid #ddd;text-align:center;color:#d4a853;font-weight:700;">' + s.subscription + ' جنيه</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">' + st + '</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">' + s.date + '</td><td style="padding:8px;border:1px solid #ddd;text-align:right;">' + (s.notes||'—') + '</td></tr>';
+                const ph = s.phases===1?'مرحلة واحدة':s.phases===2?'مرحلتين':'ثلاث مراحل';
+                const st = s.paymentStatus==='paid'?'مدفوع':s.paymentStatus==='unpaid'?'غير مدفوع':'مدفوع جزئياً';
+                return '<tr><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+(i+1)+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;color:#d4a853;font-weight:700;">'+s.subCode+'</td><td style="padding:8px;border:1px solid #ddd;text-align:right;">'+s.name+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+s.phone+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+ph+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;color:#d4a853;font-weight:700;">'+s.subscription+' جنيه</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+st+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+s.date+'</td><td style="padding:8px;border:1px solid #ddd;text-align:right;">'+(s.notes||'—')+'</td></tr>';
             }).join('');
 
-            const html = '<div style="font-family:Cairo,sans-serif;direction:rtl;padding:30px;"><div style="text-align:center;margin-bottom:20px;"><div style="font-size:28px;font-weight:900;color:#d4a853;">منصة أمين غيث</div><div style="font-size:16px;color:#888;margin-top:6px;">تقرير المشتركين</div><div style="height:3px;background:linear-gradient(90deg,#d4a853,#1a8a7d);margin-top:10px;border-radius:2px;"></div></div><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:20px;"><thead><tr style="background:#f8f4ee;"><th style="padding:10px;border:1px solid #ddd;text-align:center;color:#d4a853;">#</th><th style="padding:10px;border:1px solid #ddd;text-align:right;color:#d4a853;">الاسم</th><th style="padding:10px;border:1px solid #ddd;text-align:center;color:#d4a853;">الهاتف</th><th style="padding:10px;border:1px solid #ddd;text-align:center;color:#d4a853;">المراحل</th><th style="padding:10px;border:1px solid #ddd;text-align:center;color:#d4a853;">الاشتراك</th><th style="padding:10px;border:1px solid #ddd;text-align:center;color:#d4a853;">الدفع</th><th style="padding:10px;border:1px solid #ddd;text-align:center;color:#d4a853;">التاريخ</th><th style="padding:10px;border:1px solid #ddd;text-align:right;color:#d4a853;">ملاحظات</th></tr></thead><tbody>' + rows + '</tbody></table><div style="margin-top:20px;display:flex;justify-content:space-between;font-size:13px;color:#888;"><span>إجمالي: ' + filtered.length + '</span><span>الإيرادات: ' + filtered.filter(s => s.paymentStatus==='paid').reduce((sum,s)=>sum+s.subscription,0) + ' جنيه</span><span>' + new Date().toLocaleDateString('ar-EG') + '</span></div></div>';
+            const html = '<div style="font-family:Cairo,sans-serif;direction:rtl;padding:30px;"><div style="text-align:center;margin-bottom:20px;"><div style="font-size:28px;font-weight:900;color:#d4a853;">منصة أمين غيث</div><div style="font-size:16px;color:#888;margin-top:6px;">تقرير المشتركين</div><div style="height:3px;background:linear-gradient(90deg,#d4a853,#1a8a7d);margin-top:10px;"></div></div><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:20px;"><thead><tr style="background:#f8f4ee;"><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">#</th><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">الكود</th><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">الاسم</th><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">الهاتف</th><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">المراحل</th><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">الاشتراك</th><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">الدفع</th><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">التاريخ</th><th style="padding:10px;border:1px solid #ddd;color:#d4a853;">ملاحظات</th></tr></thead><tbody>'+rows+'</tbody></table><div style="margin-top:20px;font-size:13px;color:#888;">إجمالي: '+filtered.length+' | الإيرادات: '+filtered.filter(s=>s.paymentStatus==='paid').reduce((sum,s)=>sum+s.subscription,0)+' جنيه</div></div>';
 
             const el = document.createElement('div'); el.innerHTML = html; el.style.position = 'absolute'; el.style.left = '-9999px'; document.body.appendChild(el);
-            html2pdf().set({margin:10,filename:'منصة_أمين_غيث_تقرير.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(el).save().then(()=>{document.body.removeChild(el);showToast('تم التصدير بنجاح','success');}).catch(()=>{document.body.removeChild(el);showToast('خطأ في التصدير','error');});
+            html2pdf().set({margin:10,filename:'منصة_أمين_غيث_تقرير.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(el).save().then(()=>{document.body.removeChild(el);showToast('تم التصدير بنجاح','success');}).catch(()=>{document.body.removeChild(el);showToast('خطأ','error');});
         });
 
         // ===== طباعة الكل =====
         document.getElementById('printBtn').addEventListener('click', function() {
             const filtered = getFilteredSubscribers();
-            if (filtered.length === 0) { showToast('لا توجد بيانات للطباعة', 'warning'); return; }
+            if (filtered.length === 0) { showToast('لا توجد بيانات', 'warning'); return; }
 
             let rows = filtered.map((s, i) => {
                 const ph = s.phases===1?'مرحلة واحدة':s.phases===2?'مرحلتين':'ثلاث مراحل';
                 const st = s.paymentStatus==='paid'?'مدفوع':s.paymentStatus==='unpaid'?'غير مدفوع':'مدفوع جزئياً';
-                return '<tr><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+(i+1)+'</td><td style="padding:8px;border:1px solid #ddd;">'+s.name+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+s.phone+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+ph+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;font-weight:700;color:#d4a853;">'+s.subscription+' جنيه</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+st+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+s.date+'</td><td style="padding:8px;border:1px solid #ddd;">'+(s.notes||'—')+'</td></tr>';
+                return '<tr><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+(i+1)+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;color:#d4a853;font-weight:700;">'+s.subCode+'</td><td style="padding:8px;border:1px solid #ddd;">'+s.name+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+s.phone+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+ph+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;font-weight:700;color:#d4a853;">'+s.subscription+' جنيه</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+st+'</td><td style="padding:8px;border:1px solid #ddd;text-align:center;">'+s.date+'</td><td style="padding:8px;border:1px solid #ddd;">'+(s.notes||'—')+'</td></tr>';
             }).join('');
 
-            const html = '<html><head><title>منصة أمين غيث</title><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"><style>body{font-family:Cairo,sans-serif;direction:rtl;padding:20px;}table{width:100%;border-collapse:collapse;font-size:12px;}th{background:#f8f4ee;padding:10px;border:1px solid #ddd;color:#d4a853;}td{padding:8px;border:1px solid #ddd;}</style></head><body><div style="text-align:center;margin-bottom:20px;"><div style="font-size:28px;font-weight:900;color:#d4a853;">منصة أمين غيث</div><div style="font-size:16px;color:#888;margin-top:4px;">قائمة المشتركين</div><div style="height:3px;background:linear-gradient(90deg,#d4a853,#1a8a7d);margin-top:10px;"></div></div><table><thead><tr><th>#</th><th>الاسم</th><th>الهاتف</th><th>المراحل</th><th>الاشتراك</th><th>الدفع</th><th>التاريخ</th><th>ملاحظات</th></tr></thead><tbody>'+rows+'</tbody></table><div style="margin-top:16px;font-size:12px;color:#888;text-align:center;">إجمالي: '+filtered.length+' | الإيرادات: '+filtered.filter(s=>s.paymentStatus==='paid').reduce((sum,s)=>sum+s.subscription,0)+' جنيه</div></body></html>';
+            const html = '<html><head><title>منصة أمين غيث</title><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"><style>body{font-family:Cairo,sans-serif;direction:rtl;padding:20px;}table{width:100%;border-collapse:collapse;font-size:12px;}th{background:#f8f4ee;padding:10px;border:1px solid #ddd;color:#d4a853;}td{padding:8px;border:1px solid #ddd;}</style></head><body><div style="text-align:center;margin-bottom:20px;"><div style="font-size:28px;font-weight:900;color:#d4a853;">منصة أمين غيث</div><div style="height:3px;background:linear-gradient(90deg,#d4a853,#1a8a7d);margin-top:10px;"></div></div><table><thead><tr><th>#</th><th>الكود</th><th>الاسم</th><th>الهاتف</th><th>المراحل</th><th>الاشتراك</th><th>الدفع</th><th>التاريخ</th><th>ملاحظات</th></tr></thead><tbody>'+rows+'</tbody></table><div style="margin-top:16px;font-size:12px;color:#888;text-align:center;">إجمالي: '+filtered.length+'</div></body></html>';
 
             const win = window.open('', '_blank', 'width=900,height=600');
-            win.document.write(html); win.document.close();
-            setTimeout(() => win.print(), 500);
+            win.document.write(html); win.document.close(); setTimeout(() => win.print(), 500);
         });
 
         // ===== إغلاق المودالات =====
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function(e) {
-                if (e.target === overlay) overlay.classList.add('hidden');
-            });
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.classList.add('hidden'); });
         });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
-            }
-        });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden')); });
 
         // ===== استعادة الجلسة =====
         const savedSession = localStorage.getItem('session_amengoith');
@@ -1521,11 +1441,7 @@
             }
         }
 
-        // تحميل أولي
-        if (!isLoggedIn) {
-            landingWrapper.classList.remove('hidden');
-            appWrapper.style.display = 'none';
-        }
+        if (!isLoggedIn) { landingWrapper.classList.remove('hidden'); appWrapper.style.display = 'none'; }
     </script>
 </body>
 </html>
