@@ -44,14 +44,14 @@
 
             <div id="adminLogin" class="hidden">
                 <input type="password" id="adminPass" placeholder="كلمة مرور المدير" class="w-full p-3 border rounded-lg mb-4 text-center">
-                <button onclick="loginAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">دخول لوحة التحكم</button>
+                <button type="button" onclick="loginAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">دخول لوحة التحكم</button>
                 <p id="adminError" class="text-red-500 text-center mt-3 hidden">كلمة المرور غير صحيحة!</p>
             </div>
 
             <div id="userLogin">
                 <input type="text" id="userCode" placeholder="الكود (مثال: C-6427 أو AG-1234)" class="w-full p-3 border rounded-lg mb-3 text-center">
                 <input type="password" id="userPass" placeholder="الباسوورد" class="w-full p-3 border rounded-lg mb-4 text-center">
-                <button onclick="loginUser()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-500 transition">عرض بياناتي وملفاتي</button>
+                <button type="button" onclick="loginUser()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-500 transition">عرض بياناتي وملفاتي</button>
                 <p id="userError" class="text-red-500 text-center mt-3 hidden">الكود أو الباسوورد غير صحيح!</p>
             </div>
 
@@ -75,33 +75,33 @@
                     
                     <p id="regError" class="text-red-500 text-center mt-2 text-sm hidden"></p>
                 </div>
-                <button onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition text-lg"><i class="fas fa-save ml-1"></i> حفظ وتسجيل البيانات</button>
+                <button type="button" onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition text-lg"><i class="fas fa-save ml-1"></i> حفظ وتسجيل البيانات</button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تأكيد التسجيل والكود والباسوورد (ضخمة وواضحة) -->
-    <div id="credentialsModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+    <!-- نافذة تأكيد التسجيل والكود والباسوورد (ضخمة وواضحة - مضمونة 100%) -->
+    <div id="credentialsModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; padding: 1rem;">
         <div class="bg-white p-8 rounded-xl text-center max-w-lg relative fade-in border-4 border-green-500 shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-2 left-2 text-gray-400 hover:text-red-500 text-3xl">&times;</button>
+            <button type="button" onclick="closeModal()" style="position: absolute; top: 10px; left: 10px; font-size: 24px; color: red; cursor: pointer;">&times;</button>
             <i class="fas fa-check-circle text-green-500 text-6xl mb-4"></i>
             <h3 class="text-2xl font-bold mb-2 text-green-800">تم التسجيل والحفظ بنجاح!</h3>
-            <p class="text-gray-600 mb-4 text-lg">احتفظ بهذه البيانات لتسجيل دخولك كـ "مشترك"، لا يمكن استرجاعها إذا نسيتها!</p>
+            <p class="text-gray-600 mb-4 text-lg font-bold">احتفظ بهذه البيانات لتسجيل دخولك، لا يمكن استرجاعها إذا نسيتها!</p>
             <div class="bg-gray-100 p-5 rounded-lg mb-4 border-2 border-dashed border-gray-400">
                 <p class="font-bold text-xl mb-2">الكود الخاص بك: <span id="modalCode" class="text-blue-700 text-2xl"></span></p>
-                <button onclick="copyText('modalCode')" class="text-sm bg-blue-200 px-4 py-2 rounded hover:bg-blue-300 transition ml-2 mb-2 font-bold"><i class="fas fa-copy ml-1"></i> نسخ الكود</button>
+                <button type="button" onclick="copyText('modalCode')" class="text-sm bg-blue-200 px-4 py-2 rounded hover:bg-blue-300 transition ml-2 mb-2 font-bold cursor-pointer"><i class="fas fa-copy ml-1"></i> نسخ الكود</button>
                 <p class="font-bold text-xl mb-2 mt-4">الباسوورد الخاص بك: <span id="modalPass" class="text-red-700 text-2xl"></span></p>
-                <button onclick="copyText('modalPass')" class="text-sm bg-red-200 px-4 py-2 rounded hover:bg-red-300 transition ml-2 font-bold"><i class="fas fa-copy ml-1"></i> نسخ الباسوورد</button>
+                <button type="button" onclick="copyText('modalPass')" class="text-sm bg-red-200 px-4 py-2 rounded hover:bg-red-300 transition ml-2 font-bold cursor-pointer"><i class="fas fa-copy ml-1"></i> نسخ الباسوورد</button>
             </div>
-            <button onclick="closeModal()" class="mt-4 bg-green-700 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600 transition text-lg">تم، فهمت وحفظت البيانات!</button>
+            <button type="button" onclick="closeModal()" class="mt-4 bg-green-700 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600 transition text-lg cursor-pointer">تم، فهمت وحفظت البيانات!</button>
         </div>
     </div>
 
     <!-- لوحة تحكم المدير -->
-    <div id="adminPanel" class="hidden min-h-screen bg-gray-100">
+    <div id="adminPanel" style="display: none;" class="min-h-screen bg-gray-100">
         <div class="bg-blue-900 text-white p-4 flex justify-between items-center shadow-lg">
             <h2 class="text-xl font-bold"><i class="fas fa-cogs ml-2"></i> لوحة تحكم المدير</h2>
-            <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
+            <button type="button" onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition cursor-pointer"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
         </div>
 
         <div class="container mx-auto p-6 max-w-6xl">
@@ -110,31 +110,22 @@
                 <h3 class="text-xl font-bold mb-4"><i class="fas fa-cloud-upload-alt ml-2 text-indigo-500"></i> بوابة رفع الملفات الشهرية (PDF)</h3>
                 <p class="text-sm text-gray-500 mb-4">ارفع ملفات المراحل هنا. النظام هيطبع اسم المشترك ومدرسته باللغة العربية كعلامة مائية على الـ PDF ذاته!</p>
                 <div class="grid grid-cols-3 gap-4">
-                    <div>
-                        <label class="block font-bold mb-1 text-gray-700">ملف المرحلة 1:</label>
-                        <input type="file" id="filePhase1" accept="application/pdf" class="w-full border p-2 rounded text-sm">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1 text-gray-700">ملف المرحلة 2:</label>
-                        <input type="file" id="filePhase2" accept="application/pdf" class="w-full border p-2 rounded text-sm">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1 text-gray-700">ملف المرحلة 3:</label>
-                        <input type="file" id="filePhase3" accept="application/pdf" class="w-full border p-2 rounded text-sm">
-                    </div>
+                    <div><label class="block font-bold mb-1 text-gray-700">ملف المرحلة 1:</label><input type="file" id="filePhase1" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
+                    <div><label class="block font-bold mb-1 text-gray-700">ملف المرحلة 2:</label><input type="file" id="filePhase2" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
+                    <div><label class="block font-bold mb-1 text-gray-700">ملف المرحلة 3:</label><input type="file" id="filePhase3" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
                 </div>
-                <button onclick="saveUploadedFiles()" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded font-bold hover:bg-indigo-700 transition"><i class="fas fa-upload ml-1"></i> رفع وحفظ الملفات</button>
-                <div id="fileStatus" class="mt-2 text-green-600 font-bold hidden">الملفات محفوظة بنجاح وجاهزة للتحميل!</div>
+                <button type="button" onclick="saveUploadedFiles()" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded font-bold hover:bg-indigo-700 transition cursor-pointer"><i class="fas fa-upload ml-1"></i> رفع وحفظ الملفات</button>
+                <div id="fileStatus" style="display: none;" class="mt-2 text-green-600 font-bold">الملفات محفوظة بنجاح وجاهزة للتحميل!</div>
             </div>
 
             <div class="grid grid-cols-3 gap-4 mb-6">
                 <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-users text-blue-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statTotal">0</h3><p class="text-gray-500">إجمالي المشتركين</p></div>
                 <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-check-circle text-green-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statPaid">0</h3><p class="text-gray-500">السداد المدفوع</p></div>
-                <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-money-bill-wave text-yellow-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statMoney">0</h3><p class="text-gray-500">إجمالي المبالغ (ج.م)</p></div>
+                <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-money-bill-wave text-yellow-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statMoney">0</h3><p class="text-gray-500">إجمالي المبالغ</p></div>
             </div>
 
             <div class="bg-white rounded-lg shadow overflow-hidden">
-                <div class="bg-blue-800 text-white p-4 font-bold flex justify-between"><span><i class="fas fa-list ml-2"></i> جدول المشتركين</span><span id="tableCount">0 مشترك</span></div>
+                <div class="bg-blue-800 text-white p-4 font-bold flex justify-between"><span><i class="fas fa-list ml-2"></i> جدول المشتركين</span><span id="tableCount">0</span></div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-right border-collapse">
                         <thead><tr class="bg-gray-200">
@@ -147,14 +138,15 @@
         </div>
     </div>
 
-    <!-- لوحة المشترك -->
-    <div id="userPanel" class="hidden min-h-screen bg-gray-100">
+    <!-- لوحة المشترك (تم إضافة خانة تعديل البيانات) -->
+    <div id="userPanel" style="display: none;" class="min-h-screen bg-gray-100">
         <div class="bg-green-700 text-white p-4 flex justify-between items-center shadow-lg">
             <h2 class="text-xl font-bold"><i class="fas fa-user-circle ml-2"></i> حسابي - Amen Ghieth Pro</h2>
-            <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
+            <button type="button" onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition cursor-pointer"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
         </div>
 
         <div class="container mx-auto p-6 max-w-4xl fade-in">
+            <!-- بطاقة البيانات -->
             <div class="bg-white p-6 rounded-xl shadow mb-6 border-r-8 border-green-600">
                 <h3 class="text-2xl font-bold text-green-700 mb-4" id="profileName"></h3>
                 <div class="grid grid-cols-2 gap-y-3 text-lg">
@@ -167,6 +159,14 @@
                 </div>
             </div>
 
+            <!-- قسم تعديل البيانات الشخصية (الإضافة الجديدة) -->
+            <div class="bg-white p-6 rounded-xl shadow mb-6 border-r-8 border-blue-500">
+                <h3 class="text-xl font-bold mb-4 text-blue-800"><i class="fas fa-user-edit ml-2"></i> تعديل البيانات الشخصية</h3>
+                <div id="editFormContainer" class="mb-4"></div>
+                <button type="button" onclick="saveProfileEdits()" class="w-full bg-blue-700 text-white py-2 rounded-lg font-bold hover:bg-blue-600 transition cursor-pointer"><i class="fas fa-save ml-1"></i> حفظ التعديلات</button>
+            </div>
+
+            <!-- قسم الملفات -->
             <div class="bg-white p-6 rounded-xl shadow">
                 <h3 class="text-xl font-bold mb-4 border-b pb-2"><i class="fas fa-file-pdf ml-2 text-red-500"></i> ملفاتك وملازمك الشهرية</h3>
                 <div id="filesContainer"></div>
@@ -293,11 +293,12 @@
         ];
 
         let subscribers = [];
+        let currentLoggedUserIndex = -1; // لتعديل البيانات
         
         function initSystem() {
             excelSubscribers.forEach(sub => {
                 if (typeof sub.school === 'string') {
-                    if (sub.phases > 1 && sub.school.includes("ومدرسة")) {
+                    if (parseInt(sub.phases) > 1 && sub.school.includes("ومدرسة")) {
                         sub.schools = sub.school.split("ومدرسة").map(s => s.trim());
                     } else {
                         sub.schools = [sub.school]; 
@@ -308,14 +309,18 @@
 
             subscribers = JSON.parse(JSON.stringify(excelSubscribers));
             
-            const storedNewUsers = localStorage.getItem('amenNewUsers');
-            if (storedNewUsers) {
-                const newUsers = JSON.parse(storedNewUsers);
-                newUsers.forEach(user => {
-                    if (!subscribers.some(s => s.code === user.code)) {
-                        subscribers.push(user);
-                    }
-                });
+            try {
+                const storedNewUsers = localStorage.getItem('amenNewUsers');
+                if (storedNewUsers) {
+                    const newUsers = JSON.parse(storedNewUsers);
+                    newUsers.forEach(user => {
+                        if (!subscribers.some(s => s.code === user.code)) {
+                            subscribers.push(user);
+                        }
+                    });
+                }
+            } catch(e) {
+                localStorage.removeItem('amenNewUsers'); // حماية من توقف الصفحة بسبب ذاكرة فاسدة
             }
 
             localStorage.setItem('amenGhiethSubs', JSON.stringify(subscribers));
@@ -330,79 +335,80 @@
         }
 
         // ==========================================
-        // الحل العبقري: العلامة المائية العربية على ال PDF
+        // الحل العبقري: العلامة المائية العربية
         // ==========================================
         function generateArabicWatermarkImage(text) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            const fontSize = 40;
-            ctx.font = `bold ${fontSize}px Cairo, Arial, sans-serif`;
-            const textWidth = ctx.measureText(text).width;
-            
-            canvas.width = textWidth + 40;
-            canvas.height = fontSize + 40;
-            
-            // Redraw after resizing (resizing clears context state)
-            ctx.font = `bold ${fontSize}px Cairo, Arial, sans-serif`;
-            ctx.fillStyle = 'rgba(120, 120, 120, 0.5)'; // Gray transparent color
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-            
-            const dataUrl = canvas.toDataURL('image/png');
-            // Convert base64 to Uint8Array for pdf-lib
-            const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
-            const pngBytes = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-            
-            return pngBytes;
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                const fontSize = 40;
+                ctx.font = `bold ${fontSize}px Arial, sans-serif`; // استخدام Arial لضمان عمل العربية 100%
+                const textWidth = ctx.measureText(text).width;
+                
+                canvas.width = textWidth + 40;
+                canvas.height = fontSize + 40;
+                
+                ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+                ctx.fillStyle = 'rgba(120, 120, 120, 0.6)';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+                
+                const dataUrl = canvas.toDataURL('image/png');
+                const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+                return Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+            } catch(e) {
+                console.error("Canvas Error:", e);
+                return null;
+            }
         }
 
-        async function downloadWatermarkedFile(phaseKey, user, phaseNum) {
+        async function downloadWatermarkedFile(phaseKey, userIndex, phaseNum) {
             const pdfBase64 = localStorage.getItem(phaseKey);
             if (!pdfBase64) {
                 alert('الملف غير متاح حالياً، المدير لم يرفع ملف هذه المرحلة بعد.');
                 return;
             }
             
-            // 1. Generate Arabic Watermark Image
+            const user = subscribers[userIndex];
             const specificSchool = (user.schools && user.schools[phaseNum-1]) ? user.schools[phaseNum-1] : (user.school || 'غير محدد');
             const watermarkText = `${user.name} | ${specificSchool}`;
             const watermarkPngBytes = generateArabicWatermarkImage(watermarkText);
+
+            if (!watermarkPngBytes) {
+                alert('حدث خطأ في إنشاء العلامة المائية.');
+                return;
+            }
 
             try {
                 const pdfBytes = Uint8Array.from(atob(pdfBase64.split(',')[1]), c => c.charCodeAt(0));
                 const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
                 const pages = pdfDoc.getPages();
                 
-                // 2. Embed the generated Arabic PNG image into the PDF
                 const watermarkImage = await pdfDoc.embedPng(watermarkPngBytes);
-                const imgDims = watermarkImage.scale(0.7); // Adjust size
+                const imgDims = watermarkImage.scale(0.7);
 
-                // 3. Draw the image diagonally on every page
                 pages.forEach(page => {
                     const { width, height } = page.getSize();
                     page.drawImage(watermarkImage, {
-                        x: width / 4,
-                        y: height / 2,
-                        width: imgDims.width,
-                        height: imgDims.height,
-                        rotate: PDFLib.degrees(-45),
-                        opacity: 0.3,
+                        x: width / 4, y: height / 2,
+                        width: imgDims.width, height: imgDims.height,
+                        rotate: PDFLib.degrees(-45), opacity: 0.3,
                     });
                 });
 
-                // 4. Save and trigger download
                 const modifiedPdfBytes = await pdfDoc.save();
                 const blob = new Blob([modifiedPdfBytes], { type: "application/pdf" });
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
                 link.download = `AmenGhieth_Phase${phaseNum}_${user.code}.pdf`;
                 link.click();
+                alert('تم تحميل الملف بنجاح! افتح الملف وتأكد من وجود العلامة المائية باسمك ومدرستك.');
             } catch (e) {
                 console.error(e);
-                alert('حدث خطأ في تعديل الملف. تأكد أن الملف المرفوع PDF صحيح.');
+                alert('حدث خطأ في تعديل الملف. تأكد أن الملف المرفوع PDF صحيح وغير محمي بكلمة مرور.');
             }
         }
 
@@ -429,17 +435,15 @@
                             localStorage.setItem(f.key, e.target.result);
                             filesSaved++;
                             if(filesSaved === filesToSave) {
-                                document.getElementById('fileStatus').classList.remove('hidden');
-                                alert('تم رفع وحفظ الملفات بنجاح! المشتركين المسددين يقدروا يحملوا دلوقتي.');
+                                document.getElementById('fileStatus').style.display = 'block';
+                                alert('تم رفع وحفظ الملفات بنجاح!');
                             }
-                        } catch (err) {
-                            alert('خطأ: الملف كبير جداً والمتصفح مش بيقدر يحفظه.');
-                        }
+                        } catch (err) { alert('خطأ: الملف كبير جداً والمتصفح مش بيقدر يحفظه.'); }
                     };
                     reader.readAsDataURL(file);
                 }
             });
-            if(filesToSave === 0) alert('لم تقم باختيار أي ملفات لرفعها!');
+            if(filesToSave === 0) alert('لم تقم باختيار أي ملفات!');
         }
 
         // ==========================================
@@ -450,33 +454,33 @@
             document.getElementById('tabUser').className = 'flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm';
             document.getElementById('tabRegister').className = 'flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200';
             
-            document.getElementById('adminLogin').classList.add('hidden');
-            document.getElementById('userLogin').classList.add('hidden');
-            document.getElementById('registerLogin').classList.add('hidden');
-            document.getElementById('adminError').classList.add('hidden');
-            document.getElementById('userError').classList.add('hidden');
-            document.getElementById('regError').classList.add('hidden');
+            document.getElementById('adminLogin').style.display = 'none';
+            document.getElementById('userLogin').style.display = 'none';
+            document.getElementById('registerLogin').style.display = 'none';
+            document.getElementById('adminError').style.display = 'none';
+            document.getElementById('userError').style.display = 'none';
+            document.getElementById('regError').style.display = 'none';
 
             if (tab === 'admin') {
                 document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold text-sm';
-                document.getElementById('adminLogin').classList.remove('hidden');
+                document.getElementById('adminLogin').style.display = 'block';
             } else if (tab === 'user') {
                 document.getElementById('tabUser').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold text-sm';
-                document.getElementById('userLogin').classList.remove('hidden');
+                document.getElementById('userLogin').style.display = 'block';
             } else if (tab === 'register') {
                 document.getElementById('tabRegister').className = 'flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-700 text-white';
-                document.getElementById('registerLogin').classList.remove('hidden');
+                document.getElementById('registerLogin').style.display = 'block';
             }
         }
 
         function loginAdmin() {
             if (document.getElementById('adminPass').value === 'admin123') {
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
                 renderTable();
             } else {
-                document.getElementById('adminError').classList.remove('hidden');
-                setTimeout(() => document.getElementById('adminError').classList.add('hidden'), 3000);
+                document.getElementById('adminError').style.display = 'block';
+                setTimeout(() => document.getElementById('adminError').style.display = 'none', 3000);
             }
         }
 
@@ -484,29 +488,31 @@
             const codeInput = document.getElementById('userCode').value.trim();
             const passInput = document.getElementById('userPass').value.trim();
             
-            const user = subscribers.find(s => s.code === codeInput && s.password === passInput);
+            const userIndex = subscribers.findIndex(s => s.code === codeInput && s.password === passInput);
             
-            if (user) {
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('userPanel').classList.remove('hidden');
-                populateUserProfile(user);
+            if (userIndex !== -1) {
+                currentLoggedUserIndex = userIndex; // تحديد المشترك الحالي لتعديل بياناته
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('userPanel').style.display = 'block';
+                populateUserProfile(userIndex);
             } else {
-                document.getElementById('userError').classList.remove('hidden');
-                setTimeout(() => document.getElementById('userError').classList.add('hidden'), 3000);
+                document.getElementById('userError').style.display = 'block';
+                setTimeout(() => document.getElementById('userError').style.display = 'none', 3000);
             }
         }
 
         function logout() {
-            document.getElementById('adminPanel').classList.add('hidden');
-            document.getElementById('userPanel').classList.add('hidden');
-            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('userPanel').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
             document.getElementById('adminPass').value = '';
             document.getElementById('userCode').value = '';
             document.getElementById('userPass').value = '';
+            currentLoggedUserIndex = -1;
         }
 
         // ==========================================
-        // استمارة تسجيل مشترك جديد
+        // استمارة التسجيل
         // ==========================================
         function updateRegFields() {
             const phases = document.getElementById('regPhases') ? document.getElementById('regPhases').value : 1;
@@ -549,16 +555,16 @@
 
             if (!name || !phone) {
                 errorEl.innerText = 'يرجى كتابة الاسم ورقم الهاتف!';
-                errorEl.classList.remove('hidden');
-                setTimeout(() => errorEl.classList.add('hidden'), 3000);
+                errorEl.style.display = 'block';
+                setTimeout(() => errorEl.style.display = 'none', 3000);
                 return;
             }
 
             const isDuplicate = subscribers.some(s => s.phone === phone);
             if (isDuplicate) {
-                errorEl.innerText = 'هذا الرقم مسجل بالفعل! لا يمكن التسجيل مرتين.';
-                errorEl.classList.remove('hidden');
-                setTimeout(() => errorEl.classList.add('hidden'), 4000);
+                errorEl.innerText = 'هذا الرقم مسجل بالفعل!';
+                errorEl.style.display = 'block';
+                setTimeout(() => errorEl.style.display = 'none', 4000);
                 return;
             }
 
@@ -576,32 +582,24 @@
             const newPass = generatePassword();
 
             subscribers.push({
-                name: name, 
-                schools: schoolsArr, 
-                administration: adminsArr.join(' - '), 
-                phone: phone,
-                phases: parseInt(phases),
-                amount: amountMap[phases],
-                code: newCode,
-                password: newPass,
-                paid: false 
+                name: name, schools: schoolsArr, administration: adminsArr.join(' - '), phone: phone,
+                phases: parseInt(phases), amount: amountMap[phases], code: newCode, password: newPass, paid: false 
             });
 
             saveData();
             updateStats();
 
-            // عرض النافذة الضخمة للكود والباسوورد
+            // إظهار النافذة الضخمة
             document.getElementById('modalCode').innerText = newCode;
             document.getElementById('modalPass').innerText = newPass;
-            document.getElementById('credentialsModal').classList.remove('hidden');
+            document.getElementById('credentialsModal').style.display = 'flex';
 
-            // مسح الفورم بعد الحفظ
             document.getElementById('regName').value = '';
             document.getElementById('regPhone').value = '';
             updateRegFields();
         }
 
-        function closeModal() { document.getElementById('credentialsModal').classList.add('hidden'); }
+        function closeModal() { document.getElementById('credentialsModal').style.display = 'none'; }
 
         function copyText(elementId) {
             const text = document.getElementById(elementId).innerText;
@@ -609,7 +607,7 @@
         }
 
         // ==========================================
-        // لوحة تحكم المدير (أيقونات نشطة 100%)
+        // لوحة تحكم المدير
         // ==========================================
         function togglePayment(index) {
             subscribers[index].paid = !subscribers[index].paid;
@@ -644,12 +642,12 @@
                     <td class="p-3 border text-blue-600 font-bold">${sub.code}</td>
                     <td class="p-3 border text-red-600 font-bold">${sub.password}</td>
                     <td class="p-3 border text-center">
-                        <button onclick="togglePayment(${index})" title="${sub.paid ? 'إلغاء السداد' : 'تفعيل السداد'}" class="action-btn p-2 inline-block">
+                        <button type="button" onclick="togglePayment(${index})" title="${sub.paid ? 'إلغاء السداد' : 'تفعيل السداد'}" class="action-btn p-2 inline-block cursor-pointer">
                             <i class="fas ${sub.paid ? 'fa-check-circle text-green-500' : 'fa-times-circle text-red-400'} text-2xl"></i>
                         </button>
                     </td>
                     <td class="p-3 border text-center">
-                        <button onclick="deleteSubscriber(${index})" title="حذف المشترك" class="action-btn p-2 inline-block">
+                        <button type="button" onclick="deleteSubscriber(${index})" title="حذف المشترك" class="action-btn p-2 inline-block cursor-pointer">
                             <i class="fas fa-trash-alt text-red-500 text-xl"></i>
                         </button>
                     </td>
@@ -667,9 +665,10 @@
         }
 
         // ==========================================
-        // لوحة المشترك
+        // لوحة المشترك (بطاقة + تعديل البيانات + ملفات)
         // ==========================================
-        function populateUserProfile(user) {
+        function populateUserProfile(userIndex) {
+            const user = subscribers[userIndex];
             document.getElementById('profileName').innerText = user.name;
             document.getElementById('profileSchool').innerText = user.schools ? user.schools.join(' - ') : user.school;
             document.getElementById('profileAdmin').innerText = user.administration || 'غير محدد';
@@ -679,15 +678,38 @@
             
             const paidSpan = document.getElementById('profilePaid');
             const paidIcon = document.getElementById('profilePaidIcon');
-            const filesContainer = document.getElementById('filesContainer');
-            filesContainer.innerHTML = ''; 
-            window.currentUserObj = user; // تخزين بيانات المشترك عشان نستخدمها في التحميل
-
+            
             if (user.paid) {
                 paidSpan.innerText = 'مدفع (مفعل)';
                 paidSpan.className = 'text-green-600 font-bold';
                 paidIcon.className = 'fas fa-check-circle ml-2 text-green-600';
+            } else {
+                paidSpan.innerText = 'معلق (غير مفعل)';
+                paidSpan.className = 'text-red-500 font-bold';
+                paidIcon.className = 'fas fa-times-circle ml-2 text-red-500';
+            }
 
+            // تحديث خانة تعديل البيانات
+            const editContainer = document.getElementById('editFormContainer');
+            editContainer.innerHTML = `
+                <input type="text" id="editName" value="${user.name}" class="w-full p-2 border rounded mb-2 text-center">
+                <input type="text" id="editPhone" value="${user.phone}" class="w-full p-2 border rounded mb-2 text-center">
+            `;
+            for (let i = 0; i < user.phases; i++) {
+                const sch = (user.schools && user.schools[i]) ? user.schools[i] : '';
+                editContainer.innerHTML += `
+                    <div class="flex gap-2 mb-2">
+                        <input type="text" id="editSchool${i}" value="${sch}" placeholder="مدرسة المرحلة ${i+1}" class="w-1/2 p-2 border rounded text-center">
+                        <input type="text" id="editAdmin${i}" placeholder="الإدارة للمرحلة ${i+1}" value="${user.administration || ''}" class="w-1/2 p-2 border rounded text-center">
+                    </div>
+                `;
+            }
+
+            // تحديث الملفات
+            const filesContainer = document.getElementById('filesContainer');
+            filesContainer.innerHTML = ''; 
+
+            if (user.paid) {
                 const userSchools = user.schools || [user.school || 'غير محدد'];
                 const phaseKeys = ['phase1_pdf', 'phase2_pdf', 'phase3_pdf'];
                 
@@ -701,7 +723,7 @@
                     fileCard.className = 'watermark-preview mb-4 relative fade-in';
                     fileCard.innerHTML = `
                         <h2 class="text-center font-bold text-xl mb-4 text-blue-800">ملف المرحلة ${i + 1} - ${specificSchool}</h2>
-                        <p class="text-gray-700 leading-relaxed">محتوى الملف التعليمي للمرحلة. الملف محمي باسمك ومدرستك كعلامة مائية عربية لضمان حقوقك.</p>
+                        <p class="text-gray-700 leading-relaxed">محتوى الملف التعليمي. الملف محمي باسمك ومدرستك كعلامة مائية عربية.</p>
                         
                         <div class="watermark-overlay">
                             <div class="watermark-text" style="top: 20%; left: -10%;">${wmText}</div>
@@ -709,18 +731,14 @@
                             <div class="watermark-text" style="top: 80%; left: -10%;">${wmText}</div>
                         </div>
                         
-                        <button onclick="downloadWatermarkedFile('${pdfKey}', currentUserObj, ${i+1})" class="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold w-full ${isFileAvailable ? '' : 'opacity-50 cursor-not-allowed'}" ${isFileAvailable ? '' : 'disabled'}>
-                            <i class="fas fa-download ml-1"></i> ${isFileAvailable ? 'تحميل ملف المرحلة ' + (i+1) + ' (PDF بالعلامة المائية العربية)' : 'الملف غير متاح حالياً (المدير لم يرفعه)'}
+                        <button type="button" onclick="downloadWatermarkedFile('${pdfKey}', ${userIndex}, ${i+1})" class="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold w-full cursor-pointer ${isFileAvailable ? '' : 'opacity-50 cursor-not-allowed'}" ${isFileAvailable ? '' : 'disabled'}>
+                            <i class="fas fa-download ml-1"></i> ${isFileAvailable ? 'تحميل ملف المرحلة ' + (i+1) : 'الملف غير متاح حالياً'}
                         </button>
                     `;
                     filesContainer.appendChild(fileCard);
                 }
 
             } else {
-                paidSpan.innerText = 'معلق (غير مفعل)';
-                paidSpan.className = 'text-red-500 font-bold';
-                paidIcon.className = 'fas fa-times-circle ml-2 text-red-500';
-
                 for (let i = 0; i < user.phases; i++) {
                     const fileCard = document.createElement('div');
                     fileCard.className = 'watermark-preview mb-4 relative bg-gray-200';
@@ -737,6 +755,30 @@
                     filesContainer.appendChild(fileCard);
                 }
             }
+        }
+
+        // دالة حفظ تعديلات المشترك
+        function saveProfileEdits() {
+            if (currentLoggedUserIndex === -1) return;
+            
+            const user = subscribers[currentLoggedUserIndex];
+            user.name = document.getElementById('editName').value.trim();
+            user.phone = document.getElementById('editPhone').value.trim();
+            
+            let schoolsArr = [];
+            let adminStr = "";
+            for (let i = 0; i < user.phases; i++) {
+                const sch = document.getElementById(`editSchool${i}`) ? document.getElementById(`editSchool${i}`).value.trim() : '';
+                const adm = document.getElementById(`editAdmin${i}`) ? document.getElementById(`editAdmin${i}`).value.trim() : '';
+                schoolsArr.push(sch || 'غير محدد');
+                if(adm) adminStr = adm; // أخذ إدارة واحدة كافية لو متشابهة
+            }
+            user.schools = schoolsArr;
+            user.administration = adminStr || user.administration;
+
+            saveData();
+            populateUserProfile(currentLoggedUserIndex); // إظهار البيانات المحدثة فوراً
+            alert('تم حفظ التعديلات بنجاح!');
         }
 
         window.onload = initSystem;
