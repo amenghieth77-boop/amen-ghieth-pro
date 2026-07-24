@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- المكتبة السحرية لتعديل الـ PDF -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     
     <style>
@@ -22,8 +21,6 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .locked-overlay { position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,0,0,0.2); z-index: 10; display: flex; align-items: center; justify-content: center; pointer-events: all; border-radius: 8px; }
-        .action-btn { transition: all 0.2s; cursor: pointer; }
-        .action-btn:hover { transform: scale(1.2); }
     </style>
 </head>
 <body>
@@ -37,33 +34,33 @@
             </div>
             
             <div class="flex mb-6 bg-gray-100 rounded-lg p-1 gap-1">
-                <button onclick="switchTab('admin')" id="tabAdmin" class="flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm"><i class="fas fa-user-shield ml-1"></i> المدير</button>
-                <button onclick="switchTab('user')" id="tabUser" class="flex-1 py-2 rounded-lg transition tab-active font-bold text-sm"><i class="fas fa-user ml-1"></i> المشترك</button>
-                <button onclick="switchTab('register')" id="tabRegister" class="flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200"><i class="fas fa-user-plus ml-1"></i> تسجيل جديد</button>
+                <button type="button" onclick="switchTab('admin')" id="tabAdmin" class="flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm cursor-pointer"><i class="fas fa-user-shield ml-1"></i> المدير</button>
+                <button type="button" onclick="switchTab('user')" id="tabUser" class="flex-1 py-2 rounded-lg transition tab-active font-bold text-sm cursor-pointer"><i class="fas fa-user ml-1"></i> المشترك</button>
+                <button type="button" onclick="switchTab('register')" id="tabRegister" class="flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200 cursor-pointer"><i class="fas fa-user-plus ml-1"></i> تسجيل جديد</button>
             </div>
 
-            <div id="adminLogin" class="hidden">
+            <div id="adminLogin" style="display: none;">
                 <input type="password" id="adminPass" placeholder="كلمة مرور المدير" class="w-full p-3 border rounded-lg mb-4 text-center">
-                <button type="button" onclick="loginAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">دخول لوحة التحكم</button>
-                <p id="adminError" class="text-red-500 text-center mt-3 hidden">كلمة المرور غير صحيحة!</p>
+                <button type="button" onclick="loginAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition cursor-pointer">دخول لوحة التحكم</button>
+                <p id="adminError" style="display: none;" class="text-red-500 text-center mt-3">كلمة المرور غير صحيحة!</p>
             </div>
 
             <div id="userLogin">
                 <input type="text" id="userCode" placeholder="الكود (مثال: C-6427 أو AG-1234)" class="w-full p-3 border rounded-lg mb-3 text-center">
                 <input type="password" id="userPass" placeholder="الباسوورد" class="w-full p-3 border rounded-lg mb-4 text-center">
-                <button type="button" onclick="loginUser()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-500 transition">عرض بياناتي وملفاتي</button>
-                <p id="userError" class="text-red-500 text-center mt-3 hidden">الكود أو الباسوورد غير صحيح!</p>
+                <button type="button" onclick="loginUser()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-500 transition cursor-pointer">عرض بياناتي وملفاتي</button>
+                <p id="userError" style="display: none;" class="text-red-500 text-center mt-3">الكود أو الباسوورد غير صحيح!</p>
             </div>
 
-            <!-- استمارة التسجيل الجديدة -->
-            <div id="registerLogin" class="hidden">
+            <!-- استمارة التسجيل -->
+            <div id="registerLogin" style="display: none;">
                 <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
                     <h4 class="font-bold text-green-800 mb-3 text-lg text-center"><i class="fas fa-clipboard-list ml-2"></i> استمارة تسجيل مشترك جديد</h4>
                     <input type="text" id="regName" placeholder="الاسم بالكامل" class="w-full p-2 border rounded mb-2 text-center bg-white">
                     <input type="text" id="regPhone" placeholder="رقم الهاتف (لمنع التكرار)" class="w-full p-2 border rounded mb-2 text-center bg-white">
                     
                     <div class="flex gap-2 mb-2">
-                        <select id="regPhases" class="w-1/2 p-2 border rounded text-center bg-white" onchange="updateRegFields()">
+                        <select id="regPhases" class="w-1/2 p-2 border rounded text-center bg-white cursor-pointer" onchange="updateRegFields()">
                             <option value="1">1 مرحلة (75 ج.م)</option>
                             <option value="2">2 مراحل (125 ج.م)</option>
                             <option value="3">3 مراحل (150 ج.م)</option>
@@ -73,17 +70,17 @@
                     
                     <div id="regSchoolsContainer" class="bg-white border rounded p-2 mb-2"></div>
                     
-                    <p id="regError" class="text-red-500 text-center mt-2 text-sm hidden"></p>
+                    <p id="regError" style="display: none;" class="text-red-500 text-center mt-2 text-sm"></p>
                 </div>
-                <button type="button" onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition text-lg"><i class="fas fa-save ml-1"></i> حفظ وتسجيل البيانات</button>
+                <button type="button" onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition text-lg cursor-pointer"><i class="fas fa-save ml-1"></i> حفظ وتسجيل البيانات</button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تأكيد التسجيل والكود والباسوورد (ضخمة وواضحة - مضمونة 100%) -->
+    <!-- نافذة الكود والباسوورد الضخمة -->
     <div id="credentialsModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; padding: 1rem;">
         <div class="bg-white p-8 rounded-xl text-center max-w-lg relative fade-in border-4 border-green-500 shadow-2xl">
-            <button type="button" onclick="closeModal()" style="position: absolute; top: 10px; left: 10px; font-size: 24px; color: red; cursor: pointer;">&times;</button>
+            <button type="button" onclick="closeModal()" style="position: absolute; top: 10px; left: 10px; font-size: 30px; color: red; cursor: pointer;">&times;</button>
             <i class="fas fa-check-circle text-green-500 text-6xl mb-4"></i>
             <h3 class="text-2xl font-bold mb-2 text-green-800">تم التسجيل والحفظ بنجاح!</h3>
             <p class="text-gray-600 mb-4 text-lg font-bold">احتفظ بهذه البيانات لتسجيل دخولك، لا يمكن استرجاعها إذا نسيتها!</p>
@@ -108,14 +105,12 @@
             <!-- بوابة رفع الملفات -->
             <div class="bg-white p-6 rounded-lg shadow mb-6 border-t-4 border-indigo-500">
                 <h3 class="text-xl font-bold mb-4"><i class="fas fa-cloud-upload-alt ml-2 text-indigo-500"></i> بوابة رفع الملفات الشهرية (PDF)</h3>
-                <p class="text-sm text-gray-500 mb-4">ارفع ملفات المراحل هنا. النظام هيطبع اسم المشترك ومدرسته باللغة العربية كعلامة مائية على الـ PDF ذاته!</p>
                 <div class="grid grid-cols-3 gap-4">
                     <div><label class="block font-bold mb-1 text-gray-700">ملف المرحلة 1:</label><input type="file" id="filePhase1" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
                     <div><label class="block font-bold mb-1 text-gray-700">ملف المرحلة 2:</label><input type="file" id="filePhase2" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
                     <div><label class="block font-bold mb-1 text-gray-700">ملف المرحلة 3:</label><input type="file" id="filePhase3" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
                 </div>
                 <button type="button" onclick="saveUploadedFiles()" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded font-bold hover:bg-indigo-700 transition cursor-pointer"><i class="fas fa-upload ml-1"></i> رفع وحفظ الملفات</button>
-                <div id="fileStatus" style="display: none;" class="mt-2 text-green-600 font-bold">الملفات محفوظة بنجاح وجاهزة للتحميل!</div>
             </div>
 
             <div class="grid grid-cols-3 gap-4 mb-6">
@@ -129,24 +124,24 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-right border-collapse">
                         <thead><tr class="bg-gray-200">
-                            <th class="p-3 border">#</th><th class="p-3 border">الاسم</th><th class="p-3 border">المراحل/المدارس</th><th class="p-3 border">الإدارة</th><th class="p-3 border">الهاتف</th><th class="p-3 border">المبلغ</th><th class="p-3 border">الكود</th><th class="p-3 border">الباسوورد</th><th class="p-3 border">تفعيل السداد</th><th class="p-3 border">حذف</th>
+                            <th class="p-3 border">#</th><th class="p-3 border">الاسم</th><th class="p-3 border">المراحل/المدارس</th><th class="p-3 border">الإدارة</th><th class="p-3 border">الهاتف</th><th class="p-3 border">المبلغ</th><th class="p-3 border">الكود</th><th class="p-3 border">الباسوورد</th><th class="p-3 border">تفعيل/إلغاء السداد</th><th class="p-3 border">حذف</th>
                         </tr></thead>
-                        <tbody id="subscribersTable"></tbody>
+                        <!-- تم إضافة id="subscribersTableBody" لضمان عمل الحل العبقري -->
+                        <tbody id="subscribersTableBody"></tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- لوحة المشترك (تم إضافة خانة تعديل البيانات) -->
+    <!-- لوحة المشترك -->
     <div id="userPanel" style="display: none;" class="min-h-screen bg-gray-100">
         <div class="bg-green-700 text-white p-4 flex justify-between items-center shadow-lg">
-            <h2 class="text-xl font-bold"><i class="fas fa-user-circle ml-2"></i> حسابي - Amen Ghieth Pro</h2>
+            <h2 class="text-xl font-bold"><i class="fas fa-user-circle ml-2"></i> حسابي</h2>
             <button type="button" onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition cursor-pointer"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
         </div>
 
         <div class="container mx-auto p-6 max-w-4xl fade-in">
-            <!-- بطاقة البيانات -->
             <div class="bg-white p-6 rounded-xl shadow mb-6 border-r-8 border-green-600">
                 <h3 class="text-2xl font-bold text-green-700 mb-4" id="profileName"></h3>
                 <div class="grid grid-cols-2 gap-y-3 text-lg">
@@ -159,14 +154,12 @@
                 </div>
             </div>
 
-            <!-- قسم تعديل البيانات الشخصية (الإضافة الجديدة) -->
             <div class="bg-white p-6 rounded-xl shadow mb-6 border-r-8 border-blue-500">
                 <h3 class="text-xl font-bold mb-4 text-blue-800"><i class="fas fa-user-edit ml-2"></i> تعديل البيانات الشخصية</h3>
                 <div id="editFormContainer" class="mb-4"></div>
                 <button type="button" onclick="saveProfileEdits()" class="w-full bg-blue-700 text-white py-2 rounded-lg font-bold hover:bg-blue-600 transition cursor-pointer"><i class="fas fa-save ml-1"></i> حفظ التعديلات</button>
             </div>
 
-            <!-- قسم الملفات -->
             <div class="bg-white p-6 rounded-xl shadow">
                 <h3 class="text-xl font-bold mb-4 border-b pb-2"><i class="fas fa-file-pdf ml-2 text-red-500"></i> ملفاتك وملازمك الشهرية</h3>
                 <div id="filesContainer"></div>
@@ -195,105 +188,105 @@
             { name: "أماني خيري الباجوري", school: "مدرسة كفر جعفر الاعدادية بنات", phone: "01063887136", phases: 1, amount: 75, code: "C-2722", password: "P-7917", paid: true, administration: "" },
             { name: "أماني خيري الباجوري", school: "مدرسة كفر جعفر الاعدادية بنات", phone: "01063887136", phases: 1, amount: 75, code: "C-9479", password: "P-8020", paid: true, administration: "" },
             { name: "أماني خيري الباجوري", school: "مدرسة كفر جعفر الاعدادية بنات", phone: "01063887136", phases: 1, amount: 75, code: "C-3410", password: "P-4653", paid: true, administration: "" },
-            { name: "أميرة خيرى محمود", school: "حى الإسكان الاقتصادي للتعليم الاساسى بسوهاج الجديدة", phone: "01147344221", phases: 1, amount: 75, code: "C-4904", password: "P-4330", paid: true, administration: "" },
+            { name: "أميرة خيرى محمود", school: "حى الإسكان اقتصادي", phone: "01147344221", phases: 1, amount: 75, code: "C-4904", password: "P-4330", paid: true, administration: "" },
             { name: "بثينه السيد صديق", school: "جاب الله ت.ا", phone: "01147833510", phases: 2, amount: 125, code: "C-8048", password: "P-5979", paid: true, administration: "" },
-            { name: "جيهان عبد العزيز لبيب خليل الهوارى", school: "ام القرى للتعليم الأساسي بدروه /ومدرسة دروه الثانويه المشتركه", phone: "01152247758", phases: 3, amount: 150, code: "C-5247", password: "P-4164", paid: true, administration: "" },
-            { name: "حنان البي أمين عبد الشافي", school: "هور الإبتدائية المشتركة", phone: "01024456829", phases: 1, amount: 75, code: "C-8922", password: "P-6897", paid: true, administration: "" },
-            { name: "حنان نصر الدين محمود", school: "ام المؤمنين الابتدائية", phone: "01009201207", phases: 1, amount: 75, code: "C-3390", password: "P-7174", paid: true, administration: "" },
+            { name: "جيهان عبد العزيز لبيب خليل الهوارى", school: "ام القرى للتعليم الأساسي بدروه /ومدرسة دروه", phone: "01152247758", phases: 3, amount: 150, code: "C-5247", password: "P-4164", paid: true, administration: "" },
+            { name: "حنان البي أمين عبد الشافي", school: "هور الإبتدائية", phone: "01024456829", phases: 1, amount: 75, code: "C-8922", password: "P-6897", paid: true, administration: "" },
+            { name: "حنان نصر الدين محمود", school: "ام المؤمنين", phone: "01009201207", phases: 1, amount: 75, code: "C-3390", password: "P-7174", paid: true, administration: "" },
             { name: "داليا حسين عبدالرحمن", school: "مدرسة السادات بكفر الحاج عمر", phone: "01148008929", phases: 1, amount: 75, code: "C-2495", password: "P-2757", paid: true, administration: "" },
-            { name: "دعاء ابرلهيم فهمي جمال الدين", school: "العباسية الاعداديه بنات", phone: "01011488836", phases: 1, amount: 75, code: "C-1023", password: "P-4899", paid: true, administration: "" },
-            { name: "دعاء إبراهيم فهمي جمال الدين", school: "العباسية الاعداديه بنات", phone: "01011488836", phases: 1, amount: 75, code: "C-3578", password: "P-6845", paid: true, administration: "" },
+            { name: "دعاء ابرلهيم فهمي جمال الدين", school: "العباسية الاعداديه", phone: "01011488836", phases: 1, amount: 75, code: "C-1023", password: "P-4899", paid: true, administration: "" },
+            { name: "دعاء إبراهيم فهمي", school: "العباسية الاعداديه", phone: "01011488836", phases: 1, amount: 75, code: "C-3578", password: "P-6845", paid: true, administration: "" },
             { name: "دعاء زينهم صادق", school: "كفر المداور الاعدادية", phone: "01068655727", phases: 2, amount: 125, code: "C-8283", password: "P-6781", paid: true, administration: "" },
-            { name: "دعاء زينهم صادق", school: "كفر المداور الاعدادية", phone: "01068655727", phases: 2, amount: 125, code: "C-1915", password: "P-2158", paid: true, administration: "" },
-            { name: "دعاء محمد غنيم", school: "الاسماعيلية الثانوية الرسمية بنات", phone: "01122739970", phases: 1, amount: 75, code: "C-1200", password: "P-9337", paid: true, administration: "" },
-            { name: "رامي محمد علي شعيشع", school: "مدرسة شبراتنا تعليم أساسي", phone: "01126299299", phases: 2, amount: 125, code: "C-1713", password: "P-6885", paid: true, administration: "" },
+            { name: "دعاء زينهم صادق", school: "كفر المداور", phone: "01068655727", phases: 2, amount: 125, code: "C-1915", password: "P-2158", paid: true, administration: "" },
+            { name: "دعاء محمد غنيم", school: "الاسماعيلية الثانوية", phone: "01122739970", phases: 1, amount: 75, code: "C-1200", password: "P-9337", paid: true, administration: "" },
+            { name: "رامي محمد علي شعيشع", school: "مدرسة شبراتنا", phone: "01126299299", phases: 2, amount: 125, code: "C-1713", password: "P-6885", paid: true, administration: "" },
             { name: "رجب سيد سليم", school: "العبور الثانويه الصناعيه", phone: "01146568493", phases: 1, amount: 75, code: "C-3379", password: "P-6507", paid: true, administration: "" },
             { name: "رشا عبد العزيز محمد", school: "الحلمية الثانوية بناتً", phone: "01149841885", phases: 3, amount: 150, code: "C-5450", password: "P-2986", paid: true, administration: "" },
-            { name: "رشا عبد العزيز محمد", school: "الحلمية الثانوية بناتً", phone: "01149841885", phases: 1, amount: 75, code: "C-8240", password: "P-6862", paid: true, administration: "" },
-            { name: "رشا عبد العزيز محمد", school: "الحلمية الثانوية بناتً", phone: "01149841885", phases: 1, amount: 75, code: "C-1083", password: "P-9976", paid: true, administration: "" },
+            { name: "رشا عبد العزيز محمد", school: "الحلمية الثانوية", phone: "01149841885", phases: 1, amount: 75, code: "C-8240", password: "P-6862", paid: true, administration: "" },
+            { name: "رشا عبد العزيز", school: "الحلمية بناتً", phone: "01149841885", phases: 1, amount: 75, code: "C-1083", password: "P-9976", paid: true, administration: "" },
             { name: "رشاطلعت", school: "كوم اشفين الابتدائى", phone: "01018431798", phases: 1, amount: 75, code: "C-1402", password: "P-7662", paid: true, administration: "" },
-            { name: "رشاطلعت", school: "كوم اشفين الابتدائى", phone: "01018431798", phases: 1, amount: 75, code: "C-8178", password: "P-5998", paid: true, administration: "" },
-            { name: "رشاطلعت", school: "كوم اشفين الابتدائى", phone: "01018431798", phases: 1, amount: 75, code: "C-5780", password: "P-2350", paid: true, administration: "" },
-            { name: "رشاطلعت", school: "كوم اشفين الابتدائى", phone: "01018431798", phases: 1, amount: 75, code: "C-2364", password: "P-5233", paid: true, administration: "" },
-            { name: "رشاطلعت", school: "كوم اشفين الابتدائى", phone: "01018431798", phases: 1, amount: 75, code: "C-7572", password: "P-3232", paid: true, administration: "" },
-            { name: "رمضان عبد الصمد عبد الحفيظ حسين", school: "مدرسه الشعب الاعدادية بنين", phone: "01228394216", phases: 1, amount: 75, code: "C-8467", password: "P-5706", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين", phone: "01018431798", phases: 1, amount: 75, code: "C-8178", password: "P-5998", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين", phone: "01018431798", phases: 1, amount: 75, code: "C-5780", password: "P-2350", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين", phone: "01018431798", phases: 1, amount: 75, code: "C-2364", password: "P-5233", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين", phone: "01018431798", phases: 1, amount: 75, code: "C-7572", password: "P-3232", paid: true, administration: "" },
+            { name: "رمضان عبد الصمد", school: "مدرسه الشعب الاعدادية", phone: "01228394216", phases: 1, amount: 75, code: "C-8467", password: "P-5706", paid: true, administration: "" },
             { name: "زهور محمود حسن", school: "اسطال الاعدادية", phone: "01008955354", phases: 1, amount: 75, code: "C-6069", password: "P-5548", paid: true, administration: "" },
-            { name: "زينات ابراهيم احمد ابراهيم مرسي", school: "الشهيد ممدوح سعد عبد الرازق الاعداديه", phone: "01278704514", phases: 1, amount: 75, code: "C-9848", password: "P-3750", paid: true, administration: "" },
-            { name: "زينه محمد بدوي", school: "مزغونة الابتدائيه المشتركه", phone: "01156391838", phases: 1, amount: 75, code: "C-4471", password: "P-8479", paid: true, administration: "" },
-            { name: "ساره ناجي غازي", school: "كفر الصارم الاعدادي المشتركه", phone: "01110957016", phases: 1, amount: 75, code: "C-5679", password: "P-3143", paid: true, administration: "" },
-            { name: "سالما محمد طه الشلاوى", school: "الشهيد حماده صابر جمعه الابتدائيه", phone: "01029424347", phases: 1, amount: 75, code: "C-9822", password: "P-4216", paid: true, administration: "" },
-            { name: "سالما محمد طه الشلاوى", school: "الشهيد حماده صابر جمعه الابتدائيه", phone: "01029424347", phases: 1, amount: 75, code: "C-5653", password: "P-9045", paid: true, administration: "" },
-            { name: "سالما محمد طه الشلاوى", school: "الشهيد حماده صابر جمعه الابتدائيه", phone: "01029424347", phases: 1, amount: 75, code: "C-2439", password: "P-1087", paid: true, administration: "" },
-            { name: "سالما محمد طه الشلاوى", school: "الشهيد حماده صابر جمعه الابتدائيه", phone: "01029424347", phases: 1, amount: 75, code: "C-1972", password: "P-6124", paid: true, administration: "" },
-            { name: "سالما محمد طه الشلاوى", school: "الشهيد حماده صابر جمعه الابتدائيه", phone: "01029424347", phases: 1, amount: 75, code: "C-7341", password: "P-5516", paid: true, administration: "" },
+            { name: "زينات ابراهيم احمد", school: "الشهيد ممدوح سعد", phone: "01278704514", phases: 1, amount: 75, code: "C-9848", password: "P-3750", paid: true, administration: "" },
+            { name: "زينه محمد بدوي", school: "مزغونة الابتدائيه", phone: "01156391838", phases: 1, amount: 75, code: "C-4471", password: "P-8479", paid: true, administration: "" },
+            { name: "ساره ناجي غازي", school: "كفر الصارم", phone: "01110957016", phases: 1, amount: 75, code: "C-5679", password: "P-3143", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده صابر", phone: "01029424347", phases: 1, amount: 75, code: "C-9822", password: "P-4216", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده", phone: "01029424347", phases: 1, amount: 75, code: "C-5653", password: "P-9045", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده", phone: "01029424347", phases: 1, amount: 75, code: "C-2439", password: "P-1087", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده", phone: "01029424347", phases: 1, amount: 75, code: "C-1972", password: "P-6124", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده", phone: "01029424347", phases: 1, amount: 75, code: "C-7341", password: "P-5516", paid: true, administration: "" },
             { name: "سالي سمير", school: "الجديدة الاعداديه", phone: "01124171018", phases: 1, amount: 75, code: "C-5622", password: "P-6186", paid: true, administration: "" },
-            { name: "ساميه منصور احمد ابراهيم", school: "مدرسه السادات الاعداديه بنات", phone: "01093924662", phases: 1, amount: 75, code: "C-3039", password: "P-1617", paid: true, administration: "" },
-            { name: "سعد محمد عبد اللطيف المهدي", school: "مدرسة جهينه الشرقية الاعدادية", phone: "01286080089", phases: 1, amount: 75, code: "C-9232", password: "P-5578", paid: true, administration: "" },
-            { name: "سلمى احمد محمد حامد", school: "العوينه الجديدة", phone: "01100263797", phases: 1, amount: 75, code: "C-6256", password: "P-2784", paid: true, administration: "" },
-            { name: "سميرة سليمان أسعد سليمان", school: "الخصوص التجاريه بنات", phone: "01220618172", phases: 1, amount: 75, code: "C-1734", password: "P-4961", paid: true, administration: "" },
-            { name: "سميرة سليمان أسعد سليمان", school: "الخصوص التجاريه بنات", phone: "01220618172", phases: 1, amount: 75, code: "C-5282", password: "P-7332", paid: true, administration: "" },
-            { name: "سميرة سليمان أسعد سليمان", school: "الخصوص التجاريه بنات", phone: "01220618172", phases: 1, amount: 75, code: "C-7049", password: "P-7897", paid: true, administration: "" },
-            { name: "سميه صلاح الدين عبد العظيم محمد", school: "بني عبيد الاعداديه بنات", phone: "01092379060", phases: 1, amount: 75, code: "C-5118", password: "P-5059", paid: true, administration: "" },
-            { name: "سهير سلام محمد حسنين", school: "الشهيد مصطفى لطفى التجارية بنات", phone: "01011998602", phases: 1, amount: 75, code: "C-5909", password: "P-7428", paid: true, administration: "" },
-            { name: "سهير صابر عبد السلام", school: "بلال الثانويه بنات", phone: "01284339575", phases: 1, amount: 75, code: "C-4062", password: "P-9448", paid: true, administration: "" },
-            { name: "سهير صابر عبد السلام", school: "بلال الثانويه بنات", phone: "01284339575", phases: 1, amount: 75, code: "C-1065", password: "P-7752", paid: true, administration: "" },
-            { name: "سهير صابر عبد السلام", school: "بلال الثانويه بنات", phone: "01284339575", phases: 1, amount: 75, code: "C-6615", password: "P-7995", paid: true, administration: "" },
-            { name: "سهير صابر عبد السلام", school: "بلال الثانويه بنات", phone: "01284339575", phases: 1, amount: 75, code: "C-7447", password: "P-9470", paid: true, administration: "" },
-            { name: "سهير صابر عبد السلام", school: "بلال الثانويه بنات", phone: "01284339575", phases: 1, amount: 75, code: "C-9634", password: "P-8154", paid: true, administration: "" },
-            { name: "سهير صابر عبد السلام", school: "بلال الثانويه بنات", phone: "01284339575", phases: 1, amount: 75, code: "C-2153", password: "P-7273", paid: true, administration: "" },
-            { name: "شيماء علي محمود الجمال", school: "مدرسة الثانوية الصناعية بنات بسوهاج", phone: "01095600691", phases: 1, amount: 75, code: "C-3164", password: "P-1554", paid: true, administration: "" },
-            { name: "صباح ابراهيم شحاته على", school: "مدرسة نور العلم الثانوية", phone: "01288367924", phases: 1, amount: 75, code: "C-1652", password: "P-5754", paid: true, administration: "" },
-            { name: "صفاء محمد السيد إبراهيم", school: "مدرسة ناصر الابتدائية بالتل الكبير", phone: "01125194175", phases: 1, amount: 75, code: "C-8511", password: "P-6046", paid: true, administration: "" },
-            { name: "عبله هاشم عبد الباقي هاشم", school: "مدرسه النيل الاعداديه بنات بديروط", phone: "01002633696", phases: 1, amount: 75, code: "C-1337", password: "P-4567", paid: true, administration: "" },
-            { name: "عزة أمين محمد نوفل", school: "املي عبدالمسيح تعليم اساسي", phone: "01092613410", phases: 1, amount: 75, code: "C-2049", password: "P-5445", paid: true, administration: "" },
-            { name: "عزة أمين محمد نوفل", school: "املي عبدالمسيح تعليم اساسي", phone: "01092613410", phases: 1, amount: 75, code: "C-2569", password: "P-6941", paid: true, administration: "" },
+            { name: "ساميه منصور احمد", school: "مدرسه السادات الاعداديه", phone: "01093924662", phases: 1, amount: 75, code: "C-3039", password: "P-1617", paid: true, administration: "" },
+            { name: "سعد محمد عبد اللطيف", school: "مدرسة جهينه", phone: "01286080089", phases: 1, amount: 75, code: "C-9232", password: "P-5578", paid: true, administration: "" },
+            { name: "سلمى احمد محمد", school: "العوينه الجديدة", phone: "01100263797", phases: 1, amount: 75, code: "C-6256", password: "P-2784", paid: true, administration: "" },
+            { name: "سميرة سليمان", school: "الخصوص التجاريه", phone: "01220618172", phases: 1, amount: 75, code: "C-1734", password: "P-4961", paid: true, administration: "" },
+            { name: "سميرة سليمان", school: "الخصوص التجاريه", phone: "01220618172", phases: 1, amount: 75, code: "C-5282", password: "P-7332", paid: true, administration: "" },
+            { name: "سميرة سليمان", school: "الخصوص التجاريه", phone: "01220618172", phases: 1, amount: 75, code: "C-7049", password: "P-7897", paid: true, administration: "" },
+            { name: "سميه صلاح الدين", school: "بني عبيد الاعداديه", phone: "01092379060", phases: 1, amount: 75, code: "C-5118", password: "P-5059", paid: true, administration: "" },
+            { name: "سهير سلام محمد", school: "الشهيد مصطفى لطفى", phone: "01011998602", phases: 1, amount: 75, code: "C-5909", password: "P-7428", paid: true, administration: "" },
+            { name: "سهير صابر عبد السلام", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-4062", password: "P-9448", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-1065", password: "P-7752", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-6615", password: "P-7995", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-7447", password: "P-9470", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-9634", password: "P-8154", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-2153", password: "P-7273", paid: true, administration: "" },
+            { name: "شيماء علي محمود", school: "الثانوية الصناعية بسوهاج", phone: "01095600691", phases: 1, amount: 75, code: "C-3164", password: "P-1554", paid: true, administration: "" },
+            { name: "صباح ابراهيم شحاته", school: "مدرسة نور العلم", phone: "01288367924", phases: 1, amount: 75, code: "C-1652", password: "P-5754", paid: true, administration: "" },
+            { name: "صفاء محمد السيد", school: "مدرسة ناصر الابتدائية", phone: "01125194175", phases: 1, amount: 75, code: "C-8511", password: "P-6046", paid: true, administration: "" },
+            { name: "عبله هاشم عبد الباقي", school: "مدرسه النيل بديروط", phone: "01002633696", phases: 1, amount: 75, code: "C-1337", password: "P-4567", paid: true, administration: "" },
+            { name: "عزة أمين محمد نوفل", school: "املي عبدالمسيح", phone: "01092613410", phases: 1, amount: 75, code: "C-2049", password: "P-5445", paid: true, administration: "" },
+            { name: "عزة أمين محمد", school: "املي عبدالمسيح", phone: "01092613410", phases: 1, amount: 75, code: "C-2569", password: "P-6941", paid: true, administration: "" },
             { name: "عزة على عبد الرازق", school: "شرم الرسمية لغات", phone: "01003613675", phases: 1, amount: 75, code: "C-7099", password: "P-4049", paid: true, administration: "" },
-            { name: "علا عبدالسلام احمد حمزه", school: "الشهيد طارق ابوسريع رمضان ع م", phone: "01014869946", phases: 2, amount: 125, code: "C-5775", password: "P-2348", paid: true, administration: "" },
-            { name: "غاده سعيد حسن عبد الكريم", school: "مدرسه شلبي الابتدائية", phone: "01117448040", phases: 1, amount: 75, code: "C-4497", password: "P-6632", paid: true, administration: "" },
-            { name: "فاطمة رضي خير معوض", school: "احمد السيد درويش ع", phone: "01270252704", phases: 1, amount: 75, code: "C-4089", password: "P-1241", paid: true, administration: "" },
-            { name: "فاطمة رضي خير معوض", school: "احمد السيد درويش ع", phone: "01270252704", phases: 2, amount: 125, code: "C-3700", password: "P-5003", paid: true, administration: "" },
-            { name: "فاطمه النوبي الشاذلي", school: "مدرسة عمر بن عبد العزيز الابتدائيه", phone: "01008936689", phases: 1, amount: 75, code: "C-5853", password: "P-1785", paid: true, administration: "" },
-            { name: "فاطمه على عبد الحليم أحمد", school: "مدرسة عثمان بن عفان الاعدادية المشتركة", phone: "01069176520", phases: 1, amount: 75, code: "C-3445", password: "P-5270", paid: true, administration: "" },
+            { name: "علا عبدالسلام احمد", school: "الشهيد طارق ابوسريع", phone: "01014869946", phases: 2, amount: 125, code: "C-5775", password: "P-2348", paid: true, administration: "" },
+            { name: "غاده سعيد حسن", school: "مدرسه شلبي الابتدائية", phone: "01117448040", phases: 1, amount: 75, code: "C-4497", password: "P-6632", paid: true, administration: "" },
+            { name: "فاطمة رضي خير", school: "احمد السيد درويش", phone: "01270252704", phases: 1, amount: 75, code: "C-4089", password: "P-1241", paid: true, administration: "" },
+            { name: "فاطمة رضي خير", school: "احمد السيد درويش", phone: "01270252704", phases: 2, amount: 125, code: "C-3700", password: "P-5003", paid: true, administration: "" },
+            { name: "فاطمه النوبي الشاذلي", school: "مدرسة عمر بن عبد العزيز", phone: "01008936689", phases: 1, amount: 75, code: "C-5853", password: "P-1785", paid: true, administration: "" },
+            { name: "فاطمه على عبد الحليم", school: "مدرسة عثمان بن عفان", phone: "01069176520", phases: 1, amount: 75, code: "C-3445", password: "P-5270", paid: true, administration: "" },
             { name: "فاطمه محمود اسماعيل", school: "برديس تعليم اساسى", phone: "01035821829", phases: 3, amount: 150, code: "C-6368", password: "P-9056", paid: true, administration: "" },
-            { name: "فتحية عبدالله الشواتفي محمد", school: "مدرسة الشهيد حمادة صابر الابتدائية", phone: "01014005539", phases: 1, amount: 75, code: "C-6928", password: "P-9375", paid: true, administration: "" },
-            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد تعلب الفندقية", phone: "01018411577", phases: 1, amount: 75, code: "C-1396", password: "P-6753", paid: true, administration: "" },
-            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد تعلب الفندقية", phone: "01018411577", phases: 1, amount: 75, code: "C-3018", password: "P-1538", paid: true, administration: "" },
-            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد تعلب الفندقية", phone: "0118411577", phases: 1, amount: 75, code: "C-8739", password: "P-2618", paid: true, administration: "" },
-            { name: "محمد حسين كامل", school: "الشهيد مينا عزت ع بنين", phone: "01005849057", phases: 1, amount: 75, code: "C-6853", password: "P-4123", paid: true, administration: "" },
-            { name: "محمد عبدالناصر عبدالعظيم عبدالسلام", school: "م/ رياض سعد زايد ع.م", phone: "01211323203", phases: 2, amount: 125, code: "C-8850", password: "P-3114", paid: true, administration: "" },
-            { name: "محمد محمود عبدالغنى الاشمونى", school: "الاعداديه الرياضيه بنين بنها", phone: "01155410308", phases: 1, amount: 75, code: "C-1789", password: "P-6641", paid: true, administration: "" },
-            { name: "محمداحمدالمكاوي", school: "الشهيد محمد جمال سليم الاعداديه بنين بالمنصوره", phone: "01553912354", phases: 1, amount: 75, code: "C-6306", password: "P-6637", paid: true, administration: "" },
+            { name: "فتحية عبدالله الشواتفي", school: "مدرسة الشهيد حمادة صابر", phone: "01014005539", phases: 1, amount: 75, code: "C-6928", password: "P-9375", paid: true, administration: "" },
+            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد", phone: "01018411577", phases: 1, amount: 75, code: "C-1396", password: "P-6753", paid: true, administration: "" },
+            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد", phone: "01018411577", phases: 1, amount: 75, code: "C-3018", password: "P-1538", paid: true, administration: "" },
+            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد", phone: "0118411577", phases: 1, amount: 75, code: "C-8739", password: "P-2618", paid: true, administration: "" },
+            { name: "محمد حسين كامل", school: "الشهيد مينا عزت", phone: "01005849057", phases: 1, amount: 75, code: "C-6853", password: "P-4123", paid: true, administration: "" },
+            { name: "محمد عبدالناصر", school: "م/ رياض سعد زايد", phone: "01211323203", phases: 2, amount: 125, code: "C-8850", password: "P-3114", paid: true, administration: "" },
+            { name: "محمد محمود عبدالغنى", school: "الاعداديه الرياضيه بنها", phone: "01155410308", phases: 1, amount: 75, code: "C-1789", password: "P-6641", paid: true, administration: "" },
+            { name: "محمداحمدالمكاوي", school: "الشهيد محمد جمال سليم", phone: "01553912354", phases: 1, amount: 75, code: "C-6306", password: "P-6637", paid: true, administration: "" },
             { name: "مديحة عبد الرازق أحمد", school: "الأمل للصم", phone: "01004322320", phases: 3, amount: 150, code: "C-2707", password: "P-6519", paid: true, administration: "" },
-            { name: "مديحة عبد الرازق أحمد", school: "الأمل للصم", phone: "01004322320", phases: 3, amount: 150, code: "C-5042", password: "P-4612", paid: true, administration: "" },
-            { name: "مرفت عبد العزيز عبد الوهاب", school: "مدرسة سمالوط الإعدادية بنات", phone: "01060160306", phases: 1, amount: 75, code: "C-6191", password: "P-8314", paid: true, administration: "" },
-            { name: "مرفت عبد العزيز عبد الوهاب", school: "مدرسة سمالوط الإعدادية بنات", phone: "01060160306", phases: 1, amount: 75, code: "C-4598", password: "P-8751", paid: true, administration: "" },
-            { name: "مروة طه كامل محمد", school: "حافظ ابراهيم الابتدائيه", phone: "01067874222", phases: 1, amount: 75, code: "C-6453", password: "P-7866", paid: true, administration: "" },
-            { name: "مروة طه كامل محمد", school: "حافظ ابراهيم الابتدائيه", phone: "01067874222", phases: 1, amount: 75, code: "C-1188", password: "P-8563", paid: true, administration: "" },
-            { name: "مروة محمد المرسى", school: "الجيل الجديد الخاصة للغات", phone: "01097780242", phases: 1, amount: 75, code: "C-3509", password: "P-9720", paid: true, administration: "" },
-            { name: "مروة محمد أبو دلال", school: "عياش الإعدادية المشتركة", phone: "01099934908", phases: 1, amount: 75, code: "C-4939", password: "P-7576", paid: true, administration: "" },
-            { name: "منى عبد العظيم محمود", school: "الشهيد المستشار هيثم القط", phone: "01016584420", phases: 2, amount: 125, code: "C-7549", password: "P-6810", paid: true, administration: "" },
+            { name: "مديحة عبد الرازق", school: "الأمل للصم", phone: "01004322320", phases: 3, amount: 150, code: "C-5042", password: "P-4612", paid: true, administration: "" },
+            { name: "مرفت عبد العزيز", school: "مدرسة سمالوط الإعدادية", phone: "01060160306", phases: 1, amount: 75, code: "C-6191", password: "P-8314", paid: true, administration: "" },
+            { name: "مرفت عبد العزيز", school: "مدرسة سمالوط", phone: "01060160306", phases: 1, amount: 75, code: "C-4598", password: "P-8751", paid: true, administration: "" },
+            { name: "مروة طه كامل محمد", school: "حافظ ابراهيم", phone: "01067874222", phases: 1, amount: 75, code: "C-6453", password: "P-7866", paid: true, administration: "" },
+            { name: "مروة طه كامل", school: "حافظ ابراهيم", phone: "01067874222", phases: 1, amount: 75, code: "C-1188", password: "P-8563", paid: true, administration: "" },
+            { name: "مروة محمد المرسى", school: "الجيل الجديدة للغات", phone: "01097780242", phases: 1, amount: 75, code: "C-3509", password: "P-9720", paid: true, administration: "" },
+            { name: "مروة محمد أبو دلال", school: "عياش الإعدادية", phone: "01099934908", phases: 1, amount: 75, code: "C-4939", password: "P-7576", paid: true, administration: "" },
+            { name: "منى عبد العظيم محمود", school: "الشهيد المستشار هيثم", phone: "01016584420", phases: 2, amount: 125, code: "C-7549", password: "P-6810", paid: true, administration: "" },
             { name: "مها السيد عبدالعال", school: "الدراكه الاعداديه", phone: "01069481134", phases: 1, amount: 75, code: "C-1556", password: "P-2875", paid: true, administration: "" },
-            { name: "نجاح عبدالله علام", school: "فيشا الكبري للتعلم الاساسي", phone: "01282014065", phases: 2, amount: 125, code: "C-2049", password: "P-6776", paid: true, administration: "" },
+            { name: "نجاح عبدالله علام", school: "فيشا الكبري", phone: "01282014065", phases: 2, amount: 125, code: "C-2049", password: "P-6776", paid: true, administration: "" },
             { name: "نجلاء محمود حسانين", school: "سلمان الفارسي", phone: "01146930223", phases: 1, amount: 75, code: "C-6489", password: "P-1035", paid: true, administration: "" },
-            { name: "نجوي شكر فلبس قسط", school: "عصمت عفيفي الاعداديه بنات بأسيوط", phone: "01282476623", phases: 1, amount: 75, code: "C-5268", password: "P-8578", paid: true, administration: "" },
-            { name: "نرمين شكرا غبريال", school: "عمر ابن الخطاب الاعداديه بنات", phone: "01060994054", phases: 1, amount: 75, code: "C-3866", password: "P-9840", paid: true, administration: "" },
-            { name: "نرمين شكرا غبريال", school: "عمر ابن الخطاب الاعداديه بنات", phone: "01060994054", phases: 1, amount: 75, code: "C-9871", password: "P-1708", paid: true, administration: "" },
-            { name: "نعمه حمدي إبراهيم عبد الحميد", school: "الحضره الابتدائيه", phone: "01274728699", phases: 1, amount: 75, code: "C-5724", password: "P-4049", paid: true, administration: "" },
-            { name: "نفين صلاح الدين محمد فؤاد مهني", school: "قلوصنا بنين 2البتدائيه", phone: "01014590906", phases: 1, amount: 75, code: "C-9630", password: "P-1814", paid: true, administration: "" },
-            { name: "نهاد حامد عطية المساوي", school: "مدرسة الشهيد ابو الفضل", phone: "01096770130", phases: 1, amount: 75, code: "C-4425", password: "P-4467", paid: true, administration: "" },
-            { name: "نهلة حسن محمد محمود", school: "هدي شعراوي الرسمية لغات و", phone: "01556655575", phases: 1, amount: 75, code: "C-4051", password: "P-5815", paid: true, administration: "" },
-            { name: "نهلة حسن محمد محمود", school: "هدي شعراوي الرسمية لغات", phone: "01556655575", phases: 1, amount: 75, code: "C-6713", password: "P-6382", paid: true, administration: "" },
-            { name: "نيرمين عادل عطية محمد", school: "التل الكبير الرسمية للغات", phone: "01063619218", phases: 2, amount: 125, code: "C-3552", password: "P-5246", paid: true, administration: "" },
+            { name: "نجوي شكر فلبس", school: "عصمت عفيفي بأسيوط", phone: "01282476623", phases: 1, amount: 75, code: "C-5268", password: "P-8578", paid: true, administration: "" },
+            { name: "نرمين شكرا غبريال", school: "عمر ابن الخطاب", phone: "01060994054", phases: 1, amount: 75, code: "C-3866", password: "P-9840", paid: true, administration: "" },
+            { name: "نرمين شكرا", school: "عمر ابن الخطاب", phone: "01060994054", phases: 1, amount: 75, code: "C-9871", password: "P-1708", paid: true, administration: "" },
+            { name: "نعمه حمدي إبراهيم", school: "الحضره الابتدائيه", phone: "01274728699", phases: 1, amount: 75, code: "C-5724", password: "P-4049", paid: true, administration: "" },
+            { name: "نفين صلاح الدين", school: "قلوصنا بنين 2", phone: "01014590906", phases: 1, amount: 75, code: "C-9630", password: "P-1814", paid: true, administration: "" },
+            { name: "نهاد حامد عطية", school: "مدرسة الشهيد ابو الفضل", phone: "01096770130", phases: 1, amount: 75, code: "C-4425", password: "P-4467", paid: true, administration: "" },
+            { name: "نهلة حسن محمد", school: "هدي شعراوي لغات", phone: "01556655575", phases: 1, amount: 75, code: "C-4051", password: "P-5815", paid: true, administration: "" },
+            { name: "نهلة حسن محمد", school: "هدي شعراوي", phone: "01556655575", phases: 1, amount: 75, code: "C-6713", password: "P-6382", paid: true, administration: "" },
+            { name: "نيرمين عادل عطية", school: "التل الكبير الرسمية للغات", phone: "01063619218", phases: 2, amount: 125, code: "C-3552", password: "P-5246", paid: true, administration: "" },
             { name: "هبة شعبان رمضان", school: "ام المؤمنين", phone: "01069636461", phases: 1, amount: 75, code: "C-6790", password: "P-7333", paid: true, administration: "" },
-            { name: "هبه إبراهيم محمد أحمد سلامه", school: "منيل الهويشات الثانوية المشتركه", phone: "01021671613", phases: 1, amount: 75, code: "C-7127", password: "P-4782", paid: true, administration: "" },
-            { name: "هبه فتحي عبدالرازق فرج", school: "مدرسه وحده سقاره الابتدائيه", phone: "01069346838", phases: 1, amount: 75, code: "C-2890", password: "P-7631", paid: true, administration: "" },
-            { name: "ولاء احمد ابوالفضل", school: "مدرسه برديس الاعداديه بنات القديمه", phone: "01229160024", phases: 1, amount: 75, code: "C-5704", password: "P-7528", paid: true, administration: "" },
-            { name: "ولاءمحمد ابراهيم احمد", school: "الصالحية القديمة التجارية المشتركة", phone: "01093912583", phases: 3, amount: 150, code: "C-2424", password: "P-7949", paid: true, administration: "" },
-            { name: "ياسر محمد سلام", school: "خرسيت ث م / اللواء حسين جاير الرسميه للغات ابتدائي واعدادى", phone: "01066972520", phases: 3, amount: 150, code: "C-3606", password: "P-3935", paid: true, administration: "" }
+            { name: "هبه إبراهيم محمد", school: "منيل الهويشات الثانوية", phone: "01021671613", phases: 1, amount: 75, code: "C-7127", password: "P-4782", paid: true, administration: "" },
+            { name: "هبه فتحي عبدالرازق", school: "مدرسه وحده سقاره", phone: "01069346838", phases: 1, amount: 75, code: "C-2890", password: "P-7631", paid: true, administration: "" },
+            { name: "ولاء احمد ابوالفضل", school: "مدرسه برديس القديمه", phone: "01229160024", phases: 1, amount: 75, code: "C-5704", password: "P-7528", paid: true, administration: "" },
+            { name: "ولاءمحمد ابراهيم", school: "الصالحية القديمة التجارية", phone: "01093912583", phases: 3, amount: 150, code: "C-2424", password: "P-7949", paid: true, administration: "" },
+            { name: "ياسر محمد سلام", school: "خرسيت ث م", phone: "01066972520", phases: 3, amount: 150, code: "C-3606", password: "P-3935", paid: true, administration: "" }
         ];
 
         let subscribers = [];
-        let currentLoggedUserIndex = -1; // لتعديل البيانات
+        let currentLoggedUserIndex = -1;
         
         function initSystem() {
             excelSubscribers.forEach(sub => {
@@ -320,7 +313,7 @@
                     });
                 }
             } catch(e) {
-                localStorage.removeItem('amenNewUsers'); // حماية من توقف الصفحة بسبب ذاكرة فاسدة
+                localStorage.removeItem('amenNewUsers');
             }
 
             localStorage.setItem('amenGhiethSubs', JSON.stringify(subscribers));
@@ -335,95 +328,83 @@
         }
 
         // ==========================================
-        // الحل العبقري: العلامة المائية العربية
+        // الحل العبقري: Event Delegation للجدول (يضمن عمل الأزرار 1000%)
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBody = document.getElementById('subscribersTableBody');
+            if(tableBody) {
+                tableBody.addEventListener('click', function(e) {
+                    const target = e.target;
+                    // تفعيل أو إلغاء السداد
+                    if (target.classList.contains('pay-btn')) {
+                        const index = parseInt(target.dataset.index);
+                        togglePayment(index);
+                    }
+                    // حذف المشترك
+                    if (target.classList.contains('del-btn')) {
+                        const index = parseInt(target.dataset.index);
+                        deleteSubscriber(index);
+                    }
+                });
+            }
+        });
+
+        // ==========================================
+        // العلامة المائية العربية والـ PDF
         // ==========================================
         function generateArabicWatermarkImage(text) {
             try {
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                
                 const fontSize = 40;
-                ctx.font = `bold ${fontSize}px Arial, sans-serif`; // استخدام Arial لضمان عمل العربية 100%
+                ctx.font = `bold ${fontSize}px Arial, sans-serif`;
                 const textWidth = ctx.measureText(text).width;
-                
                 canvas.width = textWidth + 40;
                 canvas.height = fontSize + 40;
-                
                 ctx.font = `bold ${fontSize}px Arial, sans-serif`;
                 ctx.fillStyle = 'rgba(120, 120, 120, 0.6)';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                
                 ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-                
                 const dataUrl = canvas.toDataURL('image/png');
                 const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
                 return Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-            } catch(e) {
-                console.error("Canvas Error:", e);
-                return null;
-            }
+            } catch(e) { return null; }
         }
 
         async function downloadWatermarkedFile(phaseKey, userIndex, phaseNum) {
             const pdfBase64 = localStorage.getItem(phaseKey);
-            if (!pdfBase64) {
-                alert('الملف غير متاح حالياً، المدير لم يرفع ملف هذه المرحلة بعد.');
-                return;
-            }
+            if (!pdfBase64) { alert('الملف غير متاح، المدير لم يرفعه.'); return; }
             
             const user = subscribers[userIndex];
             const specificSchool = (user.schools && user.schools[phaseNum-1]) ? user.schools[phaseNum-1] : (user.school || 'غير محدد');
             const watermarkText = `${user.name} | ${specificSchool}`;
             const watermarkPngBytes = generateArabicWatermarkImage(watermarkText);
 
-            if (!watermarkPngBytes) {
-                alert('حدث خطأ في إنشاء العلامة المائية.');
-                return;
-            }
+            if (!watermarkPngBytes) { alert('خطأ في إنشاء العلامة المائية.'); return; }
 
             try {
                 const pdfBytes = Uint8Array.from(atob(pdfBase64.split(',')[1]), c => c.charCodeAt(0));
                 const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
                 const pages = pdfDoc.getPages();
-                
                 const watermarkImage = await pdfDoc.embedPng(watermarkPngBytes);
                 const imgDims = watermarkImage.scale(0.7);
-
                 pages.forEach(page => {
                     const { width, height } = page.getSize();
-                    page.drawImage(watermarkImage, {
-                        x: width / 4, y: height / 2,
-                        width: imgDims.width, height: imgDims.height,
-                        rotate: PDFLib.degrees(-45), opacity: 0.3,
-                    });
+                    page.drawImage(watermarkImage, { x: width / 4, y: height / 2, width: imgDims.width, height: imgDims.height, rotate: PDFLib.degrees(-45), opacity: 0.3 });
                 });
-
                 const modifiedPdfBytes = await pdfDoc.save();
                 const blob = new Blob([modifiedPdfBytes], { type: "application/pdf" });
                 const link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
                 link.download = `AmenGhieth_Phase${phaseNum}_${user.code}.pdf`;
                 link.click();
-                alert('تم تحميل الملف بنجاح! افتح الملف وتأكد من وجود العلامة المائية باسمك ومدرستك.');
-            } catch (e) {
-                console.error(e);
-                alert('حدث خطأ في تعديل الملف. تأكد أن الملف المرفوع PDF صحيح وغير محمي بكلمة مرور.');
-            }
+            } catch (e) { alert('خطأ في تعديل الملف تأكد أنه PDF صحيح.'); }
         }
 
-        // ==========================================
-        // بوابة رفع الملفات PDF
-        // ==========================================
         function saveUploadedFiles() {
-            const files = [
-                { id: 'filePhase1', key: 'phase1_pdf' },
-                { id: 'filePhase2', key: 'phase2_pdf' },
-                { id: 'filePhase3', key: 'phase3_pdf' }
-            ];
-            let filesSaved = 0;
-            let filesToSave = 0;
-
+            const files = [{ id: 'filePhase1', key: 'phase1_pdf' }, { id: 'filePhase2', key: 'phase2_pdf' }, { id: 'filePhase3', key: 'phase3_pdf' }];
+            let filesToSave = 0; let filesSaved = 0;
             files.forEach(f => {
                 const input = document.getElementById(f.id);
                 if (input.files.length > 0) {
@@ -434,20 +415,16 @@
                         try {
                             localStorage.setItem(f.key, e.target.result);
                             filesSaved++;
-                            if(filesSaved === filesToSave) {
-                                document.getElementById('fileStatus').style.display = 'block';
-                                alert('تم رفع وحفظ الملفات بنجاح!');
-                            }
-                        } catch (err) { alert('خطأ: الملف كبير جداً والمتصفح مش بيقدر يحفظه.'); }
+                            if(filesSaved === filesToSave) { alert('تم حفظ الملفات!'); }
+                        } catch (err) { alert('الملف كبير جداً.'); }
                     };
                     reader.readAsDataURL(file);
                 }
             });
-            if(filesToSave === 0) alert('لم تقم باختيار أي ملفات!');
         }
 
         // ==========================================
-        // واجهة المستخدم والتحكم
+        // واجهة المستخدم
         // ==========================================
         function switchTab(tab) {
             document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm';
@@ -457,20 +434,10 @@
             document.getElementById('adminLogin').style.display = 'none';
             document.getElementById('userLogin').style.display = 'none';
             document.getElementById('registerLogin').style.display = 'none';
-            document.getElementById('adminError').style.display = 'none';
-            document.getElementById('userError').style.display = 'none';
-            document.getElementById('regError').style.display = 'none';
 
-            if (tab === 'admin') {
-                document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold text-sm';
-                document.getElementById('adminLogin').style.display = 'block';
-            } else if (tab === 'user') {
-                document.getElementById('tabUser').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold text-sm';
-                document.getElementById('userLogin').style.display = 'block';
-            } else if (tab === 'register') {
-                document.getElementById('tabRegister').className = 'flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-700 text-white';
-                document.getElementById('registerLogin').style.display = 'block';
-            }
+            if (tab === 'admin') { document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold text-sm'; document.getElementById('adminLogin').style.display = 'block'; }
+            else if (tab === 'user') { document.getElementById('tabUser').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold text-sm'; document.getElementById('userLogin').style.display = 'block'; }
+            else if (tab === 'register') { document.getElementById('tabRegister').className = 'flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-700 text-white'; document.getElementById('registerLogin').style.display = 'block'; }
         }
 
         function loginAdmin() {
@@ -487,11 +454,10 @@
         function loginUser() {
             const codeInput = document.getElementById('userCode').value.trim();
             const passInput = document.getElementById('userPass').value.trim();
-            
             const userIndex = subscribers.findIndex(s => s.code === codeInput && s.password === passInput);
             
             if (userIndex !== -1) {
-                currentLoggedUserIndex = userIndex; // تحديد المشترك الحالي لتعديل بياناته
+                currentLoggedUserIndex = userIndex;
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('userPanel').style.display = 'block';
                 populateUserProfile(userIndex);
@@ -505,9 +471,6 @@
             document.getElementById('adminPanel').style.display = 'none';
             document.getElementById('userPanel').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'flex';
-            document.getElementById('adminPass').value = '';
-            document.getElementById('userCode').value = '';
-            document.getElementById('userPass').value = '';
             currentLoggedUserIndex = -1;
         }
 
@@ -518,34 +481,18 @@
             const phases = document.getElementById('regPhases') ? document.getElementById('regPhases').value : 1;
             const amountMap = { '1': 75, '2': 125, '3': 150 };
             document.getElementById('regAmountDisplay').innerText = amountMap[phases] + ' ج.م';
-
             const container = document.getElementById('regSchoolsContainer');
             container.innerHTML = ''; 
-            
             for (let i = 1; i <= parseInt(phases); i++) {
                 const div = document.createElement('div');
                 div.className = 'mb-3 border-b pb-2';
-                div.innerHTML = `
-                    <label class="block text-gray-700 mb-1 font-bold text-sm text-green-800">المرحلة ${i}:</label>
-                    <input type="text" placeholder="اسم المدرسة للمرحلة ${i}" class="w-full p-2 border rounded mb-1 text-center reg-school" id="regSchool${i}">
-                    <input type="text" placeholder="الإدارة التعليمية للمرحلة ${i}" class="w-full p-2 border rounded text-center reg-admin" id="regAdmin${i}">
-                `;
+                div.innerHTML = `<label class="block text-gray-700 mb-1 font-bold text-sm">المرحلة ${i}:</label><input type="text" placeholder="اسم المدرسة للمرحلة ${i}" class="w-full p-2 border rounded mb-1 text-center reg-school" id="regSchool${i}"><input type="text" placeholder="الإدارة للمرحلة ${i}" class="w-full p-2 border rounded text-center reg-admin" id="regAdmin${i}">`;
                 container.appendChild(div);
             }
         }
 
-        function generateCode() {
-            let code = 'AG-';
-            for(let i=0; i<4; i++) code += Math.floor(Math.random() * 10);
-            return code;
-        }
-
-        function generatePassword() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let pass = '';
-            for(let i=0; i<6; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
-            return pass;
-        }
+        function generateCode() { let code = 'AG-'; for(let i=0; i<4; i++) code += Math.floor(Math.random() * 10); return code; }
+        function generatePassword() { const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let pass = ''; for(let i=0; i<6; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length)); return pass; }
 
         function registerNewUser() {
             const name = document.getElementById('regName').value.trim();
@@ -553,43 +500,26 @@
             const phases = document.getElementById('regPhases').value;
             const errorEl = document.getElementById('regError');
 
-            if (!name || !phone) {
-                errorEl.innerText = 'يرجى كتابة الاسم ورقم الهاتف!';
-                errorEl.style.display = 'block';
-                setTimeout(() => errorEl.style.display = 'none', 3000);
-                return;
-            }
-
+            if (!name || !phone) { errorEl.innerText = 'يرجى كتابة الاسم ورقم الهاتف!'; errorEl.style.display = 'block'; setTimeout(() => errorEl.style.display = 'none', 3000); return; }
             const isDuplicate = subscribers.some(s => s.phone === phone);
-            if (isDuplicate) {
-                errorEl.innerText = 'هذا الرقم مسجل بالفعل!';
-                errorEl.style.display = 'block';
-                setTimeout(() => errorEl.style.display = 'none', 4000);
-                return;
-            }
+            if (isDuplicate) { errorEl.innerText = 'هذا الرقم مسجل بالفعل!'; errorEl.style.display = 'block'; setTimeout(() => errorEl.style.display = 'none', 4000); return; }
 
-            let schoolsArr = [];
-            let adminsArr = [];
+            let schoolsArr = []; let adminsArr = [];
             for (let i = 1; i <= parseInt(phases); i++) {
                 const sch = document.getElementById(`regSchool${i}`) ? document.getElementById(`regSchool${i}`).value.trim() : '';
                 const adm = document.getElementById(`regAdmin${i}`) ? document.getElementById(`regAdmin${i}`).value.trim() : '';
-                schoolsArr.push(sch || 'لم يحدد');
-                adminsArr.push(adm || 'لم يحدد');
+                schoolsArr.push(sch || 'لم يحدد'); adminsArr.push(adm || 'لم يحدد');
             }
 
             const amountMap = { '1': 75, '2': 125, '3': 150 };
             const newCode = generateCode();
             const newPass = generatePassword();
 
-            subscribers.push({
-                name: name, schools: schoolsArr, administration: adminsArr.join(' - '), phone: phone,
-                phases: parseInt(phases), amount: amountMap[phases], code: newCode, password: newPass, paid: false 
-            });
+            subscribers.push({ name: name, schools: schoolsArr, administration: adminsArr.join(' - '), phone: phone, phases: parseInt(phases), amount: amountMap[phases], code: newCode, password: newPass, paid: false });
+            saveData(); updateStats();
 
-            saveData();
-            updateStats();
-
-            // إظهار النافذة الضخمة
+            // حماية مزدوجة لظهور الكود والباسوورد
+            alert('تم التسجيل بنجاح! كودك هو: ' + newCode + ' وباسووردك هو: ' + newPass + ' (احفظهم جيداً!)');
             document.getElementById('modalCode').innerText = newCode;
             document.getElementById('modalPass').innerText = newPass;
             document.getElementById('credentialsModal').style.display = 'flex';
@@ -600,14 +530,10 @@
         }
 
         function closeModal() { document.getElementById('credentialsModal').style.display = 'none'; }
-
-        function copyText(elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => { alert('تم النسخ بنجاح!'); });
-        }
+        function copyText(elementId) { const text = document.getElementById(elementId).innerText; navigator.clipboard.writeText(text).then(() => { alert('تم النسخ!'); }); }
 
         // ==========================================
-        // لوحة تحكم المدير
+        // لوحة تحكم المدير (زرار السداد والحذف النصي)
         // ==========================================
         function togglePayment(index) {
             subscribers[index].paid = !subscribers[index].paid;
@@ -626,12 +552,14 @@
         }
 
         function renderTable() {
-            const tbody = document.getElementById('subscribersTable');
+            const tbody = document.getElementById('subscribersTableBody');
             tbody.innerHTML = '';
             
             subscribers.forEach((sub, index) => {
                 const row = document.createElement('tr');
                 row.className = index % 2 === 0 ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 hover:bg-gray-100';
+                
+                // الحل العبقري: استخدام data-index مع أزرار كتابية واضحة لا تعتمد على onclick داخل innerHTML
                 row.innerHTML = `
                     <td class="p-3 border text-center">${index + 1}</td>
                     <td class="p-3 border font-bold">${sub.name}</td>
@@ -642,14 +570,13 @@
                     <td class="p-3 border text-blue-600 font-bold">${sub.code}</td>
                     <td class="p-3 border text-red-600 font-bold">${sub.password}</td>
                     <td class="p-3 border text-center">
-                        <button type="button" onclick="togglePayment(${index})" title="${sub.paid ? 'إلغاء السداد' : 'تفعيل السداد'}" class="action-btn p-2 inline-block cursor-pointer">
-                            <i class="fas ${sub.paid ? 'fa-check-circle text-green-500' : 'fa-times-circle text-red-400'} text-2xl"></i>
-                        </button>
+                        ${sub.paid 
+                            ? `<button type="button" class="pay-btn bg-red-200 text-red-800 px-3 py-1 rounded font-bold cursor-pointer hover:bg-red-300 transition" data-index="${index}">إلغاء السداد</button>` 
+                            : `<button type="button" class="pay-btn bg-green-600 text-white px-3 py-1 rounded font-bold cursor-pointer hover:bg-green-500 transition" data-index="${index}">تفعيل السداد</button>`
+                        }
                     </td>
                     <td class="p-3 border text-center">
-                        <button type="button" onclick="deleteSubscriber(${index})" title="حذف المشترك" class="action-btn p-2 inline-block cursor-pointer">
-                            <i class="fas fa-trash-alt text-red-500 text-xl"></i>
-                        </button>
+                        <button type="button" class="del-btn bg-red-700 text-white px-3 py-1 rounded font-bold cursor-pointer hover:bg-red-600 transition" data-index="${index}">حذف</button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -665,7 +592,7 @@
         }
 
         // ==========================================
-        // لوحة المشترك (بطاقة + تعديل البيانات + ملفات)
+        // لوحة المشترك
         // ==========================================
         function populateUserProfile(userIndex) {
             const user = subscribers[userIndex];
@@ -679,33 +606,16 @@
             const paidSpan = document.getElementById('profilePaid');
             const paidIcon = document.getElementById('profilePaidIcon');
             
-            if (user.paid) {
-                paidSpan.innerText = 'مدفع (مفعل)';
-                paidSpan.className = 'text-green-600 font-bold';
-                paidIcon.className = 'fas fa-check-circle ml-2 text-green-600';
-            } else {
-                paidSpan.innerText = 'معلق (غير مفعل)';
-                paidSpan.className = 'text-red-500 font-bold';
-                paidIcon.className = 'fas fa-times-circle ml-2 text-red-500';
-            }
+            if (user.paid) { paidSpan.innerText = 'مدفع (مفعل)'; paidSpan.className = 'text-green-600 font-bold'; paidIcon.className = 'fas fa-check-circle ml-2 text-green-600'; }
+            else { paidSpan.innerText = 'معلق'; paidSpan.className = 'text-red-500 font-bold'; paidIcon.className = 'fas fa-times-circle ml-2 text-red-500'; }
 
-            // تحديث خانة تعديل البيانات
             const editContainer = document.getElementById('editFormContainer');
-            editContainer.innerHTML = `
-                <input type="text" id="editName" value="${user.name}" class="w-full p-2 border rounded mb-2 text-center">
-                <input type="text" id="editPhone" value="${user.phone}" class="w-full p-2 border rounded mb-2 text-center">
-            `;
+            editContainer.innerHTML = `<input type="text" id="editName" value="${user.name}" class="w-full p-2 border rounded mb-2 text-center"><input type="text" id="editPhone" value="${user.phone}" class="w-full p-2 border rounded mb-2 text-center">`;
             for (let i = 0; i < user.phases; i++) {
                 const sch = (user.schools && user.schools[i]) ? user.schools[i] : '';
-                editContainer.innerHTML += `
-                    <div class="flex gap-2 mb-2">
-                        <input type="text" id="editSchool${i}" value="${sch}" placeholder="مدرسة المرحلة ${i+1}" class="w-1/2 p-2 border rounded text-center">
-                        <input type="text" id="editAdmin${i}" placeholder="الإدارة للمرحلة ${i+1}" value="${user.administration || ''}" class="w-1/2 p-2 border rounded text-center">
-                    </div>
-                `;
+                editContainer.innerHTML += `<div class="flex gap-2 mb-2"><input type="text" id="editSchool${i}" value="${sch}" placeholder="مدرسة المرحلة ${i+1}" class="w-1/2 p-2 border rounded text-center"><input type="text" id="editAdmin${i}" placeholder="الإدارة ${i+1}" value="${user.administration || ''}" class="w-1/2 p-2 border rounded text-center"></div>`;
             }
 
-            // تحديث الملفات
             const filesContainer = document.getElementById('filesContainer');
             filesContainer.innerHTML = ''; 
 
@@ -723,21 +633,18 @@
                     fileCard.className = 'watermark-preview mb-4 relative fade-in';
                     fileCard.innerHTML = `
                         <h2 class="text-center font-bold text-xl mb-4 text-blue-800">ملف المرحلة ${i + 1} - ${specificSchool}</h2>
-                        <p class="text-gray-700 leading-relaxed">محتوى الملف التعليمي. الملف محمي باسمك ومدرستك كعلامة مائية عربية.</p>
-                        
+                        <p class="text-gray-700">محتوى الملف. محمي باسمك ومدرستك كعلامة مائية.</p>
                         <div class="watermark-overlay">
                             <div class="watermark-text" style="top: 20%; left: -10%;">${wmText}</div>
                             <div class="watermark-text" style="top: 50%; left: -10%;">${wmText}</div>
                             <div class="watermark-text" style="top: 80%; left: -10%;">${wmText}</div>
                         </div>
-                        
                         <button type="button" onclick="downloadWatermarkedFile('${pdfKey}', ${userIndex}, ${i+1})" class="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold w-full cursor-pointer ${isFileAvailable ? '' : 'opacity-50 cursor-not-allowed'}" ${isFileAvailable ? '' : 'disabled'}>
-                            <i class="fas fa-download ml-1"></i> ${isFileAvailable ? 'تحميل ملف المرحلة ' + (i+1) : 'الملف غير متاح حالياً'}
+                            <i class="fas fa-download ml-1"></i> ${isFileAvailable ? 'تحميل ملف المرحلة ' + (i+1) : 'غير متاح'}
                         </button>
                     `;
                     filesContainer.appendChild(fileCard);
                 }
-
             } else {
                 for (let i = 0; i < user.phases; i++) {
                     const fileCard = document.createElement('div');
@@ -748,7 +655,7 @@
                             <div class="text-center">
                                 <i class="fas fa-lock text-red-600 text-5xl mb-3"></i>
                                 <h3 class="text-xl font-bold text-red-800">الاشتراك غير مفعل!</h3>
-                                <p class="text-red-700 text-sm">يرجى السداد لتفعيل تحميل الملفات</p>
+                                <p class="text-red-700 text-sm">يرجى السداد لتفعيل التحميل</p>
                             </div>
                         </div>
                     `;
@@ -757,28 +664,23 @@
             }
         }
 
-        // دالة حفظ تعديلات المشترك
         function saveProfileEdits() {
             if (currentLoggedUserIndex === -1) return;
-            
             const user = subscribers[currentLoggedUserIndex];
             user.name = document.getElementById('editName').value.trim();
             user.phone = document.getElementById('editPhone').value.trim();
-            
-            let schoolsArr = [];
-            let adminStr = "";
+            let schoolsArr = []; let adminStr = "";
             for (let i = 0; i < user.phases; i++) {
                 const sch = document.getElementById(`editSchool${i}`) ? document.getElementById(`editSchool${i}`).value.trim() : '';
                 const adm = document.getElementById(`editAdmin${i}`) ? document.getElementById(`editAdmin${i}`).value.trim() : '';
                 schoolsArr.push(sch || 'غير محدد');
-                if(adm) adminStr = adm; // أخذ إدارة واحدة كافية لو متشابهة
+                if(adm) adminStr = adm;
             }
             user.schools = schoolsArr;
             user.administration = adminStr || user.administration;
-
             saveData();
-            populateUserProfile(currentLoggedUserIndex); // إظهار البيانات المحدثة فوراً
-            alert('تم حفظ التعديلات بنجاح!');
+            populateUserProfile(currentLoggedUserIndex);
+            alert('تم حفظ التعديلات!');
         }
 
         window.onload = initSystem;
