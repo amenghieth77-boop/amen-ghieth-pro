@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <!-- المكتبة السحرية لتعديل الـ PDF ووضع العلامة المائية -->
+    <!-- المكتبة السحرية لتعديل الـ PDF -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     
     <style>
@@ -22,6 +22,8 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .locked-overlay { position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,0,0,0.2); z-index: 10; display: flex; align-items: center; justify-content: center; pointer-events: all; border-radius: 8px; }
+        .action-btn { transition: all 0.2s; cursor: pointer; }
+        .action-btn:hover { transform: scale(1.2); }
     </style>
 </head>
 <body>
@@ -53,7 +55,7 @@
                 <p id="userError" class="text-red-500 text-center mt-3 hidden">الكود أو الباسوورد غير صحيح!</p>
             </div>
 
-            <!-- استمارة التسجيل الجديدة (شكل لوحة بيانات كاملة) -->
+            <!-- استمارة التسجيل الجديدة -->
             <div id="registerLogin" class="hidden">
                 <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
                     <h4 class="font-bold text-green-800 mb-3 text-lg text-center"><i class="fas fa-clipboard-list ml-2"></i> استمارة تسجيل مشترك جديد</h4>
@@ -73,24 +75,25 @@
                     
                     <p id="regError" class="text-red-500 text-center mt-2 text-sm hidden"></p>
                 </div>
-                <button onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition"><i class="fas fa-save ml-1"></i> حفظ وتسجيل البيانات</button>
+                <button onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition text-lg"><i class="fas fa-save ml-1"></i> حفظ وتسجيل البيانات</button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة بيانات الدخول للمشترك الجديد -->
-    <div id="credentialsModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-        <div class="bg-white p-8 rounded-xl text-center max-w-sm relative fade-in">
-            <button onclick="closeModal()" class="absolute top-2 left-2 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
-            <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">تم التسجيل والحفظ بنجاح!</h3>
-            <p class="text-gray-600 mb-4">احتفظ بهذه البيانات لتسجيل دخولك كـ "مشترك":</p>
-            <div class="bg-gray-100 p-4 rounded-lg mb-4 border-2 border-dashed border-gray-300">
-                <p class="font-bold text-lg mb-2">الكود: <span id="modalCode" class="text-blue-600"></span></p>
-                <button onclick="copyText('modalCode')" class="text-sm bg-blue-100 px-2 py-1 rounded hover:bg-blue-200 transition ml-2 mb-2"><i class="fas fa-copy"></i> نسخ الكود</button>
-                <p class="font-bold text-lg mb-2 mt-3">الباسوورد: <span id="modalPass" class="text-red-600"></span></p>
-                <button onclick="copyText('modalPass')" class="text-sm bg-red-100 px-2 py-1 rounded hover:bg-red-200 transition ml-2"><i class="fas fa-copy"></i> نسخ الباسوورد</button>
+    <!-- نافذة تأكيد التسجيل والكود والباسوورد (ضخمة وواضحة) -->
+    <div id="credentialsModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div class="bg-white p-8 rounded-xl text-center max-w-lg relative fade-in border-4 border-green-500 shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-2 left-2 text-gray-400 hover:text-red-500 text-3xl">&times;</button>
+            <i class="fas fa-check-circle text-green-500 text-6xl mb-4"></i>
+            <h3 class="text-2xl font-bold mb-2 text-green-800">تم التسجيل والحفظ بنجاح!</h3>
+            <p class="text-gray-600 mb-4 text-lg">احتفظ بهذه البيانات لتسجيل دخولك كـ "مشترك"، لا يمكن استرجاعها إذا نسيتها!</p>
+            <div class="bg-gray-100 p-5 rounded-lg mb-4 border-2 border-dashed border-gray-400">
+                <p class="font-bold text-xl mb-2">الكود الخاص بك: <span id="modalCode" class="text-blue-700 text-2xl"></span></p>
+                <button onclick="copyText('modalCode')" class="text-sm bg-blue-200 px-4 py-2 rounded hover:bg-blue-300 transition ml-2 mb-2 font-bold"><i class="fas fa-copy ml-1"></i> نسخ الكود</button>
+                <p class="font-bold text-xl mb-2 mt-4">الباسوورد الخاص بك: <span id="modalPass" class="text-red-700 text-2xl"></span></p>
+                <button onclick="copyText('modalPass')" class="text-sm bg-red-200 px-4 py-2 rounded hover:bg-red-300 transition ml-2 font-bold"><i class="fas fa-copy ml-1"></i> نسخ الباسوورد</button>
             </div>
+            <button onclick="closeModal()" class="mt-4 bg-green-700 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-600 transition text-lg">تم، فهمت وحفظت البيانات!</button>
         </div>
     </div>
 
@@ -102,10 +105,10 @@
         </div>
 
         <div class="container mx-auto p-6 max-w-6xl">
-            <!-- بوابة رفع الملفات الشهرية (السحر الحقيقي) -->
+            <!-- بوابة رفع الملفات -->
             <div class="bg-white p-6 rounded-lg shadow mb-6 border-t-4 border-indigo-500">
                 <h3 class="text-xl font-bold mb-4"><i class="fas fa-cloud-upload-alt ml-2 text-indigo-500"></i> بوابة رفع الملفات الشهرية (PDF)</h3>
-                <p class="text-sm text-gray-500 mb-4">ارفع ملفات المراحل هنا. لما المشترك المسدد يحملها، النظام هيطبع كوده ورقم تليفونه كعلامة مائية على الـ PDF ذاته!</p>
+                <p class="text-sm text-gray-500 mb-4">ارفع ملفات المراحل هنا. النظام هيطبع اسم المشترك ومدرسته باللغة العربية كعلامة مائية على الـ PDF ذاته!</p>
                 <div class="grid grid-cols-3 gap-4">
                     <div>
                         <label class="block font-bold mb-1 text-gray-700">ملف المرحلة 1:</label>
@@ -120,11 +123,10 @@
                         <input type="file" id="filePhase3" accept="application/pdf" class="w-full border p-2 rounded text-sm">
                     </div>
                 </div>
-                <button onclick="saveUploadedFiles()" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded font-bold hover:bg-indigo-700 transition"><i class="fas fa-upload ml-1"></i> رفع وحفظ الملفات في النظام</button>
+                <button onclick="saveUploadedFiles()" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded font-bold hover:bg-indigo-700 transition"><i class="fas fa-upload ml-1"></i> رفع وحفظ الملفات</button>
                 <div id="fileStatus" class="mt-2 text-green-600 font-bold hidden">الملفات محفوظة بنجاح وجاهزة للتحميل!</div>
             </div>
 
-            <!-- الإحصائيات والجدول -->
             <div class="grid grid-cols-3 gap-4 mb-6">
                 <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-users text-blue-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statTotal">0</h3><p class="text-gray-500">إجمالي المشتركين</p></div>
                 <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-check-circle text-green-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statPaid">0</h3><p class="text-gray-500">السداد المدفوع</p></div>
@@ -136,7 +138,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-right border-collapse">
                         <thead><tr class="bg-gray-200">
-                            <th class="p-3 border">#</th><th class="p-3 border">الاسم</th><th class="p-3 border">المراحل/المدارس</th><th class="p-3 border">الإدارة</th><th class="p-3 border">الهاتف</th><th class="p-3 border">المبلغ</th><th class="p-3 border">الكود</th><th class="p-3 border">الباسوورد</th><th class="p-3 border">السداد</th><th class="p-3 border">حذف</th>
+                            <th class="p-3 border">#</th><th class="p-3 border">الاسم</th><th class="p-3 border">المراحل/المدارس</th><th class="p-3 border">الإدارة</th><th class="p-3 border">الهاتف</th><th class="p-3 border">المبلغ</th><th class="p-3 border">الكود</th><th class="p-3 border">الباسوورد</th><th class="p-3 border">تفعيل السداد</th><th class="p-3 border">حذف</th>
                         </tr></thead>
                         <tbody id="subscribersTable"></tbody>
                     </table>
@@ -328,7 +330,84 @@
         }
 
         // ==========================================
-        // بوابة رفع الملفات PDF (السحر الحقيقي)
+        // الحل العبقري: العلامة المائية العربية على ال PDF
+        // ==========================================
+        function generateArabicWatermarkImage(text) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const fontSize = 40;
+            ctx.font = `bold ${fontSize}px Cairo, Arial, sans-serif`;
+            const textWidth = ctx.measureText(text).width;
+            
+            canvas.width = textWidth + 40;
+            canvas.height = fontSize + 40;
+            
+            // Redraw after resizing (resizing clears context state)
+            ctx.font = `bold ${fontSize}px Cairo, Arial, sans-serif`;
+            ctx.fillStyle = 'rgba(120, 120, 120, 0.5)'; // Gray transparent color
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+            
+            const dataUrl = canvas.toDataURL('image/png');
+            // Convert base64 to Uint8Array for pdf-lib
+            const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+            const pngBytes = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+            
+            return pngBytes;
+        }
+
+        async function downloadWatermarkedFile(phaseKey, user, phaseNum) {
+            const pdfBase64 = localStorage.getItem(phaseKey);
+            if (!pdfBase64) {
+                alert('الملف غير متاح حالياً، المدير لم يرفع ملف هذه المرحلة بعد.');
+                return;
+            }
+            
+            // 1. Generate Arabic Watermark Image
+            const specificSchool = (user.schools && user.schools[phaseNum-1]) ? user.schools[phaseNum-1] : (user.school || 'غير محدد');
+            const watermarkText = `${user.name} | ${specificSchool}`;
+            const watermarkPngBytes = generateArabicWatermarkImage(watermarkText);
+
+            try {
+                const pdfBytes = Uint8Array.from(atob(pdfBase64.split(',')[1]), c => c.charCodeAt(0));
+                const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+                const pages = pdfDoc.getPages();
+                
+                // 2. Embed the generated Arabic PNG image into the PDF
+                const watermarkImage = await pdfDoc.embedPng(watermarkPngBytes);
+                const imgDims = watermarkImage.scale(0.7); // Adjust size
+
+                // 3. Draw the image diagonally on every page
+                pages.forEach(page => {
+                    const { width, height } = page.getSize();
+                    page.drawImage(watermarkImage, {
+                        x: width / 4,
+                        y: height / 2,
+                        width: imgDims.width,
+                        height: imgDims.height,
+                        rotate: PDFLib.degrees(-45),
+                        opacity: 0.3,
+                    });
+                });
+
+                // 4. Save and trigger download
+                const modifiedPdfBytes = await pdfDoc.save();
+                const blob = new Blob([modifiedPdfBytes], { type: "application/pdf" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = `AmenGhieth_Phase${phaseNum}_${user.code}.pdf`;
+                link.click();
+            } catch (e) {
+                console.error(e);
+                alert('حدث خطأ في تعديل الملف. تأكد أن الملف المرفوع PDF صحيح.');
+            }
+        }
+
+        // ==========================================
+        // بوابة رفع الملفات PDF
         // ==========================================
         function saveUploadedFiles() {
             const files = [
@@ -354,59 +433,13 @@
                                 alert('تم رفع وحفظ الملفات بنجاح! المشتركين المسددين يقدروا يحملوا دلوقتي.');
                             }
                         } catch (err) {
-                            alert('خطأ: الملف كبير جداً والمتصفح مش بيقدر يحفظه. حاول ترفع ملفات أقل في الحجم.');
+                            alert('خطأ: الملف كبير جداً والمتصفح مش بيقدر يحفظه.');
                         }
                     };
                     reader.readAsDataURL(file);
                 }
             });
-
-            if(filesToSave === 0) {
-                alert('لم تقم باختيار أي ملفات لرفعها!');
-            }
-        }
-
-        // دالة تحميل الملف بالعلامة المائية
-        async function downloadWatermarkedFile(phaseKey, user, phaseNum) {
-            const pdfBase64 = localStorage.getItem(phaseKey);
-            if (!pdfBase64) {
-                alert('الملف غير متاح حالياً، المدير لم يرفع ملف هذه المرحلة بعد.');
-                return;
-            }
-            
-            try {
-                const pdfBytes = Uint8Array.from(atob(pdfBase64.split(',')[1]), c => c.charCodeAt(0));
-                const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
-                const pages = pdfDoc.getPages();
-                const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
-                
-                // طباعة العلامة المائية بالكود والباسوورد (إنجليزي فتطبع 100% على ال PDF)
-                const watermarkText = `Code: ${user.code} | Pass: ${user.password} | Tel: ${user.phone}`;
-                
-                pages.forEach(page => {
-                    const { width, height } = page.getSize();
-                    for(let i=0; i<3; i++) { // طباعة 3 مرات في الصورة للتغطية
-                        page.drawText(watermarkText, {
-                            x: 50, y: height - (150 * i) - 50,
-                            size: 18,
-                            font: font,
-                            color: PDFLib.rgb(0.5, 0.5, 0.5),
-                            rotate: PDFLib.degrees(-45),
-                            opacity: 0.3,
-                        });
-                    }
-                });
-                
-                const modifiedPdfBytes = await pdfDoc.save();
-                const blob = new Blob([modifiedPdfBytes], { type: "application/pdf" });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = `AmenGhieth_Phase${phaseNum}_${user.code}.pdf`;
-                link.click();
-            } catch (e) {
-                alert('حدث خطأ في تعديل الملف. تأكد أن الملف المرفوع هو PDF صحيح وليس محمي بكلمة مرور.');
-                console.error(e);
-            }
+            if(filesToSave === 0) alert('لم تقم باختيار أي ملفات لرفعها!');
         }
 
         // ==========================================
@@ -473,7 +506,7 @@
         }
 
         // ==========================================
-        // استمارة تسجيل مشترك جديد (فورم كامل)
+        // استمارة تسجيل مشترك جديد
         // ==========================================
         function updateRegFields() {
             const phases = document.getElementById('regPhases') ? document.getElementById('regPhases').value : 1;
@@ -557,10 +590,12 @@
             saveData();
             updateStats();
 
+            // عرض النافذة الضخمة للكود والباسوورد
             document.getElementById('modalCode').innerText = newCode;
             document.getElementById('modalPass').innerText = newPass;
             document.getElementById('credentialsModal').classList.remove('hidden');
 
+            // مسح الفورم بعد الحفظ
             document.getElementById('regName').value = '';
             document.getElementById('regPhone').value = '';
             updateRegFields();
@@ -574,7 +609,7 @@
         }
 
         // ==========================================
-        // لوحة تحكم المدير
+        // لوحة تحكم المدير (أيقونات نشطة 100%)
         // ==========================================
         function togglePayment(index) {
             subscribers[index].paid = !subscribers[index].paid;
@@ -598,7 +633,7 @@
             
             subscribers.forEach((sub, index) => {
                 const row = document.createElement('tr');
-                row.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                row.className = index % 2 === 0 ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 hover:bg-gray-100';
                 row.innerHTML = `
                     <td class="p-3 border text-center">${index + 1}</td>
                     <td class="p-3 border font-bold">${sub.name}</td>
@@ -609,12 +644,12 @@
                     <td class="p-3 border text-blue-600 font-bold">${sub.code}</td>
                     <td class="p-3 border text-red-600 font-bold">${sub.password}</td>
                     <td class="p-3 border text-center">
-                        <button onclick="togglePayment(${index})" title="${sub.paid ? 'إلغاء السداد' : 'تفعيل السداد'}" class="transition">
-                            <i class="fas ${sub.paid ? 'fa-check-circle text-green-500 hover:text-green-700' : 'fa-times-circle text-red-400 hover:text-red-600'} text-2xl"></i>
+                        <button onclick="togglePayment(${index})" title="${sub.paid ? 'إلغاء السداد' : 'تفعيل السداد'}" class="action-btn p-2 inline-block">
+                            <i class="fas ${sub.paid ? 'fa-check-circle text-green-500' : 'fa-times-circle text-red-400'} text-2xl"></i>
                         </button>
                     </td>
                     <td class="p-3 border text-center">
-                        <button onclick="deleteSubscriber(${index})" title="حذف المشترك" class="transition hover:text-red-700">
+                        <button onclick="deleteSubscriber(${index})" title="حذف المشترك" class="action-btn p-2 inline-block">
                             <i class="fas fa-trash-alt text-red-500 text-xl"></i>
                         </button>
                     </td>
@@ -632,7 +667,7 @@
         }
 
         // ==========================================
-        // لوحة المشترك (تحميل الملفات بالعلامة المائية)
+        // لوحة المشترك
         // ==========================================
         function populateUserProfile(user) {
             document.getElementById('profileName').innerText = user.name;
@@ -646,6 +681,7 @@
             const paidIcon = document.getElementById('profilePaidIcon');
             const filesContainer = document.getElementById('filesContainer');
             filesContainer.innerHTML = ''; 
+            window.currentUserObj = user; // تخزين بيانات المشترك عشان نستخدمها في التحميل
 
             if (user.paid) {
                 paidSpan.innerText = 'مدفع (مفعل)';
@@ -657,7 +693,7 @@
                 
                 for (let i = 0; i < user.phases; i++) {
                     const specificSchool = userSchools[i] || userSchools[0];
-                    const wmText = `${user.name} | ${specificSchool}`; // علامة مائية HTML عربية
+                    const wmText = `${user.name} | ${specificSchool}`;
                     const pdfKey = phaseKeys[i];
                     const isFileAvailable = localStorage.getItem(pdfKey) ? true : false;
 
@@ -665,7 +701,7 @@
                     fileCard.className = 'watermark-preview mb-4 relative fade-in';
                     fileCard.innerHTML = `
                         <h2 class="text-center font-bold text-xl mb-4 text-blue-800">ملف المرحلة ${i + 1} - ${specificSchool}</h2>
-                        <p class="text-gray-700 leading-relaxed">محتوى الملف التعليمي للمرحلة. الملف محمي بكودك ورقم تليفونك كعلامة مائية لضمان حقوقك.</p>
+                        <p class="text-gray-700 leading-relaxed">محتوى الملف التعليمي للمرحلة. الملف محمي باسمك ومدرستك كعلامة مائية عربية لضمان حقوقك.</p>
                         
                         <div class="watermark-overlay">
                             <div class="watermark-text" style="top: 20%; left: -10%;">${wmText}</div>
@@ -674,7 +710,7 @@
                         </div>
                         
                         <button onclick="downloadWatermarkedFile('${pdfKey}', currentUserObj, ${i+1})" class="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold w-full ${isFileAvailable ? '' : 'opacity-50 cursor-not-allowed'}" ${isFileAvailable ? '' : 'disabled'}>
-                            <i class="fas fa-download ml-1"></i> ${isFileAvailable ? 'تحميل ملف المرحلة ' + (i+1) + ' (PDF بالعلامة المائية)' : 'الملف غير متاح حالياً (المدير لم يرفعه)'}
+                            <i class="fas fa-download ml-1"></i> ${isFileAvailable ? 'تحميل ملف المرحلة ' + (i+1) + ' (PDF بالعلامة المائية العربية)' : 'الملف غير متاح حالياً (المدير لم يرفعه)'}
                         </button>
                     `;
                     filesContainer.appendChild(fileCard);
@@ -701,8 +737,6 @@
                     filesContainer.appendChild(fileCard);
                 }
             }
-            // تخزين بيانات المشترك الحالي globally عشان نستخدمها في الداونلود
-            window.currentUserObj = user;
         }
 
         window.onload = initSystem;
