@@ -12,17 +12,9 @@
         body { font-family: 'Cairo', sans-serif; background: #f0f2f5; }
         .login-bg { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
         .card-shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .watermark-preview { 
-            position: relative; border: 2px solid #ddd; background: white; padding: 20px; min-height: 300px;
-        }
-        .watermark-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            overflow: hidden; pointer-events: none; opacity: 0.15;
-        }
-        .watermark-text {
-            position: absolute; font-size: 24px; font-weight: bold; color: #000;
-            transform: rotate(-45deg); white-space: nowrap;
-        }
+        .watermark-preview { position: relative; border: 2px solid #ddd; background: white; padding: 20px; min-height: 300px; }
+        .watermark-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; opacity: 0.15; }
+        .watermark-text { position: absolute; font-size: 24px; font-weight: bold; color: #000; transform: rotate(-45deg); white-space: nowrap; }
         .tab-active { background: #2a5298; color: white; }
         .tab-inactive { background: #e2e8f0; color: #4a5568; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
@@ -47,7 +39,7 @@
                 <button onclick="switchTab('user')" id="tabUser" class="flex-1 py-2 rounded-lg transition tab-active font-bold text-sm">
                     <i class="fas fa-user ml-1"></i> المشترك
                 </button>
-                <button onclick="switchTab('register')" id="tabRegister" class="flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200">
+                <button onclick="switchTab('register')" id="tabRegister" class="flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200">
                     <i class="fas fa-user-plus ml-1"></i> تسجيل جديد
                 </button>
             </div>
@@ -75,7 +67,7 @@
             <div id="registerLogin" class="hidden">
                 <input type="text" id="regName" placeholder="الاسم بالكامل" class="w-full p-3 border rounded-lg mb-3 text-center">
                 <input type="text" id="regPhone" placeholder="رقم الهاتف" class="w-full p-3 border rounded-lg mb-3 text-center">
-                <select id="regPhases" class="w-full p-3 border rounded-lg mb-3 text-center" onchange="updateRegFields()">
+                <select id="regPhases" class="w-full p-3 border rounded-lg mb-3 text-center bg-white" onchange="updateRegFields()">
                     <option value="1">1 مرحلة (75 ج.م)</option>
                     <option value="2">2 مراحل (125 ج.م)</option>
                     <option value="3">3 مراحل (150 ج.م)</option>
@@ -83,10 +75,6 @@
                 
                 <div id="regSchoolsContainer">
                     <!-- هنا تظهر حقول المدرسة والإدارة حسب عدد المراحل -->
-                    <div class="mb-3 p-3 border rounded-lg bg-gray-50 school-field">
-                        <input type="text" placeholder="اسم المدرسة للمرحلة 1" class="w-full p-2 border rounded mb-2 text-center reg-school">
-                        <input type="text" placeholder="الإدارة التعليمية" class="w-full p-2 border rounded text-center reg-admin">
-                    </div>
                 </div>
 
                 <button onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition mt-2">
@@ -97,14 +85,14 @@
         </div>
     </div>
 
-    <!-- نافذة بيانات الدخول للمشترك الجديد (تظهر بعد التسجيل) -->
-    <div id="credentialsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <!-- نافذة بيانات الدخول للمشترك الجديد -->
+    <div id="credentialsModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
         <div class="bg-white p-8 rounded-xl text-center max-w-sm relative fade-in">
             <button onclick="closeModal()" class="absolute top-2 left-2 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
             <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
             <h3 class="text-xl font-bold mb-2">تم التسجيل بنجاح!</h3>
             <p class="text-gray-600 mb-4">احتفظ بهذه البيانات لتسجيل دخولك كـ "مشترك":</p>
-            <div class="bg-gray-100 p-4 rounded-lg mb-4">
+            <div class="bg-gray-100 p-4 rounded-lg mb-4 border-2 border-dashed border-gray-300">
                 <p class="font-bold text-lg mb-2">الكود: <span id="modalCode" class="text-blue-600"></span></p>
                 <button onclick="copyText('modalCode')" class="text-sm bg-blue-100 px-2 py-1 rounded hover:bg-blue-200 transition ml-2 mb-2"><i class="fas fa-copy"></i> نسخ الكود</button>
                 <p class="font-bold text-lg mb-2 mt-3">الباسوورد: <span id="modalPass" class="text-red-600"></span></p>
@@ -117,7 +105,7 @@
     <!-- لوحة تحكم المدير -->
     <div id="adminPanel" class="hidden min-h-screen bg-gray-100">
         <div class="bg-blue-900 text-white p-4 flex justify-between items-center shadow-lg">
-            <h2 class="text-xl font-bold"><i class="fas fa-cogs ml-2"></i> لوحة تحكم Amen Ghieth Pro</h2>
+            <h2 class="text-xl font-bold"><i class="fas fa-cogs ml-2"></i> لوحة تحكم المدير</h2>
             <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
         </div>
 
@@ -173,7 +161,7 @@
     <!-- لوحة المشترك -->
     <div id="userPanel" class="hidden min-h-screen bg-gray-100">
         <div class="bg-green-700 text-white p-4 flex justify-between items-center shadow-lg">
-            <h2 class="text-xl font-bold"><i class="fas fa-user-circle ml-2"></i> Amen Ghieth Pro - حسابي</h2>
+            <h2 class="text-xl font-bold"><i class="fas fa-user-circle ml-2"></i> حسابي - Amen Ghieth Pro</h2>
             <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
         </div>
 
@@ -198,9 +186,8 @@
                 
                 <div class="watermark-preview mb-4" id="watermarkDemo">
                     <h2 class="text-center font-bold text-xl mb-4">محتوى الملف التعليمي - Amen Ghieth Pro</h2>
-                    <p class="text-gray-700 leading-relaxed">هذا النص هو مثال لنص المحتوى التعليمي الذي سيستلمه المشترك. يتم وضع العلامة المائية لضمان عدم تسريب الملف لأشخاص غير مشتركين.</p>
+                    <p class="text-gray-700 leading-relaxed">هذا النص هو مثال للمحتوى التعليمي. يتم وضع العلامة المائية لضمان عدم تسريب الملف.</p>
                     
-                    <!-- العلامة المائية -->
                     <div class="watermark-overlay">
                         <div class="watermark-text" style="top: 20%; left: -10%;" id="wm1"></div>
                         <div class="watermark-text" style="top: 50%; left: -10%;" id="wm2"></div>
@@ -208,7 +195,7 @@
                     </div>
                 </div>
 
-                <button onclick="alert('سيتم تفعيل رفع وتحميل الملفات الفعلي عند ربط النظام بسيرفر حقيقي')" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold">
+                <button onclick="alert('سيتم تفعيل تحميل الملفات الفعلي عند ربط النظام بالسيرفر')" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold">
                     <i class="fas fa-download ml-1"></i> تحميل الملف المعالج
                 </button>
             </div>
@@ -216,13 +203,34 @@
     </div>
 
     <script>
-        // --- 1. تحويل الأرقام العربية ---
+        // ==========================================
+        // 1. مسح ذاكرة المتصفح القديمة إجبارياً لتحميل بيانات الإكسيل بدون تدخل من الكود المعطل السابق
+        // ==========================================
+        localStorage.removeItem('amenGhiethSubs');
+
+        // ==========================================
+        // 2. محول الأرقام العربي والفارسي والهندية القوي (لا يهمل أي رقم)
+        // ==========================================
         function toEngNum(str) {
             if (!str) return '';
-            return String(str).replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632);
+            let res = String(str);
+            // تحويل الأرقام العربية الشرقية (٠-٩)
+            res = res.replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632);
+            // تحويل الأرقام الفارسية/الهندية (۰-۹) التي كانت سبب في فقدان بعض السطور
+            res = res.replace(/[۰-۹]/g, d => d.charCodeAt(0) - 1776);
+            return res;
         }
 
-        // --- 2. البيانات المرفقة من الإكسيل ---
+        function cleanPhone(str) {
+            if (!str) return '';
+            // إزالة كل الحروف والمسافات والرموز الغريبة من رقم الهاتف وتحويله لإنجليزي
+            let num = toEngNum(str);
+            return num.replace(/[^0-9]/g, '');
+        }
+
+        // ==========================================
+        // 3. بيانات الإكسيل الأصلية (تم نسخها حرفياً من رسالتك)
+        // ==========================================
         const rawExcelData = `
 1 | * | 1 | اسماء ابوبكر عبدالحكيم عبدالغنى | ملحقة المعلمين الابتدائيه | 01028924447 | 1 | 75 | C-6427 | P-5616 | مدفع
 2 | * | 2 | اسماء محمد احمد | الشعراوي | 01027786671 | 1 | 75 | C-2026 | P-9160 | مدفع
@@ -231,7 +239,7 @@
 5 | * | 5 | امانى سعيد جابر الشبراوى | كفر عبيان القديمه ب | 01012761394 | 1 | 75 | C-5396 | P-5002 | مدفع
 6 | * | 6 | امانى سعيد جابر الشبراوى | كفر عبيان القديمه ب | 01012761394 | 1 | 75 | C-5606 | P-9209 | مدفع
 7 | * | 7 | انسام احمد فتحى | السيدة عائشة | 01202504270 | 1 | 75 | C-8852 | P-5757 | مدفع
-8 | * | 8 | ايناس علي ادم | مدرسه الشهيد محمود محمد جوده | ٠١٠٠٧٤٩٧٢٢٧ | 1 | 75 | C-2707 | P-3027 | مدفع
+8 | * | 8 | ايناس علي ادم | مدرسه الشهيد محمود محمد جوده | ٠١٠٠٧٤٩٧٢۲۷ | 1 | 75 | C-2707 | P-3027 | مدفع
 9 | * | 9 | أسماء حمدى يوسف | الشهيد مدحت عبدالعزيز الاعداديه المشتركه | 01032632099 | 2 | 125 | C-6981 | P-2942 | مدفع
 10 | * | 10 | أسماء حمدى يوسف | الشهيد مدحت عبدالعزيز الاعداديه المشتركه | 01032632099 | 2 | 125 | C-6973 | P-4895 | مدفع
 11 | * | 11 | أسماء خالد إبراهيم | السادات الابتدائيه | 01284455706 | 1 | 75 | C-8569 | P-2527 | مدفع
@@ -245,14 +253,14 @@
 19 | * | 19 | أماني خيري الباجوري | مدرسة كفر جعفر الاعدادية بنات | 01063887136 | 1 | 75 | C-3410 | P-4653 | مدفع
 20 | * | 20 | أميرة خيرى محمود | حى الإسكان الاقتصادي للتعليم الاساسى بسوهاج الجديدة | 01147344221 | 1 | 75 | C-4904 | P-4330 | مدفع
 21 | * | 21 | بثينه السيد صديق | جاب الله ت.ا | 01147833510 | 2 | 125 | C-8048 | P-5979 | مدفع
-22 | * | 22 | جيهان عبد العزيز لبيب خليل الهوارى | ام القرى للتعليم الأساسي بدروه /ومدرسة دروه الثانويه المشتركه | ٠١١٥٢٢٤٧٧٥٨ | 3 | 150 | C-5247 | P-4164 | مدفع
+22 | * | 22 | جيهان عبد العزيز لبيب خليل الهوارى | ام القرى للتعليم الأساسي بدروه /ومدرسة دروه الثانويه المشتركه | ٠١١۵۲۲۴۷۷۵۸ | 3 | 150 | C-5247 | P-4164 | مدفع
 23 | * | 23 | حنان البي أمين عبد الشافي | هور الإبتدائية المشتركة | 01024456829 | 1 | 75 | C-8922 | P-6897 | مدفع
-24 | * | 24 | حنان نصر الدين محمود | ام المؤمنين الابتدائية | ٠١٠٠٩٢٠١٢٠٧ | 1 | 75 | C-3390 | P-7174 | مدفع
+24 | * | 24 | حنان نصر الدين محمود | ام المؤمنين الابتدائية | ٠١٠٠۹۲۰۱۲۰۷ | 1 | 75 | C-3390 | P-7174 | مدفع
 25 | * | 25 | داليا حسين عبدالرحمن | مدرسة السادات بكفر الحاج عمر | 01148008929 | 1 | 75 | C-2495 | P-2757 | مدفع
 26 | * | 26 | دعاء ابرلهيم فهمي جمال الدين | العباسية الاعداديه بنات | 01011488836 | 1 | 75 | C-1023 | P-4899 | مدفع
 27 | * | 27 | دعاء إبراهيم فهمي جمال الدين | العباسية الاعداديه بنات | 01011488836 | 1 | 75 | C-3578 | P-6845 | مدفع
-28 | * | 28 | دعاء زينهم صادق | كفر المداور الاعدادية | ٠١٠٦٨٦٥٥٧٢٧ | 2 | 125 | C-8283 | P-6781 | مدفع
-29 | * | 29 | دعاء زينهم صادق | كفر المداور الاعدادية | ٠١٠٦٨٦٥٥٧٢٧ | 2 | 125 | C-1915 | P-2158 | مدفع
+28 | * | 28 | دعاء زينهم صادق | كفر المداور الاعدادية | ٠١۰٦۸۶۵۵۷۲۷ | 2 | 125 | C-8283 | P-6781 | مدفع
+29 | * | 29 | دعاء زينهم صادق | كفر المداور الاعدادية | ٠١۰٦۸۶۵۵۷۲۷ | 2 | 125 | C-1915 | P-2158 | مدفع
 30 | * | 30 | دعاء محمد غنيم | الاسماعيلية الثانوية الرسمية بنات | 01122739970 | 1 | 75 | C-1200 | P-9337 | مدفع
 31 | * | 31 | رامي محمد علي شعيشع | مدرسة شبراتنا تعليم أساسي | 01126299299. | 2 | 125 | C-1713 | P-6885 | مدفع
 32 | * | 32 | رجب سيد سليم | العبور الثانويه الصناعيه | 01146568493 | 1 | 75 | C-3379 | P-6507 | مدفع
@@ -265,17 +273,17 @@
 39 | * | 39 | رشاطلعت | كوم اشفين الابتدائى | 01018431798 | 1 | 75 | C-2364 | P-5233 | مدفع
 40 | * | 40 | رشاطلعت | كوم اشفين الابتدائى | 01018431798 | 1 | 75 | C-7572 | P-3232 | مدفع
 41 | * | 41 | رمضان عبد الصمد عبد الحفيظ حسين | مدرسه الشعب الاعدادية بنين | 01228394216 | 1 | 75 | C-8467 | P-5706 | مدفع
-42 | * | 42 | زهور محمود حسن | اسطال الاعدادية | ٠١٠٠٨٩٥٥٣٥٤ | 1 | 75 | C-6069 | P-5548 | مدفع
+42 | * | 42 | زهور محمود حسن | اسطال الاعدادية | ٠١٠٠۸۹۵۵۳۵۴ | 1 | 75 | C-6069 | P-5548 | مدفع
 43 | * | 43 | زينات ابراهيم احمد ابراهيم مرسي | الشهيد ممدوح سعد عبد الرازق الاعداديه | 01278704514 | 1 | 75 | C-9848 | P-3750 | مدفع
-44 | * | 44 | زينه محمد بدوي | مزغونة الابتدائيه المشتركه | ٠١١٥٦٣٩١٨٣۸ | 1 | 75 | C-4471 | P-8479 | مدفع
+44 | * | 44 | زينه محمد بدوي | مزغونة الابتدائيه المشتركه | ٠۱۱۵۶۳۹۱۸۳۸ | 1 | 75 | C-4471 | P-8479 | مدفع
 45 | * | 45 | ساره ناجي غازي | كفر الصارم الاعدادي المشتركه | 01110957016 | 1 | 75 | C-5679 | P-3143 | مدفع
-46 | * | 46 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠١٠٢٩٤٢۴۳۴۷ | 1 | 75 | C-9822 | P-4216 | مدفع
+46 | * | 46 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠۱۰۲۹۴۲۴۳۴۷ | 1 | 75 | C-9822 | P-4216 | مدفع
 47 | * | 47 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | 01029424347 | 1 | 75 | C-5653 | P-9045 | مدفع
-48 | * | 48 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠١٠٢٩۴۲۴۳۴۷ | 1 | 75 | C-2439 | P-1087 | مدفع
-49 | * | 49 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠١٠۲۹۴۲۴۳۴۷ | 1 | 75 | C-1972 | P-6124 | مدفع
+48 | * | 48 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠۱۰۲۹۴۲۴۳۴۷ | 1 | 75 | C-2439 | P-1087 | مدفع
+49 | * | 49 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠۱۰۲۹۴۲۴۳۴۷ | 1 | 75 | C-1972 | P-6124 | مدفع
 50 | * | 50 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | 01029424347 | 1 | 75 | C-7341 | P-5516 | مدفع
 51 | * | 51 | سالي سمير | الجديدة الاعداديه | 01124171018 | 1 | 75 | C-5622 | P-6186 | مدفع
-52 | * | 52 | ساميه منصور احمد ابراهيم | مدرسه السادات الاعداديه بنات | ٠١٠۹۳۹۲۴۶۶۲ | 1 | 75 | C-3039 | P-1617 | مدفع
+52 | * | 52 | ساميه منصور احمد ابراهيم | مدرسه السادات الاعداديه بنات | ٠۱۰۹۳۹۲۴۶۶۲ | 1 | 75 | C-3039 | P-1617 | مدفع
 53 | * | 53 | سعد محمد عبد اللطيف المهدي | مدرسة جهينه الشرقية الاعدادية | 01286080089 | 1 | 75 | C-9232 | P-5578 | مدفع
 54 | * | 54 | سلمى احمد محمد حامد | العوينه الجديدة | 01100263797 | 1 | 75 | C-6256 | P-2784 | مدفع
 55 | * | 55 | سميرة سليمان أسعد سليمان | الخصوص التجاريه بنات | 01220618172 | 1 | 75 | C-1734 | P-4961 | مدفع
@@ -283,16 +291,16 @@
 57 | * | 57 | سميرة سليمان أسعد سليمان | الخصوص التجاريه بنات | 01220618172 | 1 | 75 | C-7049 | P-7897 | مدفع
 58 | * | 58 | سميه صلاح الدين عبد العظيم محمد | بني عبيد الاعداديه بنات | 01092379060 | 1 | 75 | C-5118 | P-5059 | مدفع
 59 | * | 59 | سهير سلام محمد حسنين | الشهيد مصطفى لطفى التجارية بنات | 01011998602 | 1 | 75 | C-5909 | P-7428 | مدفع
-60 | * | 60 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١۲۸۴۳۳۹۵۷۵ | 1 | 75 | C-4062 | P-9448 | مدفع
-61 | * | 61 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١۲۸۴۳۳۹۵۷۵ | 1 | 75 | C-1065 | P-7752 | مدفع
-62 | * | 62 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١۲۸۴۳۳۹۵۷۵ | 1 | 75 | C-6615 | P-7995 | مدفع
-63 | * | 63 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١۲۸۴۳۳۹۵۷۵ | 1 | 75 | C-7447 | P-9470 | مدفع
-64 | * | 64 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١۲۸۴۳۳۹۵۷۵ | 1 | 75 | C-9634 | P-8154 | مدفع
-65 | * | 65 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١۲۸۴۳۳۹۵۷٥ | 1 | 75 | C-2153 | P-7273 | مدفع
-66 | * | 66 | شيماء علي محمود الجمال | مدرسة الثانوية الصناعية بنات بسوهاج | ٠١٠٩五六〇〇٦٩١ | 1 | 75 | C-3164 | P-1554 | مدفع
-67 | * | 67 | صباح ابراهيم شحاته على | مدرسة نور العلم الثانوية | ٠١۲۸۸۳٦۷۹۲۴ | 1 | 75 | C-1652 | P-5754 | مدفع
-68 | * | 68 | صفاء محمد السيد إبراهيم | مدرسة ناصر الابتدائية بالتل الكبير | ٠١١۲٥١٩۴۱۷۵ | 1 | 75 | C-8511 | P-6046 | مدفع
-69 | * | 69 | عبله هاشم عبد الباقي هاشم | مدرسه النيل الاعداديه بنات بديروط | ٠١٠٠۲٦۳۳٦٩٦ | 1 | 75 | C-1337 | P-4567 | مدفع
+60 | * | 60 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠۱۲۸۴۳۳۹۵۷۵ | 1 | 75 | C-4062 | P-9448 | مدفع
+61 | * | 61 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠۱۲۸۴۳۳۹۵۷۵ | 1 | 75 | C-1065 | P-7752 | مدفع
+62 | * | 62 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠۱۲۸۴۳۳۹۵۷٥ | 1 | 75 | C-6615 | P-7995 | مدفع
+63 | * | 63 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠۱۲۸۴۳۳۹۵۷۵ | 1 | 75 | C-7447 | P-9470 | مدفع
+64 | * | 64 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠۱۲۸۴۳۳۹۵۷٥ | 1 | 75 | C-9634 | P-8154 | مدفع
+65 | * | 65 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠۱۲۸۴۳۳۹۵۷٥ | 1 | 75 | C-2153 | P-7273 | مدفع
+66 | * | 66 | شيماء علي محمود الجمال | مدرسة الثانوية الصناعية بنات بسوهاج | ٠۱۰۹五六〇〇٦۹۱ | 1 | 75 | C-3164 | P-1554 | مدفع
+67 | * | 67 | صباح ابراهيم شحاته على | مدرسة نور العلم الثانوية | ٠۱۲۸۸۳٦۷۹۲۴ | 1 | 75 | C-1652 | P-5754 | مدفع
+68 | * | 68 | صفاء محمد السيد إبراهيم | مدرسة ناصر الابتدائية بالتل الكبير | ٠۱۱۲۵۱۹۴۱۷۵ | 1 | 75 | C-8511 | P-6046 | مدفع
+69 | * | 69 | عبله هاشم عبد الباقي هاشم | مدرسه النيل الاعداديه بنات بديروط | ٠۱٠٠۲٦۳۳٦۹٦ | 1 | 75 | C-1337 | P-4567 | مدفع
 70 | * | 70 | عزة أمين محمد نوفل | املي عبدالمسيح تعليم اساسي | 01092613410 | 1 | 75 | C-2049 | P-5445 | مدفع
 71 | * | 71 | عزة أمين محمد نوفل | املي عبدالمسيح تعليم اساسي | 01092613410 | 1 | 75 | C-2569 | P-6941 | مدفع
 72 | * | 72 | عزة على عبد الرازق | شرم الرسمية لغات | 01003613675 | 1 | 75 | C-7099 | P-4049 | مدفع
@@ -303,19 +311,19 @@
 77 | * | 77 | فاطمه النوبي الشاذلي | مدرسة عمر بن عبد العزيز الابتدائيه | 01008936689 | 1 | 75 | C-5853 | P-1785 | مدفع
 78 | * | 78 | فاطمه على عبد الحليم أحمد | مدرسة عثمان بن عفان الاعدادية المشتركة | 01069176520 | 1 | 75 | C-3445 | P-5270 | مدفع
 79 | * | 79 | فاطمه محمود اسماعيل | برديس تعليم اساسى | 01035821829 | 3 | 150 | C-6368 | P-9056 | مدفع
-80 | * | 80 | فتحية عبدالله الشواتفي محمد | مدرسة الشهيد حمادة صابر الابتدائية | ٠١٠١۴٠٠۵۵۳۹ | 1 | 75 | C-6928 | P-9375 | مدفع
+80 | * | 80 | فتحية عبدالله الشواتفي محمد | مدرسة الشهيد حمادة صابر الابتدائية | ٠۱٠۱۴٠٠۵۵۳۹ | 1 | 75 | C-6928 | P-9375 | مدفع
 81 | * | 81 | فيفي يوسف | مدرسه الشهيد احمد حامد تعلب الفندقية | 01018411577 | 1 | 75 | C-1396 | P-6753 | مدفع
 82 | * | 82 | فيفي يوسف | مدرسه الشهيد احمد حامد تعلب الفندقية | 01018411577 | 1 | 75 | C-3018 | P-1538 | مدفع
 83 | * | 83 | فيفي يوسف | مدرسه الشهيد احمد حامد تعلب الفندقية | 0118411577 | 1 | 75 | C-8739 | P-2618 | مدفع
-84 | * | 84 | محمد حسين كامل | الشهيد مينا عزت ع بنين | ٠١٠٠۵۸۴۹٠۵۷ | 1 | 75 | C-6853 | P-4123 | مدفع
-85 | * | 85 | محمد عبدالناصر عبدالعظيم عبدالسلام | م/ رياض سعد زايد ع.م | ٠١۲١١۳۲۳۲٠۳ | 2 | 125 | C-8850 | P-3114 | مدفع
+84 | * | 84 | محمد حسين كامل | الشهيد مينا عزت ع بنين | ٠۱٠٠۵۸٤۹۰۵۷ | 1 | 75 | C-6853 | P-4123 | مدفع
+85 | * | 85 | محمد عبدالناصر عبدالعظيم عبدالسلام | م/ رياض سعد زايد ع.م | ٠۱۲۱۱۳۲۳۲۰۳ | 2 | 125 | C-8850 | P-3114 | مدفع
 86 | * | 86 | محمد محمود عبدالغنى الاشمونى | الاعداديه الرياضيه بنين بنها | 01155410308 | 1 | 75 | C-1789 | P-6641 | مدفع
 87 | * | 87 | محمداحمدالمكاوي | الشهيد محمد جمال سليم الاعداديه بنين بالمنصوره | 01553912354 | 1 | 75 | C-6306 | P-6637 | مدفع
 88 | * | 88 | مديحة عبد الرازق أحمد | الأمل للصم | 01004322320 | 3 | 150 | C-2707 | P-6519 | مدفع
 89 | * | 89 | مديحة عبد الرازق أحمد | الأمل للصم | 01004322320 | 3 | 150 | C-5042 | P-4612 | مدفع
 90 | * | 90 | مرفت عبد العزيز عبد الوهاب | مدرسة سمالوط الإعدادية بنات | 01060160306 | 1 | 75 | C-6191 | P-8314 | مدفع
 91 | * | 91 | مرفت عبد العزيز عبد الوهاب | مدرسة سمالوط الإعدادية بنات | 01060160306 | 1 | 75 | C-4598 | P-8751 | مدفع
-92 | * | 92 | مروة طه كامل محمد | حافظ ابراهيم الابتدائيه | ٠١٠٦٧۸۷۴۲۲۲ | 1 | 75 | C-6453 | P-7866 | مدفع
+92 | * | 92 | مروة طه كامل محمد | حافظ ابراهيم الابتدائيه | ٠۱۰٦٧۸۷۴۲۲۲ | 1 | 75 | C-6453 | P-7866 | مدفع
 93 | * | 93 | مروة طه كامل محمد | حافظ ابراهيم الابتدائيه | 01067874222 | 1 | 75 | C-1188 | P-8563 | مدفع
 94 | * | 94 | مروة محمد المرسى | الجيل الجديد الخاصة للغات | 01097780242 | 1 | 75 | C-3509 | P-9720 | مدفع
 95 | * | 95 | مروة محمد أبو دلال | عياش الإعدادية المشتركة | 01099934908 | 1 | 75 | C-4939 | P-7576 | مدفع
@@ -323,73 +331,85 @@
 97 | * | 97 | مها السيد عبدالعال | الدراكه الاعداديه | 01069481134 | 1 | 75 | C-1556 | P-2875 | مدفع
 98 | * | 98 | نجاح عبدالله علام | فيشا الكبري للتعلم الاساسي | 01282014065 | 2 | 125 | C-2049 | P-6776 | مدفع
 99 | * | 99 | نجلاء محمود حسانين | سلمان الفارسي | 01146930223 | 1 | 75 | C-6489 | P-1035 | مدفع
-100 | * | 100 | نجوي شكر فلبس قسط | عصمت عفيفي الاعداديه بنات بأسيوط | ٠١۲۸۲۴۷٦٦۲۳ | 1 | 75 | C-5268 | P-8578 | مدفع
+100 | * | 100 | نجوي شكر فلبس قسط | عصمت عفيفي الاعداديه بنات بأسيوط | ٠۱۲۸۲۴۷٦٦۲۳ | 1 | 75 | C-5268 | P-8578 | مدفع
 101 | * | 101 | نرمين شكرا غبريال | عمر ابن الخطاب الاعداديه بنات | 01060994054 | 1 | 75 | C-3866 | P-9840 | مدفع
 102 | * | 102 | نرمين شكرا غبريال | عمر ابن الخطاب الاعداديه بنات | 01060994054 | 1 | 75 | C-9871 | P-1708 | مدفع
-103 | * | 103 | نعمه حمدي إبراهيم عبد الحميد | الحضره الابتدائيه | ٠١۲۷۴۷۲۸٦۹۹ | 1 | 75 | C-5724 | P-4049 | مدفع
+103 | * | 103 | نعمه حمدي إبراهيم عبد الحميد | الحضره الابتدائيه | ٠۱۲۷۴۷۲۸٦۹۹ | 1 | 75 | C-5724 | P-4049 | مدفع
 104 | * | 104 | نفين صلاح الدين محمد فؤاد مهني | قلوصنا بنين 2الابتدائيه | 01014590906 | 1 | 75 | C-9630 | P-1814 | مدفع
 105 | * | 105 | نهاد حامد عطية المساوي | مدرسة الشهيد ابو الفضل | 01096770130 | 1 | 75 | C-4425 | P-4467 | مدفع
 106 | * | 106 | نهلة حسن محمد محمود | هدي شعراوي الرسمية لغات و | 01556655575 | 1 | 75 | C-4051 | P-5815 | مدفع
 107 | * | 107 | نهلة حسن محمد محمود | هدي شعراوي الرسمية لغات | 01556655575 | 1 | 75 | C-6713 | P-6382 | مدفع
 108 | * | 108 | نيرمين عادل عطية محمد | التل الكبير الرسمية للغات | 01063619218 | 2 | 125 | C-3552 | P-5246 | مدفع
-109 | * | 109 | هبة شعبان رمضان | ام المؤمنين | ٠١٠٦۹٦۳٦۴٦١ | 1 | 75 | C-6790 | P-7333 | مدفع
+109 | * | 109 | هبة شعبان رمضان | ام المؤمنين | ٠۱۰٦۹۶۳٦۴٦۱ | 1 | 75 | C-6790 | P-7333 | مدفع
 110 | * | 110 | هبه إبراهيم محمد أحمد سلامه | منيل الهويشات الثانوية المشتركه | 0 102 167 1613 | 1 | 75 | C-7127 | P-4782 | مدفع
 111 | * | 111 | هبه فتحي عبدالرازق فرج | مدرسه وحده سقاره الابتدائيه | 01069346838 | 1 | 75 | C-2890 | P-7631 | مدفع
-112 | * | 112 | ولاء احمد ابوالفضل | مدرسه برديس الاعداديه بنات القديمه | ٠١۲۲۹١٦۰۰۲۴ | 1 | 75 | C-5704 | P-7528 | مدفع
-113 | * | 113 | ولاءمحمد ابراهيم احمد | الصالحية القديمة التجارية المشتركة | ٠١٠۹۳۹۱۲۵۸۳ | 3 | 150 | C-2424 | P-7949 | مدفع
-114 | * | 114 | ياسر محمد سلام | خرسيت ث م / اللواء حسين جاير الرسميه للغات ابتدائي واعدادى | ٠١٠٦۶۹۷۲۵۲۰ | 3 | 150 | C-3606 | P-3935 | مدفع
+112 | * | 112 | ولاء احمد ابوالفضل | مدرسه برديس الاعداديه بنات القديمه | ٠۱۲۲۹۱٦۰۰۲۴ | 1 | 75 | C-5704 | P-7528 | مدفع
+113 | * | 113 | ولاءمحمد ابراهيم احمد | الصالحية القديمة التجارية المشتركة | ٠۱۰۹۳۹۱۲۵۸۳ | 3 | 150 | C-2424 | P-7949 | مدفع
+114 | * | 114 | ياسر محمد سلام | خرسيت ث م / اللواء حسين جاير الرسميه للغات ابتدائي واعدادى | ٠۱۰٦۶۹۷۲۵۲۰ | 3 | 150 | C-3606 | P-3935 | مدفع
 `;
 
-        // --- 3. معالجة البيانات وتحويلها لمصفوفة ---
+        // ==========================================
+        // 4. تهيئة النظام والمصفوفة
+        // ==========================================
         let subscribers = [];
         
         function initSystem() {
-            let storedData = localStorage.getItem('amenGhiethSubs');
-            if (storedData) {
-                subscribers = JSON.parse(storedData);
-            }
-            
-            // إصلاح مشكلة الشاشة السوداء: لو الجدول فاضي (بسبب الكود القديم)، نجبره يقرأ بيانات الإكسيل
-            if (subscribers.length === 0) {
-                parseExcelData();
-                saveData();
-            }
-            updateStats();
-        }
-
-        function parseExcelData() {
+            // قراءة الإكسيل بشكل قوي ومسح التكرارات
             const lines = rawExcelData.trim().split('\n');
             const existingCodes = new Set();
             
             lines.forEach(line => {
                 const parts = line.split('|').map(p => p.trim());
+                // التأكد أن السطر به بيانات صحيحة والكود يبدأ بـ C-
                 if (parts.length >= 10 && parts[8].startsWith('C-')) {
                     const code = toEngNum(parts[8]);
+                    const password = toEngNum(parts[9]);
+                    
+                    // منع التكرار بنفس الكود
                     if (!existingCodes.has(code)) {
                         existingCodes.add(code);
                         subscribers.push({
                             name: parts[3],
                             school: parts[4],
-                            phone: toEngNum(parts[5].replace(/[^0-9]/g, '')),
+                            phone: cleanPhone(parts[5]), // تنظيف رقم الهاتف تماماً
                             phases: parseInt(toEngNum(parts[6])) || 1,
                             amount: parseInt(toEngNum(parts[7])) || 75,
                             code: code,
-                            password: toEngNum(parts[9]),
+                            password: password,
                             paid: parts[10] === 'مدفع',
                             administration: ""
                         });
                     }
                 }
             });
+            
+            // دمج أي بيانات جديدة سجلها المستخدمين على المنصة (لو وجدت في الذاكرة القديمة)
+            const storedNewUsers = localStorage.getItem('amenNewUsers');
+            if (storedNewUsers) {
+                const newUsers = JSON.parse(storedNewUsers);
+                newUsers.forEach(user => {
+                    if (!existingCodes.has(user.code)) {
+                        subscribers.push(user);
+                    }
+                });
+            }
+
+            saveData();
+            updateStats();
+            updateRegFields(); // تهيئة خانة التسجيل
         }
 
         function saveData() {
             localStorage.setItem('amenGhiethSubs', JSON.stringify(subscribers));
+            // نحفظ المشتركين الجداد في ملف منفصل عن الإكسيل عشان ما يتضاربوش لو عملنا Refresh
+            const newUsers = subscribers.filter(s => s.code.startsWith('AG-'));
+            localStorage.setItem('amenNewUsers', JSON.stringify(newUsers));
         }
 
-        // --- 4. واجهة المستخدم والتحكم ---
+        // ==========================================
+        // 5. واجهة المستخدم والتحكم
+        // ==========================================
         function switchTab(tab) {
-            // Reset styles
             document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm';
             document.getElementById('tabUser').className = 'flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm';
             document.getElementById('tabRegister').className = 'flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200';
@@ -397,6 +417,8 @@
             document.getElementById('adminLogin').classList.add('hidden');
             document.getElementById('userLogin').classList.add('hidden');
             document.getElementById('registerLogin').classList.add('hidden');
+            document.getElementById('adminError').classList.add('hidden');
+            document.getElementById('userError').classList.add('hidden');
 
             if (tab === 'admin') {
                 document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold text-sm';
@@ -407,13 +429,11 @@
             } else if (tab === 'register') {
                 document.getElementById('tabRegister').className = 'flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-700 text-white';
                 document.getElementById('registerLogin').classList.remove('hidden');
-                updateRegFields(); // تحديث حقول المدرسة
             }
         }
 
         function loginAdmin() {
-            const pass = document.getElementById('adminPass').value;
-            if (pass === 'admin123') {
+            if (document.getElementById('adminPass').value === 'admin123') {
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
                 renderTable();
@@ -448,28 +468,29 @@
             document.getElementById('userPass').value = '';
         }
 
-        // --- 5. تسجيل مشترك جديد من واجهة المنصة ---
+        // ==========================================
+        // 6. تسجيل مشترك جديد من واجهة المنصة (تم إصلاحه ليعمل بشكل مضمون)
+        // ==========================================
         function updateRegFields() {
-            const phases = document.getElementById('regPhases').value;
+            const phases = document.getElementById('regPhases') ? document.getElementById('regPhases').value : 1;
             const container = document.getElementById('regSchoolsContainer');
-            container.innerHTML = ''; // مسح الحقول القديمة
+            container.innerHTML = ''; 
             
             for (let i = 1; i <= parseInt(phases); i++) {
                 const div = document.createElement('div');
-                div.className = 'mb-3 p-3 border rounded-lg bg-gray-50 school-field';
+                div.className = 'mb-3 p-3 border rounded-lg bg-gray-50';
                 div.innerHTML = `
                     <label class="block text-gray-700 mb-1 font-bold text-sm">بيانات المرحلة ${i}:</label>
-                    <input type="text" placeholder="اسم المدرسة للمرحلة ${i}" class="w-full p-2 border rounded mb-2 text-center reg-school">
-                    <input type="text" placeholder="الإدارة التعليمية للمرحلة ${i}" class="w-full p-2 border rounded text-center reg-admin">
+                    <input type="text" placeholder="اسم المدرسة للمرحلة ${i}" class="w-full p-2 border rounded mb-2 text-center reg-school" id="regSchool${i}">
+                    <input type="text" placeholder="الإدارة التعليمية للمرحلة ${i}" class="w-full p-2 border rounded text-center reg-admin" id="regAdmin${i}">
                 `;
                 container.appendChild(div);
             }
         }
 
         function generateCode() {
-            const chars = '0123456789';
             let code = 'AG-';
-            for(let i=0; i<4; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+            for(let i=0; i<4; i++) code += Math.floor(Math.random() * 10);
             return code;
         }
 
@@ -484,53 +505,51 @@
             const name = document.getElementById('regName').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
             const phases = document.getElementById('regPhases').value;
-            
-            const schoolInputs = document.querySelectorAll('.reg-school');
-            const adminInputs = document.querySelectorAll('.reg-admin');
 
             if (!name || !phone) {
-                document.getElementById('regError').classList.remove('hidden');
-                setTimeout(() => document.getElementById('regError').classList.add('hidden'), 3000);
+                alert('يرجى كتابة الاسم ورقم الهاتف على الأقل!');
                 return;
             }
 
-            // دمج المدارس والإدارات في نص واحد مفصول بفاصلة
             let schoolsArr = [];
             let adminsArr = [];
-            schoolInputs.forEach(inp => { if(inp.value.trim()) schoolsArr.push(inp.value.trim()); });
-            adminInputs.forEach(inp => { if(inp.value.trim()) adminsArr.push(inp.value.trim()); });
-
-            const schoolText = schoolsArr.join(' - ');
-            const adminText = adminsArr.join(' - ');
+            for (let i = 1; i <= parseInt(phases); i++) {
+                const sch = document.getElementById(`regSchool${i}`) ? document.getElementById(`regSchool${i}`).value.trim() : '';
+                const adm = document.getElementById(`regAdmin${i}`) ? document.getElementById(`regAdmin${i}`).value.trim() : '';
+                if(sch) schoolsArr.push(sch);
+                if(adm) adminsArr.push(adm);
+            }
 
             const amountMap = { '1': 75, '2': 125, '3': 150 };
-
             const newCode = generateCode();
             const newPass = generatePassword();
 
+            // إضافة المشترك للقائمة الرئيسية
             subscribers.push({
-                name, 
-                school: schoolText, 
-                administration: adminText, 
-                phone,
+                name: name, 
+                school: schoolsArr.join(' - ') || 'لم يحدد', 
+                administration: adminsArr.join(' - ') || 'لم يحدد', 
+                phone: phone,
                 phases: parseInt(phases),
                 amount: amountMap[phases],
                 code: newCode,
                 password: newPass,
-                paid: false // المشترك الجديد سداده "معلق" حتى المدير يوافق
+                paid: false // المشترك الجديد سداده معلق
             });
 
+            // حفظ البيانات في الذاكرة
             saveData();
-            
-            // عرض نافذة البيانات للمشترك الجديد
+            updateStats();
+
+            // عرض نافذة النجاح بالكود والباسوورد
             document.getElementById('modalCode').innerText = newCode;
             document.getElementById('modalPass').innerText = newPass;
             document.getElementById('credentialsModal').classList.remove('hidden');
 
-            // مسح الفورم
+            // مسح خانات التسجيل بعد الحفظ
             document.getElementById('regName').value = '';
             document.getElementById('regPhone').value = '';
-            updateRegFields(); 
+            updateRegFields();
         }
 
         function closeModal() {
@@ -544,7 +563,9 @@
             });
         }
 
-        // --- 6. لوحة تحكم المدير ---
+        // ==========================================
+        // 7. لوحة تحكم المدير
+        // ==========================================
         function togglePayment(index) {
             subscribers[index].paid = !subscribers[index].paid;
             saveData();
@@ -571,7 +592,7 @@
                     <td class="p-3 border text-center font-bold ${sub.paid ? 'text-green-600' : 'text-red-500'}">${sub.paid ? 'مدفع' : 'معلق'}</td>
                     <td class="p-3 border text-center">
                         <button onclick="togglePayment(${index})" class="px-2 py-1 rounded text-xs font-bold transition ${sub.paid ? 'bg-red-100 text-red-600 hover:bg-red-200' : 'bg-green-100 text-green-600 hover:bg-green-200'}">
-                            ${sub.paid ? 'إلغاء السداد' : 'تأكيد السداد'}
+                            ${sub.paid ? 'إلغاء' : 'تأكيد'}
                         </button>
                     </td>
                 `;
@@ -587,7 +608,9 @@
             document.getElementById('statMoney').innerText = subscribers.reduce((sum, s) => sum + s.amount, 0);
         }
 
-        // --- 7. لوحة المشترك ---
+        // ==========================================
+        // 8. لوحة المشترك
+        // ==========================================
         function populateUserProfile(user) {
             document.getElementById('profileName').innerText = user.name;
             document.getElementById('profileSchool').innerText = user.school;
@@ -608,7 +631,6 @@
                 paidIcon.className = 'fas fa-times-circle ml-2 text-red-500';
             }
 
-            // تحديث العلامة المائية باسم المشترك
             const wmText = `${user.name} | ${user.school}`;
             document.getElementById('wm1').innerText = wmText;
             document.getElementById('wm2').innerText = wmText;
