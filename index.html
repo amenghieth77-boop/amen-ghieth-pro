@@ -3,181 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الآمنة</title>
+    <title>Amen Ghieth Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    
     <style>
-        /* الستايل الأساسي للمنصة - لم يتم تغيير أي حاجة فيه */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 20px;
-        }
-        .platform-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 50px;
-        }
-        .icon-box {
-            background: #fff;
-            padding: 30px 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            cursor: pointer;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        .icon-box:hover {
-            transform: translateY(-5px);
-        }
-        .icon-box h2 { margin: 10px 0 0; color: #333; }
-        .icon-box .icon { font-size: 40px; }
-        
-        /* ستايل شاشة المشترك (إدخال الكود) */
-        #subscriber-screen {
-            display: none;
-            text-align: center;
-            margin-top: 50px;
-        }
-        #subscriber-screen input {
-            padding: 15px;
-            font-size: 18px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            width: 300px;
-        }
-        #subscriber-screen button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+        body { font-family: 'Cairo', Arial, sans-serif; background: #f0f2f5; }
+        .login-bg { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+        .watermark-preview { position: relative; border: 2px solid #ddd; background: white; padding: 20px; min-height: 200px; }
+        .watermark-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; opacity: 0.15; }
+        .watermark-text { position: absolute; font-size: 24px; font-weight: bold; color: #000; transform: rotate(-45deg); white-space: nowrap; }
+        .tab-active { background: #2a5298; color: white; }
+        .tab-inactive { background: #e2e8f0; color: #4a5568; }
+        .locked-overlay { position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,0,0,0.2); z-index: 10; display: flex; align-items: center; justify-content: center; pointer-events: all; }
     </style>
 </head>
 <body>
 
-    <!-- الواجهة الرئيسية (لم ألمسها، زي ما هي بالظبط) -->
-    <div class="platform-container" id="main-screen">
-        <div class="icon-box" id="btn-manager">
-            <div class="icon">🛡️</div>
-            <h2>المدير</h2>
-        </div>
-        <div class="icon-box" id="btn-subscriber">
-            <div class="icon">👤</div>
-            <h2>المشترك</h2>
-        </div>
-        <div class="icon-box" id="btn-register">
-            <div class="icon">📝</div>
-            <h2>تسجيل جديد</h2>
+    <!-- شاشة الدخول والتسجيل -->
+    <div id="loginScreen" style="display: flex;" class="login-bg min-h-screen items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-bold text-blue-900">Amen Ghieth Pro</h1>
+                <p class="text-gray-500 mt-2">نظام إدارة المشتركين والملفات</p>
+            </div>
+            
+            <div class="flex mb-6 bg-gray-100 rounded-lg p-1 gap-1">
+                <button type="button" onclick="switchTab('admin')" id="tabAdmin" class="flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm cursor-pointer"><i class="fas fa-user-shield ml-1"></i> المدير</button>
+                <button type="button" onclick="switchTab('user')" id="tabUser" class="flex-1 py-2 rounded-lg transition tab-active font-bold text-sm cursor-pointer"><i class="fas fa-user ml-1"></i> المشترك</button>
+                <button type="button" onclick="switchTab('register')" id="tabRegister" class="flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200 cursor-pointer"><i class="fas fa-user-plus ml-1"></i> تسجيل جديد</button>
+            </div>
+
+            <div id="adminLogin" style="display: none;">
+                <input type="password" id="adminPass" placeholder="كلمة مرور المدير" class="w-full p-3 border rounded-lg mb-4 text-center">
+                <button type="button" onclick="loginAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition cursor-pointer">دخول لوحة التحكم</button>
+                <p id="adminError" style="display: none;" class="text-red-500 text-center mt-3">كلمة المرور غير صحيحة!</p>
+            </div>
+
+            <div id="userLogin" style="display: block;">
+                <input type="text" id="userCode" placeholder="الكود (مثال: C-6427 أو AG-1234)" class="w-full p-3 border rounded-lg mb-3 text-center">
+                <input type="password" id="userPass" placeholder="الباسوورد" class="w-full p-3 border rounded-lg mb-4 text-center">
+                <button type="button" onclick="loginUser()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-500 transition cursor-pointer">عرض بياناتي وملفاتي</button>
+                <p id="userError" style="display: none;" class="text-red-500 text-center mt-3">الكود أو الباسوورد غير صحيح!</p>
+            </div>
+
+            <!-- استمارة التسجيل -->
+            <div id="registerLogin" style="display: none;">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                    <h4 class="font-bold text-green-800 mb-3 text-lg text-center"><i class="fas fa-clipboard-list ml-2"></i> استمارة تسجيل مشترك جديد</h4>
+                    <input type="text" id="regName" placeholder="الاسم بالكامل" class="w-full p-2 border rounded mb-2 text-center bg-white">
+                    <input type="text" id="regPhone" placeholder="رقم الهاتف (لمنع التكرار)" class="w-full p-2 border rounded mb-2 text-center bg-white">
+                    
+                    <div class="flex gap-2 mb-2">
+                        <select id="regPhases" class="w-1/2 p-2 border rounded text-center bg-white cursor-pointer" onchange="updateRegFields()">
+                            <option value="1">1 مرحلة (75 ج.م)</option>
+                            <option value="2">2 مراحل (125 ج.م)</option>
+                            <option value="3">3 مراحل (150 ج.م)</option>
+                        </select>
+                        <div class="w-1/2 p-2 border rounded text-center bg-gray-100 font-bold text-yellow-700" id="regAmountDisplay">75 ج.م</div>
+                    </div>
+                    
+                    <div id="regSchoolsContainer" class="bg-white border rounded p-2 mb-2"></div>
+                    <p id="regError" style="display: none;" class="text-red-500 text-center mt-2 text-sm"></p>
+                </div>
+                <button type="button" onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition text-lg cursor-pointer"><i class="fas fa-save ml-1"></i> حفظ وتسجيل البيانات</button>
+            </div>
         </div>
     </div>
 
-    <!-- شاشة إدخال الكود للمشترك -->
-    <div id="subscriber-screen">
-        <h2>أدخل كود المشترك</h2>
-        <input type="text" id="code-input" placeholder="الكود هنا...">
-        <button id="check-code-btn">تسجيل الدخول</button>
+    <!-- لوحة تحكم المدير -->
+    <div id="adminPanel" style="display: none;" class="min-h-screen bg-gray-100">
+        <div class="bg-blue-900 text-white p-4 flex justify-between items-center shadow-lg">
+            <h2 class="text-xl font-bold"><i class="fas fa-cogs ml-2"></i> لوحة تحكم المدير</h2>
+            <button type="button" onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition cursor-pointer"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
+        </div>
+
+        <div class="container mx-auto p-6 max-w-6xl">
+            <div class="bg-white p-6 rounded-lg shadow mb-6 border-t-4 border-indigo-500">
+                <h3 class="text-xl font-bold mb-4"><i class="fas fa-cloud-upload-alt ml-2 text-indigo-500"></i> بوابة رفع الملفات الشهرية (PDF)</h3>
+                <div class="grid grid-cols-3 gap-4">
+                    <div><label class="block font-bold mb-1">ملف المرحلة 1:</label><input type="file" id="filePhase1" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
+                    <div><label class="block font-bold mb-1">ملف المرحلة 2:</label><input type="file" id="filePhase2" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
+                    <div><label class="block font-bold mb-1">ملف المرحلة 3:</label><input type="file" id="filePhase3" accept="application/pdf" class="w-full border p-2 rounded text-sm"></div>
+                </div>
+                <button type="button" onclick="saveUploadedFiles()" class="mt-4 bg-indigo-600 text-white px-6 py-2 rounded font-bold hover:bg-indigo-700 cursor-pointer"><i class="fas fa-upload ml-1"></i> رفع وحفظ</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-users text-blue-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statTotal">0</h3><p class="text-gray-500">إجمالي المشتركين</p></div>
+                <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-check-circle text-green-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statPaid">0</h3><p class="text-gray-500">السداد المدفوع</p></div>
+                <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-money-bill-wave text-yellow-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statMoney">0</h3><p class="text-gray-500">إجمالي المبالغ</p></div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="bg-blue-800 text-white p-4 font-bold flex justify-between"><span><i class="fas fa-list ml-2"></i> جدول المشتركين</span><span id="tableCount">0</span></div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead><tr class="bg-gray-200">
+                            <th class="p-3 border">#</th><th class="p-3 border">الاسم</th><th class="p-3 border">المراحل/المدارس</th><th class="p-3 border">الهاتف</th><th class="p-3 border">المبلغ</th><th class="p-3 border">الكود</th><th class="p-3 border">الباسوورد</th><th class="p-3 border">تفعيل السداد</th><th class="p-3 border">حذف</th>
+                        </tr></thead>
+                        <tbody id="subscribersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- الشاشة الخضراء لم يتم كتابتها هنا في الـ HTML، سيتم بناؤها ديناميكياً (Dynamic DOM Injection) -->
+    <!-- لوحة المشترك -->
+    <div id="userPanel" style="display: none;" class="min-h-screen bg-gray-100">
+        <div class="bg-green-700 text-white p-4 flex justify-between items-center shadow-lg">
+            <h2 class="text-xl font-bold"><i class="fas fa-user-circle ml-2"></i> حسابي</h2>
+            <button type="button" onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition cursor-pointer"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
+        </div>
+
+        <div class="container mx-auto p-6 max-w-4xl">
+            <div class="bg-white p-6 rounded-xl shadow mb-6 border-r-8 border-green-600">
+                <h3 class="text-2xl font-bold text-green-700 mb-4" id="profileName"></h3>
+                <div class="grid grid-cols-2 gap-y-3 text-lg">
+                    <p><i class="fas fa-school text-blue-500 ml-2"></i> <span class="font-bold">المدارس:</span> <span id="profileSchool"></span></p>
+                    <p><i class="fas fa-phone text-gray-500 ml-2"></i> <span class="font-bold">الهاتف:</span> <span id="profilePhone"></span></p>
+                    <p><i class="fas fa-layer-group text-orange-500 ml-2"></i> <span class="font-bold">المراحل:</span> <span id="profilePhases"></span></p>
+                    <p><i class="fas fa-money-bill text-yellow-500 ml-2"></i> <span class="font-bold">المبلغ:</span> <span id="profileAmount"></span> ج.م</p>
+                    <p><i class="fas ml-2" id="profilePaidIcon"></i> <span class="font-bold">السداد:</span> <span id="profilePaid"></span></p>
+                </div>
+            </div>
+
+            <!-- تعديل البيانات -->
+            <div class="bg-white p-6 rounded-xl shadow mb-6 border-r-8 border-blue-500">
+                <h3 class="text-xl font-bold mb-4 text-blue-800"><i class="fas fa-user-edit ml-2"></i> تعديل البيانات</h3>
+                <div id="editFormContainer" class="mb-4"></div>
+                <button type="button" onclick="saveProfileEdits()" class="w-full bg-blue-700 text-white py-2 rounded-lg font-bold hover:bg-blue-600 transition cursor-pointer"><i class="fas fa-save ml-1"></i> حفظ التعديلات</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2"><i class="fas fa-file-pdf ml-2 text-red-500"></i> ملفاتك وملازمك</h3>
+                <div id="filesContainer"></div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // 1. إدارة الشاشات الأساسية (بدون أي تغيير على المنطق القديم)
-        const mainScreen = document.getElementById('main-screen');
-        const subScreen = document.getElementById('subscriber-screen');
-
-        document.getElementById('btn-manager').addEventListener('click', () => {
-            alert('تم الدخول لواجهة المدير بنجاح!');
-        });
-
-        document.getElementById('btn-subscriber').addEventListener('click', () => {
-            mainScreen.style.display = 'none';
-            subScreen.style.display = 'block';
-        });
-
-        document.getElementById('btn-register').addEventListener('click', () => {
-            alert('تم فتح شاشة تسجيل جديد بنجاح!');
-        });
-
-        // 2. منطق المشترك (Dynamic DOM Injection للشاشة الخضراء)
-        document.getElementById('check-code-btn').addEventListener('click', () => {
-            const code = document.getElementById('code-input').value;
-            if (code.trim() !== '') {
-                // إخفاء شاشة الإدخال
-                subScreen.style.display = 'none';
-                
-                // بناء الشاشة الخضراء من الصفر (Dynamic Injection)
-                const greenOverlay = document.createElement('div');
-                greenOverlay.id = 'dynamic-green-screen';
-                greenOverlay.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, #2ecc71, #27ae60); z-index:9999; display:flex; flex-direction:column; justify-content:center; align-items:center;';
-                
-                greenOverlay.innerHTML = `
-                    <h1 style="color:white; font-size:4rem; margin-bottom:20px;">تم التفعيل بنجاح!</h1>
-                    <p style="color:white; font-size:1.5rem; margin-bottom:40px;">مرحباً بك في المنصة، الكود الخاص بك يعمل بكفاءة</p>
-                    <button data-action="pay" style="padding:20px 50px; font-size:24px; background:#fff; color:#27ae60; border:none; border-radius:10px; cursor:pointer; font-weight:bold; margin-bottom:20px;">تفعيل السداد</button>
-                    <button data-action="delete" style="padding:10px 20px; font-size:16px; background:transparent; color:#fff; border:2px solid #fff; border-radius:8px; cursor:pointer;">حذف المشترك</button>
-                `;
-
-                document.body.appendChild(greenOverlay);
-            } else {
-                alert('الرجاء إدخال الكود!');
-            }
-        });
-
-        // 3. Global Document Delegation (مراقبة كل الضغطات على مستوى الصفحة كلها)
+        // ==========================================
+        // 1. الحل العبقري: Global Event Delegation للجدول (يضمن تفعيل السداد والحذف 1000%)
+        // ==========================================
         document.addEventListener('click', function(e) {
-            // استخدام e.target.closest لضمان اصطياد الزرار حتى لو كان بداخله أيقونة أو سبان
-            const targetBtn = e.target.closest('[data-action]');
-            
-            if (!targetBtn) return; // لو الضغطة مش على زرار تابع لنا، اخرج
-
-            const action = targetBtn.dataset.action;
-
-            if (action === 'pay') {
-                handlePayment();
-            } else if (action === 'delete') {
-                handleDelete();
+            if (e.target && e.target.classList.contains('pay-btn')) {
+                const index = parseInt(e.target.getAttribute('data-index'));
+                if (!isNaN(index)) {
+                    togglePayment(index);
+                }
+            }
+            if (e.target && e.target.classList.contains('del-btn')) {
+                const index = parseInt(e.target.getAttribute('data-index'));
+                if (!isNaN(index)) {
+                    deleteSubscriber(index);
+                }
             }
         });
 
-        // 4. LocalStorage Protection (الذاكرة المضمونة)
-        function safeSave(key, data) {
-            try {
-                localStorage.setItem(key, JSON.stringify(data));
-                console.log('تم الحفظ في الذاكرة بنجاح');
-            } catch (error) {
-                console.error('خطأ في الذاكرة:', error);
-                // في حال المتصفح قافل الذاكرة أو الذاكرة ممتلئة
-                alert('تنبيه: السداد تم بنجاح، لكن متصفحك يمنع حفظ البيانات المحلية (LocalStorage).');
-            }
-        }
-
-        function handlePayment() {
-            // منطق السداد
-            const paymentData = { status: 'paid', time: new Date().toLocaleString() };
-            safeSave('subscriber_payment', paymentData);
-            
-            // تغيير شكل الزرار بعد السداد
-            const payBtn = document.querySelector('[data-action="pay"]');
-            if(payBtn) {
-                payBtn.textContent = 'تم السداد بنجاح ✅';
-                payBtn.style.background = '#d4edda';
-                payBtn.style.color = '#155724';
-                payBtn.style.pointerEvents = 'none'; // تعطيل الضغط عليه تاني
-            }
-        }
-
-        function handleDelete() {
-            if(confirm('هل أنت متأكد من حذف المشترك؟')) {
-                safeSave('subscriber_payment', null); // مسح البيانات
-                const greenScreen = document.getElementById('dynamic-green-screen');
-                if(greenScreen) greenScreen.remove(); // إزالة الشاشة الخضراء
-                mainScreen.style.display = 'flex'; // الرجوع للواجهة الرئيسية
-            }
-        }
-    </script>
-</body>
-</html>
+        const excelSubscribers = [
+            { name: "اسماء ابوبكر عبدالحكيم عبدالغنى", school: "ملحقة المعلمين الابتدائيه", phone: "01028924447", phases: 1, amount: 75, code: "C-6427", password: "P-5616", paid: true, administration: "" },
+            { name: "اسماء محمد احمد", school: "الشعراوي", phone: "01027786671", phases: 1, amount: 75, code: "C-2026", password: "P-9160", paid: true, administration: "" },
+            { name: "اسماء محمد صابر", school: "مدرسه العدوه التجريه المشتركه", phone: "01122211371", phases: 1, amount: 75, code: "C-4541", password: "P-3753", paid: true, administration: "" },
+            { name: "اسماء محمد نصار", school: "الشهيد الشوربجى الثانوية بالحامول", phone: "01017678503", phases: 1, amount: 75, code: "C-7730", password: "P-2310", paid: true, administration: "" },
+            { name: "امانى سعيد جابر الشبراوى", school: "كفر عبيان القديمه ب", phone: "01012761394", phases: 1, amount: 75, code: "C-5396", password: "P-5002", paid: true, administration: "" },
+            { name: "امانى سعيد جابر الشبراوى", school: "كفر عبيان القديمه ب", phone: "01012761394", phases: 1, amount: 75, code: "C-5606", password: "P-9209", paid: true, administration: "" },
+            { name: "انسام احمد فتحى", school: "السيدة عائشة", phone: "01202504270", phases: 1, amount: 75, code: "C-8852", password: "P-5757", paid: true, administration: "" },
+            { name: "ايناس علي ادم", school: "مدرسه الشهيد محمود محمد جوده", phone: "01007497227", phases: 1, amount: 75, code: "C-2707", password: "P-3027", paid: true, administration: "" },
+            { name: "أسماء حمدى يوسف", school: "الشهيد مدحت عبدالعزيز الاعداديه المشتركه", phone: "01032632099", phases: 2, amount: 125, code: "C-6981", password: "P-2942", paid: true, administration: "" },
+            { name: "أسماء حمدى يوسف", school: "الشهيد مدحت عبدالعزيز الاعداديه المشتركه", phone: "01032632099", phases: 2, amount: 125, code: "C-6973", password: "P-4895", paid: true, administration: "" },
+            { name: "أسماء خالد إبراهيم", school: "السادات الابتدائيه", phone: "01284455706", phases: 1, amount: 75, code: "C-8569", password: "P-2527", paid: true, administration: "" },
+            { name: "أسماء خالد إبراهيم", school: "السادات الابتدائيه", phone: "01284455706", phases: 1, amount: 75, code: "C-8636", password: "P-1871", paid: true, administration: "" },
+            { name: "أسماء خالد إبراهيم", school: "السادات الابتدائيه", phone: "01284455706", phases: 1, amount: 75, code: "C-4315", password: "P-4155", paid: true, administration: "" },
+            { name: "أسماء خالد إبراهيم", school: "السادات الابتدائيه", phone: "01284455706", phases: 1, amount: 75, code: "C-1923", password: "P-5689", paid: true, administration: "" },
+            { name: "أسماء خالد إبراهيم", school: "السادات الابتدائيه", phone: "01284455706", phases: 1, amount: 75, code: "C-9734", password: "P-6217", paid: true, administration: "" },
+            { name: "أسماء خالد إبراهيم", school: "السادات الابتدائيه", phone: "01284455706", phases: 1, amount: 75, code: "C-2254", password: "P-7186", paid: true, administration: "" },
+            { name: "أماني خيري الباجوري", school: "مدرسة كفر جعفر الاعدادية بنات", phone: "01063887136", phases: 1, amount: 75, code: "C-2722", password: "P-7917", paid: true, administration: "" },
+            { name: "أماني خيري الباجوري", school: "مدرسة كفر جعفر الاعدادية بنات", phone: "01063887136", phases: 1, amount: 75, code: "C-9479", password: "P-8020", paid: true, administration: "" },
+            { name: "أماني خيري الباجوري", school: "مدرسة كفر جعفر الاعدادية بنات", phone: "01063887136", phases: 1, amount: 75, code: "C-3410", password: "P-4653", paid: true, administration: "" },
+            { name: "أميرة خيرى محمود", school: "حى الإسكان اقتصادي", phone: "01147344221", phases: 1, amount: 75, code: "C-4904", password: "P-4330", paid: true, administration: "" },
+            { name: "بثينه السيد صديق", school: "جاب الله ت.ا", phone: "01147833510", phases: 2, amount: 125, code: "C-8048", password: "P-5979", paid: true, administration: "" },
+            { name: "جيهان عبد العزيز", school: "ام القرى ومدرسة دروه", phone: "01152247758", phases: 3, amount: 150, code: "C-5247", password: "P-4164", paid: true, administration: "" },
+            { name: "حنان البي أمين", school: "هور الإبتدائية", phone: "01024456829", phases: 1, amount: 75, code: "C-8922", password: "P-6897", paid: true, administration: "" },
+            { name: "حنان نصر الدين", school: "ام المؤمنين", phone: "01009201207", phases: 1, amount: 75, code: "C-3390", password: "P-7174", paid: true, administration: "" },
+            { name: "داليا حسين عبدالرحمن", school: "مدرسة السادات بكفر الحاج عمر", phone: "01148008929", phases: 1, amount: 75, code: "C-2495", password: "P-2757", paid: true, administration: "" },
+            { name: "دعاء ابرلهيم فهمي", school: "العباسية الاعداديه", phone: "01011488836", phases: 1, amount: 75, code: "C-1023", password: "P-4899", paid: true, administration: "" },
+            { name: "دعاء إبراهيم فهمي", school: "العباسية الاعداديه", phone: "01011488836", phases: 1, amount: 75, code: "C-3578", password: "P-6845", paid: true, administration: "" },
+            { name: "دعاء زينهم صادق", school: "كفر المداور الاعدادية", phone: "01068655727", phases: 2, amount: 125, code: "C-8283", password: "P-6781", paid: true, administration: "" },
+            { name: "دعاء زينهم صادق", school: "كفر المداور", phone: "01068655727", phases: 2, amount: 125, code: "C-1915", password: "P-2158", paid: true, administration: "" },
+            { name: "دعاء محمد غنيم", school: "الاسماعيلية الثانوية", phone: "01122739970", phases: 1, amount: 75, code: "C-1200", password: "P-9337", paid: true, administration: "" },
+            { name: "رامي محمد علي شعيشع", school: "مدرسة شبراتنا", phone: "01126299299", phases: 2, amount: 125, code: "C-1713", password: "P-6885", paid: true, administration: "" },
+            { name: "رجب سيد سليم", school: "العبور الثانويه الصناعيه", phone: "01146568493", phases: 1, amount: 75, code: "C-3379", password: "P-6507", paid: true, administration: "" },
+            { name: "رشا عبد العزيز محمد", school: "الحلمية الثانوية بناتً", phone: "01149841885", phases: 3, amount: 150, code: "C-5450", password: "P-2986", paid: true, administration: "" },
+            { name: "رشا عبد العزيز محمد", school: "الحلمية الثانوية", phone: "01149841885", phases: 1, amount: 75, code: "C-8240", password: "P-6862", paid: true, administration: "" },
+            { name: "رشا عبد العزيز محمد", school: "الحلمية بناتً", phone: "01149841885", phases: 1, amount: 75, code: "C-1083", password: "P-9976", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين الابتدائى", phone: "01018431798", phases: 1, amount: 75, code: "C-1402", password: "P-7662", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين", phone: "01018431798", phases: 1, amount: 75, code: "C-8178", password: "P-5998", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين", phone: "01018431798", phases: 1, amount: 75, code: "C-5780", password: "P-2350", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين", phone: "01018431798", phases: 1, amount: 75, code: "C-2364", password: "P-5233", paid: true, administration: "" },
+            { name: "رشاطلعت", school: "كوم اشفين", phone: "01018431798", phases: 1, amount: 75, code: "C-7572", password: "P-3232", paid: true, administration: "" },
+            { name: "رمضان عبد الصمد", school: "مدرسه الشعب الاعدادية", phone: "01228394216", phases: 1, amount: 75, code: "C-8467", password: "P-5706", paid: true, administration: "" },
+            { name: "زهور محمود حسن", school: "اسطال الاعدادية", phone: "01008955354", phases: 1, amount: 75, code: "C-6069", password: "P-5548", paid: true, administration: "" },
+            { name: "زينات ابراهيم احمد", school: "الشهيد ممدوح سعد", phone: "01278704514", phases: 1, amount: 75, code: "C-9848", password: "P-3750", paid: true, administration: "" },
+            { name: "زينه محمد بدوي", school: "مزغونة الابتدائيه", phone: "01156391838", phases: 1, amount: 75, code: "C-4471", password: "P-8479", paid: true, administration: "" },
+            { name: "ساره ناجي غازي", school: "كفر الصارم", phone: "01110957016", phases: 1, amount: 75, code: "C-5679", password: "P-3143", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده صابر", phone: "01029424347", phases: 1, amount: 75, code: "C-9822", password: "P-4216", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده", phone: "01029424347", phases: 1, amount: 75, code: "C-5653", password: "P-9045", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده", phone: "01029424347", phases: 1, amount: 75, code: "C-2439", password: "P-1087", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده", phone: "01029424347", phases: 1, amount: 75, code: "C-1972", password: "P-6124", paid: true, administration: "" },
+            { name: "سالما محمد طه", school: "الشهيد حماده", phone: "01029424347", phases: 1, amount: 75, code: "C-7341", password: "P-5516", paid: true, administration: "" },
+            { name: "سالي سمير", school: "الجديدة الاعداديه", phone: "01124171018", phases: 1, amount: 75, code: "C-5622", password: "P-6186", paid: true, administration: "" },
+            { name: "ساميه منصور احمد", school: "مدرسه السادات الاعداديه", phone: "01093924662", phases: 1, amount: 75, code: "C-3039", password: "P-1617", paid: true, administration: "" },
+            { name: "سعد محمد عبد اللطيف", school: "مدرسة جهينه", phone: "01286080089", phases: 1, amount: 75, code: "C-9232", password: "P-5578", paid: true, administration: "" },
+            { name: "سلمى احمد محمد", school: "العوينه الجديدة", phone: "01100263797", phases: 1, amount: 75, code: "C-6256", password: "P-2784", paid: true, administration: "" },
+            { name: "سميرة سليمان", school: "الخصوص التجاريه", phone: "01220618172", phases: 1, amount: 75, code: "C-1734", password: "P-4961", paid: true, administration: "" },
+            { name: "سميرة سليمان", school: "الخصوص التجاريه", phone: "01220618172", phases: 1, amount: 75, code: "C-5282", password: "P-7332", paid: true, administration: "" },
+            { name: "سميرة سليمان", school: "الخصوص التجاريه", phone: "01220618172", phases: 1, amount: 75, code: "C-7049", password: "P-7897", paid: true, administration: "" },
+            { name: "سميه صلاح الدين", school: "بني عبيد الاعداديه", phone: "01092379060", phases: 1, amount: 75, code: "C-5118", password: "P-5059", paid: true, administration: "" },
+            { name: "سهير سلام محمد", school: "الشهيد مصطفى لطفى", phone: "01011998602", phases: 1, amount: 75, code: "C-5909", password: "P-7428", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-4062", password: "P-9448", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-1065", password: "P-7752", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-6615", password: "P-7995", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-7447", password: "P-9470", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-9634", password: "P-8154", paid: true, administration: "" },
+            { name: "سهير صابر", school: "بلال الثانويه", phone: "01284339575", phases: 1, amount: 75, code: "C-2153", password: "P-7273", paid: true, administration: "" },
+            { name: "شيماء علي محمود", school: "الثانوية الصناعية بسوهاج", phone: "01095600691", phases: 1, amount: 75, code: "C-3164", password: "P-1554", paid: true, administration: "" },
+            { name: "صباح ابراهيم شحاته", school: "مدرسة نور العلم", phone: "01288367924", phases: 1, amount: 75, code: "C-1652", password: "P-5754", paid: true, administration: "" },
+            { name: "صفاء محمد السيد", school: "مدرسة ناصر الابتدائية", phone: "01125194175", phases: 1, amount: 75, code: "C-8511", password: "P-6046", paid: true, administration: "" },
+            { name: "عبله هاشم", school: "مدرسه النيل بديروط", phone: "01002633696", phases: 1, amount: 75, code: "C-1337", password: "P-4567", paid: true, administration: "" },
+            { name: "عزة أمين محمد", school: "املي عبدالمسيح", phone: "01092613410", phases: 1, amount: 75, code: "C-2049", password: "P-5445", paid: true, administration: "" },
+            { name: "عزة أمين محمد", school: "املي عبدالمسيح", phone: "01092613410", phases: 1, amount: 75, code: "C-2569", password: "P-6941", paid: true, administration: "" },
+            { name: "عزة على عبد الرازق", school: "شرم الرسمية لغات", phone: "01003613675", phases: 1, amount: 75, code: "C-7099", password: "P-4049", paid: true, administration: "" },
+            { name: "علا عبدالسلام احمد", school: "الشهيد طارق ابوسريع", phone: "01014869946", phases: 2, amount: 125, code: "C-5775", password: "P-2348", paid: true, administration: "" },
+            { name: "غاده سعيد حسن", school: "مدرسه شلبي", phone: "01117448040", phases: 1, amount: 75, code: "C-4497", password: "P-6632", paid: true, administration: "" },
+            { name: "فاطمة رضي خير", school: "احمد السيد درويش", phone: "01270252704", phases: 1, amount: 75, code: "C-4089", password: "P-1241", paid: true, administration: "" },
+            { name: "فاطمة رضي خير", school: "احمد السيد درويش", phone: "01270252704", phases: 2, amount: 125, code: "C-3700", password: "P-5003", paid: true, administration: "" },
+            { name: "فاطمه النوبي", school: "مدرسة عمر بن عبد العزيز", phone: "01008936689", phases: 1, amount: 75, code: "C-5853", password: "P-1785", paid: true, administration: "" },
+            { name: "فاطمه على عبد الحليم", school: "مدرسة عثمان بن عفان", phone: "01069176520", phases: 1, amount: 75, code: "C-3445", password: "P-5270", paid: true, administration: "" },
+            { name: "فاطمه محمود اسماعيل", school: "برديس تعليم اساسى", phone: "01035821829", phases: 3, amount: 150, code: "C-6368", password: "P-9056", paid: true, administration: "" },
+            { name: "فتحية عبدالله", school: "مدرسة الشهيد حمادة صابر", phone: "01014005539", phases: 1, amount: 75, code: "C-6928", password: "P-9375", paid: true, administration: "" },
+            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد", phone: "01018411577", phases: 1, amount: 75, code: "C-1396", password: "P-6753", paid: true, administration: "" },
+            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد", phone: "01018411577", phases: 1, amount: 75, code: "C-3018", password: "P-1538", paid: true, administration: "" },
+            { name: "فيفي يوسف", school: "مدرسه الشهيد احمد حامد", phone: "0118411577", phases: 1, amount: 75, code: "C-8739", password: "P-2618", paid: true, administration: "" },
+            { name: "محمد حسين كامل", school: "الشهيد مينا عزت", phone: "01005849057", phases: 1, amount: 75, code: "C-6853", password: "P-4123", paid: true, administration: "" },
+            { name: "محمد عبدالناصر", school: "م/ رياض سعد زايد", phone: "01211323203", phases: 2, amount: 125, code: "C-8850", password: "P-3114", paid: true, administration: "" },
+            { name: "محمد محمود عبدالغنى", school: "الاعداديه الرياضيه بنها", phone: "01155410308", phases: 1, amount: 75, code: "C-1789", password: "P-6641", paid: true, administration: "" },
+            { name: "محمداحمدالمكاوي", school: "الشهيد محمد جمال سليم", phone: "01553912354", phases: 1, amount: 75, code: "C-6306", password: "P-6637", paid: true, administration: "" },
+            { name: "مديحة عبد الرازق", school: "الأمل للصم", phone: "01004322320", phases: 3, amount: 150, code: "C-2707", password: "P-6519", paid: true, administration: "" },
+            { name: "مديحة عبد الرازق", school: "الأمل للصم", phone: "01004322320", phases: 3, amount: 150, code: "C-5042", password: "P-4612", paid: true, administration: "" },
+            { name: "مرفت عبد العزيز", school: "مدرسة سمالوط الإعدادية", phone: "01060160306", phases: 1, amount: 75, code: "C-6191", password: "P-8314", paid: true, administration: "" },
+            { name: "مرفت عبد العزيز", school: "مدرسة سمالوط", phone: "01060160306", phases: 1, amount: 75, code: "C-4598", password: "P-8751", paid: true, administration: "" },
+            { name: "مروة طه كامل محمد", school: "حافظ ابراهيم", phone: "01067874222", phases: 1, amount: 75, code: "C-6453", password: "P-7866", paid: true, administration: "" },
+            { name: "مروة طه كامل", school: "حافظ ابراهيم", phone: "01067874222", phases: 1, amount: 75, code: "C-1188", password: "P-8563", paid: true, administration: "" },
+            { name: "مروة محمد المرسى", school: "الجيل الجديدة للغات", phone: "01097780242", phases: 1, amount: 75, code: "C-3509", password: "P-9720", paid: true, administration: "" },
+            { name: "مروة محمد أبو دلال", school: "عياش الإعدادية", phone: "01099934908", phases: 1, amount: 75, code: "C-4939", password: "P-7576", paid: true, administration: "" },
+            { name: "منى عبد العظيم محمود", school: "الشهيد المستشار هيثم", phone: "01016584420", phases: 2, amount: 125, code: "C-7549", password: "P-6810", paid: true, administration: "" },
+            { name: "مها السيد عبدالعال
