@@ -2,431 +2,574 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>منصة امين غيث للتربية النفسية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amen Ghieth Pro - نظام المشتركين</title>
+    <!-- Tailwind CSS للتصميم الاحترافي -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - خط عربي احترافي -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin: 0; padding: 0; min-height: 100vh; background-image: radial-gradient(circle at 20% 20%, rgba(30, 41, 59, 0.8), transparent), radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.8), transparent); }
-        .container { max-width: 900px; margin: 40px auto; background: #ffffff; padding: 40px 30px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-top: 6px solid #d97706; }
-        
-        /* 🖼️ CSS for SVG Logo Image */
-        .logo-image-container { text-align: center; margin-bottom: 10px; }
-        .logo-sub { font-size: 17px; color: #64748b; font-weight: 500; text-align: center; margin-bottom: 30px; font-style: italic; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
-
-        h3 { text-align: center; color: #1e293b; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; }
-        .section { display: none; animation: fadeIn 0.5s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .login-box { background: #f8fafc; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px solid #e2e8f0; }
-        input[type="text"], input[type="password"] { width: 85%; padding: 15px 20px; margin: 10px 0; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; color: #1e293b; }
-        input:focus { border: 2px solid #d97706; background: #fffbeb; }
-        .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 16px; margin: 8px 4px; font-family: 'Tajawal', sans-serif; font-weight: 700; color: white; transition: 0.3s; display: inline-block; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
-        .btn-primary { background: linear-gradient(45deg, #1e3a8a, #0ea5e9); }
-        .btn-success { background: linear-gradient(45deg, #15803d, #10b981); }
-        .btn-danger { background: linear-gradient(45deg, #991b1b, #ef4444); }
-        .btn-warning { background: linear-gradient(45deg, #b45309, #fbbf24); color: #1e293b; }
-        .btn-delete { background: linear-gradient(45deg, #7f1d1d, #dc2626); font-size: 13px; padding: 8px 15px; }
-        .btn-excel { background: linear-gradient(45deg, #1b5e20, #43a047); font-size: 18px; width: 100%; margin-top: 15px; }
-        .files-group { background: #eff6ff; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #bfdbfe; }
-        .static-group { background: #f0fdf4; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #bbf7d0; }
-        .admin-font { background: #ecfeff; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #a5f3fc; }
-        label { font-weight: 700; display: block; margin-top: 15px; color: #475569; }
-        .nav-links { text-align: center; margin-top: 25px; }
-        .nav-links a { color: #1e3a8a; font-weight: 700; font-size: 15px; text-decoration: none; transition: 0.3s; }
-        .nav-links a:hover { color: #d97706; }
-        .admin-secret-link { text-align: center; margin-top: 30px; font-size: 12px; opacity: 0.3; transition: 0.3s; }
-        .admin-secret-link:hover { opacity: 0.8; }
-        #statusMessage { text-align: center; margin-top: 20px; font-weight: 700; color: #ef4444; font-size: 18px; }
-        .price-display { font-size: 28px; color: #b45309; font-weight: 900; text-align: center; margin: 15px 0; }
-        .stats-card { display: flex; justify-content: space-around; background: linear-gradient(45deg, #1e293b, #334155); color: #fbbf24; padding: 20px; border-radius: 15px; margin-bottom: 20px; font-weight: 800; text-align: center; }
-        .stats-item span { display: block; font-size: 24px; color: #ffffff; }
-        .admin-search { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #cbd5e1; font-family: 'Tajawal'; font-size: 16px; font-weight: 700; background: #f8fafc; }
-        .admin-search:focus { border-color: #d97706; outline: none; }
-        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 10px; font-size: 13px; }
-        th { background: linear-gradient(45deg, #1e3a8a, #0ea5e9); color: white; padding: 12px; border-radius: 10px; }
-        td { background: #ffffff; padding: 12px; border-radius: 10px; font-weight: 500; text-align: center; color: #334155; border: 1px solid #e2e8f0; }
-        .credentials-box { background: #fffbeb; padding: 25px; border-radius: 25px; margin-top: 25px; border: 3px solid #fbbf24; box-shadow: 0 10px 20px rgba(217, 119, 6, 0.1); }
-        .disabled-btn { background: linear-gradient(45deg, #94a3b8, #cbd5e1) !important; color: #64748b !important; cursor: not-allowed !important; box-shadow: none !important; transform: none !important; }
-        #paymentWarning { background: #fef2f2; border: 2px solid #ef4444; border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 15px; }
-        .dynamic-school-input { width: 85%; padding: 15px 20px; margin: 5px 0; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; color: #1e293b; }
-        .dynamic-school-input:focus { border: 2px solid #d97706; background: #fffbeb; }
-        /* 🎨 Styling for Checkboxes */
-        .checkbox-group { display: flex; justify-content: center; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
-        .checkbox-item { display: flex; align-items: center; background: #f1f5f9; padding: 15px 20px; border-radius: 10px; border: 2px solid #cbd5e1; cursor: pointer; transition: 0.3s; }
-        .checkbox-item:hover { border-color: #d97706; background: #fffbeb; }
-        .checkbox-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #d97706; cursor: pointer; }
-        .checkbox-item label { margin: 0 10px; font-weight: 800; color: #1e293b; cursor: pointer; font-size: 18px; }
+        body { font-family: 'Cairo', sans-serif; background: #f0f2f5; }
+        .login-bg { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
+        .card-shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .watermark-preview { 
+            position: relative; 
+            border: 2px solid #ddd; 
+            background: white; 
+            padding: 20px; 
+            min-height: 300px;
+        }
+        .watermark-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden; pointer-events: none; opacity: 0.15;
+        }
+        .watermark-text {
+            position: absolute; font-size: 24px; font-weight: bold; color: #000;
+            transform: rotate(-45deg); white-space: nowrap;
+        }
+        .tab-active { background: #2a5298; color: white; }
+        .tab-inactive { background: #e2e8f0; color: #4a5568; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- 🖼️ SVG Logo Image -->
-    <div class="logo-image-container">
-        <svg viewBox="0 0 240 240" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
-            <!-- Outer Circle with text -->
-            <defs>
-                <path id="outerCirclePath" d="M 120,120 m -95,0 a 95,95 0 1,1 190,0 a 95,95 0 1,1 -190,0" fill="none"/>
-            </defs>
-            <circle cx="120" cy="120" r="115" fill="#1e293b" stroke="#fbbf24" stroke-width="3"/>
-            <text fill="#fbbf24" font-family="Tajawal" font-size="18" font-weight="500" letter-spacing="3">
-                <textPath href="#outerCirclePath" startOffset="0%">منصة امين غيث للتربية النفسية منصة امين غيث للتربية النفسية</textPath>
-            </text>
-            <!-- Inner Shield/Circle -->
-            <circle cx="120" cy="120" r="75" fill="#0f172a" stroke="#fbbf24" stroke-width="5"/>
-            <!-- Main Text inside -->
-            <text x="120" y="110" text-anchor="middle" font-family="Tajawal" font-size="38" font-weight="900" fill="#fbbf24">أمين</text>
-            <text x="120" y="150" text-anchor="middle" font-family="Tajawal" font-size="38" font-weight="900" fill="#fbbf24">غيث</text>
-            <!-- Decorative Stars -->
-            <polygon points="120,8 122,15 129,15 123,20 125,27 120,23 115,27 117,20 111,15 118,15" fill="#fbbf24"/>
-            <polygon points="120,232 122,225 129,225 123,220 125,213 120,217 115,213 117,220 111,225 118,225" fill="#fbbf24"/>
-        </svg>
-    </div>
-    <div class="logo-sub">المعلم الحقيقي هو من ينير دروب الاخرين</div>
-
-    <div id="registrationSection" class="section">
-        <div class="login-box">
-            <h3>📝 تسجيل مشترك جديد</h3>
-            <input type="text" id="regName" placeholder="اكتب اسمك بالكامل...">
-            <input type="text" id="regPhone" placeholder="رقم التليفون...">
-            <label>اختر المراحل (اختار المرحلة واكتب مدرستها):</label>
-            <!-- 🏫 Dynamic Checkboxes -->
-            <div class="checkbox-group">
-                <div class="checkbox-item"><input type="checkbox" id="chkPrimary"><label for="chkPrimary">ابتدائي</label></div>
-                <div class="checkbox-item"><input type="checkbox" id="chkPreparatory"><label for="chkPreparatory">اعدادي</label></div>
-                <div class="checkbox-item"><input type="checkbox" id="chkSecondary"><label for="chkSecondary">ثانوي</label></div>
+    <!-- شاشة الدخول -->
+    <div id="loginScreen" class="login-bg min-h-screen flex items-center justify-center fade-in">
+        <div class="bg-white rounded-xl card-shadow p-8 w-full max-w-md">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-bold text-blue-900">Amen Ghieth Pro</h1>
+                <p class="text-gray-500 mt-2">نظام إدارة المشتركين والملفات</p>
             </div>
-            <div class="price-display">المبلغ: <span id="priceDisplay">0</span> جنيه</div>
-            <div id="regSchoolsContainer"></div>
-            <button class="btn btn-primary" onclick="window.registerUser()">تسجيل</button>
-            <div id="regStatusMessage" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
-            <div class="nav-links"><a href="#" onclick="window.showLogin()">🔑 لديك كود؟ ادخل هنا</a></div>
-        </div>
-        <div id="credentialsBox" class="credentials-box" style="display:none; text-align:center;">
-            <h3>🎉 تم التسجيل بنجاح!</h3><p style="font-weight:700;">احفظ الكود والباسورد:</p>
-            <p><strong>الكود:</strong> <span id="generatedCode" style="color:#1e3a8a; font-size:24px; font-weight:800;"></span></p>
-            <p><strong>الباسورد:</strong> <span id="generatedPass" style="color:#1e3a8a; font-size:24px; font-weight:800;"></span></p>
-            <button class="btn btn-success" onclick="window.showLogin()">🔑 الدخول</button>
-        </div>
-        <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
-    </div>
-
-    <div id="loginSection" class="section">
-        <div class="login-box">
-            <h3>🔑 دخول المشتركين</h3>
-            <input type="text" id="loginCode" placeholder="الكود...">
-            <input type="password" id="loginPass" placeholder="الباسورد...">
-            <button class="btn btn-primary" onclick="window.loginUser()">دخول</button>
-            <div id="loginStatusMessage" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
-            <div class="nav-links"><a href="#" onclick="window.showRegistration()">📝 سجل جديد</a></div>
-        </div>
-        <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
-    </div>
-
-    <div id="portalSection" class="section">
-        <h3>مرحباً <span id="welcomeName"></span>! 🎉</h3>
-        <button class="btn btn-warning" onclick="window.showEditProfile()">📝 تعديل البيانات</button>
-        <button class="btn btn-danger" onclick="window.logout()">🚪 خروج</button>
-        
-        <div id="paymentWarning" style="display:none; margin-top:15px;"><p style="color:#ef4444; font-weight:800;">⚠️ اشتراك الشهر غير مفعّل!</p></div>
-        <div class="static-group" style="margin-top:15px;">
-            <h3>📌 مجانية</h3>
-            <button class="btn btn-success" onclick="window.downloadWatermarked('initiativePdfUrl')">📥 المبادرة</button>
-            <button class="btn btn-success" onclick="window.downloadWatermarked('activitiesPdfUrl')">📥 أنشطة</button>
-            <button class="btn btn-success" onclick="window.downloadWatermarked('recordsPdfUrl')">📥 السجلات</button>
-        </div>
-        <div class="files-group">
-            <h3>📅 الشهر الحالي</h3>
-            <button class="btn btn-primary disabled-btn" id="btnPrimary" onclick="window.downloadWatermarked('primaryPdfUrl')">📥 ابتدائي</button>
-            <button class="btn btn-primary disabled-btn" id="btnPreparatory" onclick="window.downloadWatermarked('preparatoryPdfUrl')">📥 إعدادي</button>
-            <button class="btn btn-primary disabled-btn" id="btnSecondary" onclick="window.downloadWatermarked('secondaryPdfUrl')">📥 ثانوي</button>
-        </div>
-        <div id="statusMessage"></div>
-        <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
-    </div>
-
-    <div id="editProfileSection" class="section">
-        <div class="login-box">
-            <h3>📝 تعديل البيانات</h3>
-            <label>الاسم:</label><input type="text" id="editName" placeholder="الاسم...">
-            <label>التليفون:</label><input type="text" id="editPhone" placeholder="التليفون...">
-            <label>اختر المراحل:</label>
-            <div class="checkbox-group">
-                <div class="checkbox-item"><input type="checkbox" id="editChkPrimary"><label for="editChkPrimary">ابتدائي</label></div>
-                <div class="checkbox-item"><input type="checkbox" id="editChkPreparatory"><label for="editChkPreparatory">اعدادي</label></div>
-                <div class="checkbox-item"><input type="checkbox" id="editChkSecondary"><label for="editChkSecondary">ثانوي</label></div>
+            
+            <!-- تبويبات الدخول -->
+            <div class="flex mb-6 bg-gray-100 rounded-lg p-1">
+                <button onclick="switchTab('admin')" id="tabAdmin" class="flex-1 py-2 rounded-lg transition tab-active font-bold">
+                    <i class="fas fa-user-shield ml-1"></i> المدير
+                </button>
+                <button onclick="switchTab('user')" id="tabUser" class="flex-1 py-2 rounded-lg transition tab-inactive font-bold">
+                    <i class="fas fa-user ml-1"></i> المشترك
+                </button>
             </div>
-            <div id="editSchoolsContainer"></div>
-            <button class="btn btn-success" onclick="window.saveProfile()">💾 حفظ</button>
-            <button class="btn btn-danger" onclick="window.showPortal()">🔙 رجوع</button>
+
+            <!-- دخول المدير -->
+            <div id="adminLogin">
+                <input type="password" id="adminPass" placeholder="كلمة مرور المدير" class="w-full p-3 border rounded-lg mb-4 text-center">
+                <button onclick="loginAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">
+                    دخول لوحة التحكم
+                </button>
+                <p id="adminError" class="text-red-500 text-center mt-3 hidden">كلمة المرور غير صحيحة!</p>
+            </div>
+
+            <!-- دخول المشترك -->
+            <div id="userLogin" class="hidden">
+                <input type="text" id="userCode" placeholder="الكود (مثال: C-6427 أو AG-1234)" class="w-full p-3 border rounded-lg mb-3 text-center">
+                <input type="password" id="userPass" placeholder="الباسوورد" class="w-full p-3 border rounded-lg mb-4 text-center">
+                <button onclick="loginUser()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-500 transition">
+                    عرض بياناتي وملفاتي
+                </button>
+                <p id="userError" class="text-red-500 text-center mt-3 hidden">الكود أو الباسوورد غير صحيح!</p>
+            </div>
         </div>
     </div>
 
-    <div id="adminLoginSection" class="section">
-        <div class="login-box">
-            <h3>🔒 دخول الإدارة</h3>
-            <input type="password" id="adminPassInput" placeholder="كلمة سر الإدارة...">
-            <button class="btn btn-primary" onclick="window.adminLogin()">دخول</button>
-            <div id="adminLoginMsg" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
-            <div class="nav-links"><a href="#" onclick="window.showLogin()">🔙 رجوع</a></div>
+    <!-- لوحة تحكم المدير -->
+    <div id="adminPanel" class="hidden min-h-screen bg-gray-100">
+        <div class="bg-blue-900 text-white p-4 flex justify-between items-center shadow-lg">
+            <h2 class="text-xl font-bold"><i class="fas fa-cogs ml-2"></i> لوحة تحكم Amen Ghieth Pro</h2>
+            <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
+        </div>
+
+        <div class="container mx-auto p-6 max-w-6xl">
+            <!-- إحصائيات -->
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="bg-white p-4 rounded-lg shadow text-center">
+                    <i class="fas fa-users text-blue-500 text-3xl mb-2"></i>
+                    <h3 class="text-2xl font-bold" id="statTotal">0</h3>
+                    <p class="text-gray-500">إجمالي المشتركين</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow text-center">
+                    <i class="fas fa-check-circle text-green-500 text-3xl mb-2"></i>
+                    <h3 class="text-2xl font-bold" id="statPaid">0</h3>
+                    <p class="text-gray-500">السداد المدفوع</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow text-center">
+                    <i class="fas fa-money-bill-wave text-yellow-500 text-3xl mb-2"></i>
+                    <h3 class="text-2xl font-bold" id="statMoney">0</h3>
+                    <p class="text-gray-500">إجمالي المبالغ (ج.م)</p>
+                </div>
+            </div>
+
+            <!-- إضافة مشترك جديد -->
+            <div class="bg-white p-6 rounded-lg shadow mb-6">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2"><i class="fas fa-user-plus ml-2 text-green-500"></i> إضافة مشترك جديد</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-1">الاسم</label>
+                        <input type="text" id="addName" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1">المدرسة</label>
+                        <input type="text" id="addSchool" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1">الإدارة</label>
+                        <input type="text" id="addAdmin" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1">رقم الهاتف</label>
+                        <input type="text" id="addPhone" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1">عدد المراحل</label>
+                        <select id="addPhases" class="w-full p-2 border rounded" onchange="calcAmount()">
+                            <option value="1">1 مرحلة (75 ج.م)</option>
+                            <option value="2">2 مراحل (125 ج.م)</option>
+                            <option value="3">3 مراحل (150 ج.م)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1">المبلغ</label>
+                        <input type="number" id="addAmount" class="w-full p-2 border rounded bg-gray-100" readonly value="75">
+                    </div>
+                </div>
+                <button onclick="addNewSubscriber()" class="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-500 transition font-bold">
+                    <i class="fas fa-plus ml-1"></i> تسجيل المشترك
+                </button>
+            </div>
+
+            <!-- نافذة بيانات الدخول للمشترك الجديد -->
+            <div id="credentialsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white p-8 rounded-xl text-center max-w-sm relative">
+                    <button onclick="closeModal()" class="absolute top-2 left-2 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+                    <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">تم التسجيل بنجاح!</h3>
+                    <p class="text-gray-600 mb-4">احتفظ بهذه البيانات لتسجيل دخول المشترك:</p>
+                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+                        <p class="font-bold text-lg mb-2">الكود: <span id="modalCode" class="text-blue-600"></span></p>
+                        <button onclick="copyText('modalCode')" class="text-sm bg-blue-100 px-2 py-1 rounded hover:bg-blue-200 transition ml-2"><i class="fas fa-copy"></i> نسخ</button>
+                        <p class="font-bold text-lg mb-2 mt-3">الباسوورد: <span id="modalPass" class="text-red-600"></span></p>
+                        <button onclick="copyText('modalPass')" class="text-sm bg-red-100 px-2 py-1 rounded hover:bg-red-200 transition ml-2"><i class="fas fa-copy"></i> نسخ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- جدول المشتركين -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="bg-blue-800 text-white p-4 font-bold flex justify-between">
+                    <span><i class="fas fa-list ml-2"></i> جدول المشتركين (القدامى والجدد)</span>
+                    <span id="tableCount">0 مشترك</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="p-3 border">#</th>
+                                <th class="p-3 border">الاسم</th>
+                                <th class="p-3 border">المدرسة</th>
+                                <th class="p-3 border">الإدارة</th>
+                                <th class="p-3 border">الهاتف</th>
+                                <th class="p-3 border">المراحل</th>
+                                <th class="p-3 border">الكود</th>
+                                <th class="p-3 border">الباسوورد</th>
+                                <th class="p-3 border">السداد</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscribersTable"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="adminSection" class="section">
-        <h3>⚙️ لوحة الإدارة</h3>
-        <div class="stats-card">
-            <div class="stats-item"><span id="statTotal">0</span>مسجلين</div>
-            <div class="stats-item"><span id="statPaid">0</span>مدفوعين</div>
-            <div class="stats-item"><span id="statRevenue">0 ج</span>إجمالي</div>
+    <!-- لوحة المشترك -->
+    <div id="userPanel" class="hidden min-h-screen bg-gray-100">
+        <div class="bg-green-700 text-white p-4 flex justify-between items-center shadow-lg">
+            <h2 class="text-xl font-bold"><i class="fas fa-user-circle ml-2"></i> Amen Ghieth Pro - حسابي</h2>
+            <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded-lg hover:bg-red-400 transition"><i class="fas fa-sign-out-alt ml-1"></i> خروج</button>
         </div>
-        <div class="files-group">
-            <h3>👥 المشتركين</h3>
-            <button class="btn btn-warning" onclick="window.resetMonth()">🔄 بدء شهر جديد</button>
-            <button class="btn btn-excel" onclick="window.exportToExcel()">📥 تصدير Excel منسق</button>
-            <input type="text" id="adminSearch" class="admin-search" placeholder="🔍 بحث باسم أو تليفون...">
-            <table id="usersTable"><thead><tr><th>الاسم</th><th>م.ابتدائي</th><th>م.اعدادي</th><th>م.ثانوي</th><th>تليفون</th><th>المراحل المختارة</th><th>مبلغ</th><th>الكود</th><th>الباسورد</th><th>حالة</th><th>إجراء</th></tr></thead><tbody id="usersTableBody"></tbody></table>
+
+        <div class="container mx-auto p-6 max-w-4xl fade-in">
+            <!-- بطاقة المشترك -->
+            <div class="bg-white p-6 rounded-xl shadow mb-6 border-r-8 border-green-600">
+                <h3 class="text-2xl font-bold text-green-700 mb-4" id="profileName"></h3>
+                <div class="grid grid-cols-2 gap-y-3 text-lg">
+                    <p><i class="fas fa-school text-blue-500 ml-2"></i> <span class="font-bold">المدرسة:</span> <span id="profileSchool"></span></p>
+                    <p><i class="fas fa-building text-purple-500 ml-2"></i> <span class="font-bold">الإدارة:</span> <span id="profileAdmin"></span></p>
+                    <p><i class="fas fa-phone text-gray-500 ml-2"></i> <span class="font-bold">الهاتف:</span> <span id="profilePhone"></span></p>
+                    <p><i class="fas fa-layer-group text-orange-500 ml-2"></i> <span class="font-bold">المراحل:</span> <span id="profilePhases"></span></p>
+                </div>
+            </div>
+
+            <!-- قسم الملفات والعلامة المائية -->
+            <div class="bg-white p-6 rounded-xl shadow">
+                <h3 class="text-xl font-bold mb-4 border-b pb-2"><i class="fas fa-file-pdf ml-2 text-red-500"></i> ملفاتك وملازمك</h3>
+                <p class="text-gray-600 mb-4">جميع الملفات تحمل علامة مائية باسمك ومدرستك لضمان حقوقك.</p>
+                
+                <div class="watermark-preview mb-4" id="watermarkDemo">
+                    <h2 class="text-center font-bold text-xl mb-4">محتوى الملف التعليمي</h2>
+                    <p class="text-gray-700 leading-relaxed">هذا النص هو مثال لنص المحتوى التعليمي الذي سيستلمه المشترك. يتم وضع العلامة المائية لضمان عدم تسريب الملف لأشخاص غير مشتركين في منصة أمين غيث.</p>
+                    
+                    <!-- العلامة المائية -->
+                    <div class="watermark-overlay">
+                        <div class="watermark-text" style="top: 20%; left: -10%;" id="wm1"></div>
+                        <div class="watermark-text" style="top: 50%; left: -10%;" id="wm2"></div>
+                        <div class="watermark-text" style="top: 80%; left: -10%;" id="wm3"></div>
+                    </div>
+                </div>
+
+                <button onclick="alert('سيتم تفعيل رفع الملفات الفعلي عند ربط النظام بسيرفر أو قاعدة بيانات حقيقية')" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold">
+                    <i class="fas fa-download ml-1"></i> تحميل الملف المعالج
+                </button>
+            </div>
         </div>
-        <div class="files-group"><h3>📅 روابط الشهر</h3><label>ابتدائي:</label><input type="text" id="primaryPdfUrl"><label>إعدادي:</label><input type="text" id="preparatoryPdfUrl"><label>ثانوي:</label><input type="text" id="secondaryPdfUrl"></div>
-        <div class="static-group"><h3>📌 ثابتة</h3><label>المبادرة:</label><input type="text" id="initiativePdfUrl"><label>أنشطة:</label><input type="text" id="activitiesPdfUrl"><label>السجلات:</label><input type="text" id="recordsPdfUrl"></div>
-        <div class="admin-font"><h3>🔤 الخط</h3><label>رابط الخط:</label><input type="text" id="fontUrl"></div>
-        <button class="btn btn-success" onclick="window.saveSettings()" style="width:100%; font-size:20px;">💾 حفظ</button>
-        <div class="nav-links"><a href="#" onclick="window.showLogin()">🔙 رجوع</a></div>
     </div>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+    <script>
+        // --- 1. إعداد البيانات الأساسية (الإكسيل) ---
+        // دالة لتحويل الأرقام العربية المكتوبة في الإكسيل إلى إنجليزية لتعمل في الكود بدون مشاكل
+        function toEngNum(str) {
+            if (!str) return '';
+            return String(str).replace(/[٠-٩]/g, d => d.charCodeAt(0) - 1632);
+        }
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBCZtlz3AF3_YWxWAJgV0M9XSXFVgmrLvM", authDomain: "amenghiethpro.firebaseapp.com",
-        databaseURL: "https://amenghiethpro-default-rtdb.firebaseio.com", projectId: "amenghiethpro",
-        storageBucket: "amenghiethpro.firebasestorage.app", messagingSenderId: "1008593828554",
-        appId: "1:1008593828554:web:8fdc8e25cbe9c2f5821233", measurementId: "G-EKD6T41E2N"
-    };
+        // البيانات المرفقة من الإكسيل (تم وضعها كما هي ليقوم الكود بقراءتها وتحويلها)
+        const rawExcelData = `
+1 | * | 1 | اسماء ابوبكر عبدالحكيم عبدالغنى | ملحقة المعلمين الابتدائيه | 01028924447 | 1 | 75 | C-6427 | P-5616 | مدفع
+2 | * | 2 | اسماء محمد احمد | الشعراوي | 01027786671 | 1 | 75 | C-2026 | P-9160 | مدفع
+3 | * | 3 | اسماء محمد صابر | مدرسه العدوه التجريه المشتركه | 01122211371 | 1 | 75 | C-4541 | P-3753 | مدفع
+4 | * | 4 | اسماء محمد نصار | الشهيد الشوربجى الثانوية بالحامول | 01017678503 | 1 | 75 | C-7730 | P-2310 | مدفع
+5 | * | 5 | امانى سعيد جابر الشبراوى | كفر عبيان القديمه ب | 01012761394 | 1 | 75 | C-5396 | P-5002 | مدفع
+6 | * | 6 | امانى سعيد جابر الشبراوى | كفر عبيان القديمه ب | 01012761394 | 1 | 75 | C-5606 | P-9209 | مدفع
+7 | * | 7 | انسام احمد فتحى | السيدة عائشة | 01202504270 | 1 | 75 | C-8852 | P-5757 | مدفع
+8 | * | 8 | ايناس علي ادم | مدرسه الشهيد محمود محمد جوده | ٠١٠٠٧٤٩٧٢٢٧ | 1 | 75 | C-2707 | P-3027 | مدفع
+9 | * | 9 | أسماء حمدى يوسف | الشهيد مدحت عبدالعزيز الاعداديه المشتركه | 01032632099 | 2 | 125 | C-6981 | P-2942 | مدفع
+10 | * | 10 | أسماء حمدى يوسف | الشهيد مدحت عبدالعزيز الاعداديه المشتركه | 01032632099 | 2 | 125 | C-6973 | P-4895 | مدفع
+11 | * | 11 | أسماء خالد إبراهيم | السادات الابتدائيه | 01284455706 | 1 | 75 | C-8569 | P-2527 | مدفع
+12 | * | 12 | أسماء خالد إبراهيم | السادات الابتدائيه | 01284455706 | 1 | 75 | C-8636 | P-1871 | مدفع
+13 | * | 13 | أسماء خالد إبراهيم | السادات الابتدائيه | 01284455706 | 1 | 75 | C-4315 | P-4155 | مدفع
+14 | * | 14 | أسماء خالد إبراهيم | السادات الابتدائيه | 01284455706 | 1 | 75 | C-1923 | P-5689 | مدفع
+15 | * | 15 | أسماء خالد إبراهيم | السادات الابتدائيه | 01284455706 | 1 | 75 | C-9734 | P-6217 | مدفع
+16 | * | 16 | أسماء خالد إبراهيم | السادات الابتدائيه | 01284455706 | 1 | 75 | C-2254 | P-7186 | مدفع
+17 | * | 17 | أماني خيري الباجوري | مدرسة كفر جعفر الاعدادية بنات | 01063887136 | 1 | 75 | C-2722 | P-7917 | مدفع
+18 | * | 18 | أماني خيري الباجوري | مدرسة كفر جعفر الاعدادية بنات | 01063887136 | 1 | 75 | C-9479 | P-8020 | مدفع
+19 | * | 19 | أماني خيري الباجوري | مدرسة كفر جعفر الاعدادية بنات | 01063887136 | 1 | 75 | C-3410 | P-4653 | مدفع
+20 | * | 20 | أميرة خيرى محمود | حى الإسكان الاقتصادي للتعليم الاساسى بسوهاج الجديدة | 01147344221 | 1 | 75 | C-4904 | P-4330 | مدفع
+21 | * | 21 | بثينه السيد صديق | جاب الله ت.ا | 01147833510 | 2 | 125 | C-8048 | P-5979 | مدفع
+22 | * | 22 | جيهان عبد العزيز لبيب خليل الهوارى | ام القرى للتعليم الأساسي بدروه /ومدرسة دروه الثانويه المشتركه | ٠١١٥٢٢٤٧٧٥٨ | 3 | 150 | C-5247 | P-4164 | مدفع
+23 | * | 23 | حنان البي أمين عبد الشافي | هور الإبتدائية المشتركة | 01024456829 | 1 | 75 | C-8922 | P-6897 | مدفع
+24 | * | 24 | حنان نصر الدين محمود | ام المؤمنين الابتدائية | ٠١٠٠٩٢٠١٢٠٧ | 1 | 75 | C-3390 | P-7174 | مدفع
+25 | * | 25 | داليا حسين عبدالرحمن | مدرسة السادات بكفر الحاج عمر | 01148008929 | 1 | 75 | C-2495 | P-2757 | مدفع
+26 | * | 26 | دعاء ابرلهيم فهمي جمال الدين | العباسية الاعداديه بنات | 01011488836 | 1 | 75 | C-1023 | P-4899 | مدفع
+27 | * | 27 | دعاء إبراهيم فهمي جمال الدين | العباسية الاعداديه بنات | 01011488836 | 1 | 75 | C-3578 | P-6845 | مدفع
+28 | * | 28 | دعاء زينهم صادق | كفر المداور الاعدادية | ٠١٠٦٨٦٥٥٧٢٧ | 2 | 125 | C-8283 | P-6781 | مدفع
+29 | * | 29 | دعاء زينهم صادق | كفر المداور الاعدادية | ٠١٠٦٨٦٥٥٧٢٧ | 2 | 125 | C-1915 | P-2158 | مدفع
+30 | * | 30 | دعاء محمد غنيم | الاسماعيلية الثانوية الرسمية بنات | 01122739970 | 1 | 75 | C-1200 | P-9337 | مدفع
+31 | * | 31 | رامي محمد علي شعيشع | مدرسة شبراتنا تعليم أساسي | 01126299299. | 2 | 125 | C-1713 | P-6885 | مدفع
+32 | * | 32 | رجب سيد سليم | العبور الثانويه الصناعيه | 01146568493 | 1 | 75 | C-3379 | P-6507 | مدفع
+33 | * | 33 | رشا عبد العزيز محمد | الحلمية الثانوية بناتً | 01149841885 | 3 | 150 | C-5450 | P-2986 | مدفع
+34 | * | 34 | رشا عبد العزيز محمد | الحلمية الثانوية بناتً | 01149841885 | 1 | 75 | C-8240 | P-6862 | مدفع
+35 | * | 35 | رشا عبد العزيز محمد | الحلمية الثانوية بناتً | 01149841885 | 1 | 75 | C-1083 | P-9976 | مدفع
+36 | * | 36 | رشاطلعت | كوم اشفين الابتدائى | 01018431798 | 1 | 75 | C-1402 | P-7662 | مدفع
+37 | * | 37 | رشاطلعت | كوم اشفين الابتدائى | 01018431798 | 1 | 75 | C-8178 | P-5998 | مدفع
+38 | * | 38 | رشاطلعت | كوم اشفين الابتدائى | 01018431798 | 1 | 75 | C-5780 | P-2350 | مدفع
+39 | * | 39 | رشاطلعت | كوم اشفين الابتدائى | 01018431798 | 1 | 75 | C-2364 | P-5233 | مدفع
+40 | * | 40 | رشاطلعت | كوم اشفين الابتدائى | 01018431798 | 1 | 75 | C-7572 | P-3232 | مدفع
+41 | * | 41 | رمضان عبد الصمد عبد الحفيظ حسين | مدرسه الشعب الاعدادية بنين | 01228394216 | 1 | 75 | C-8467 | P-5706 | مدفع
+42 | * | 42 | زهور محمود حسن | اسطال الاعدادية | ٠١٠٠٨٩٥٥٣٥٤ | 1 | 75 | C-6069 | P-5548 | مدفع
+43 | * | 43 | زينات ابراهيم احمد ابراهيم مرسي | الشهيد ممدوح سعد عبد الرازق الاعداديه | 01278704514 | 1 | 75 | C-9848 | P-3750 | مدفع
+44 | * | 44 | زينه محمد بدوي | مزغونة الابتدائيه المشتركه | ٠١١٥٦٣٩١٨٣٨ | 1 | 75 | C-4471 | P-8479 | مدفع
+45 | * | 45 | ساره ناجي غازي | كفر الصارم الاعدادي المشتركه | 01110957016 | 1 | 75 | C-5679 | P-3143 | مدفع
+46 | * | 46 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠١٠٢٩٤٢٤٣٤٧ | 1 | 75 | C-9822 | P-4216 | مدفع
+47 | * | 47 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | 01029424347 | 1 | 75 | C-5653 | P-9045 | مدفع
+48 | * | 48 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠١٠٢٩٤٢٤٣٤٧ | 1 | 75 | C-2439 | P-1087 | مدفع
+49 | * | 49 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | ٠١٠٢٩٤٢٤٣٤٧ | 1 | 75 | C-1972 | P-6124 | مدفع
+50 | * | 50 | سالما محمد طه الشلاوى | الشهيد حماده صابر جمعه الابتدائيه | 01029424347 | 1 | 75 | C-7341 | P-5516 | مدفع
+51 | * | 51 | سالي سمير | الجديدة الاعداديه | 01124171018 | 1 | 75 | C-5622 | P-6186 | مدفع
+52 | * | 52 | ساميه منصور احمد ابراهيم | مدرسه السادات الاعداديه بنات | ٠١٠٩٣٩٢٤٦٦٢ | 1 | 75 | C-3039 | P-1617 | مدفع
+53 | * | 53 | سعد محمد عبد اللطيف المهدي | مدرسة جهينه الشرقية الاعدادية | 01286080089 | 1 | 75 | C-9232 | P-5578 | مدفع
+54 | * | 54 | سلمى احمد محمد حامد | العوينه الجديدة | 01100263797 | 1 | 75 | C-6256 | P-2784 | مدفع
+55 | * | 55 | سميرة سليمان أسعد سليمان | الخصوص التجاريه بنات | 01220618172 | 1 | 75 | C-1734 | P-4961 | مدفع
+56 | * | 56 | سميرة سليمان أسعد سليمان | الخصوص التجاريه بنات | 01220618172 | 1 | 75 | C-5282 | P-7332 | مدفع
+57 | * | 57 | سميرة سليمان أسعد سليمان | الخصوص التجاريه بنات | 01220618172 | 1 | 75 | C-7049 | P-7897 | مدفع
+58 | * | 58 | سميه صلاح الدين عبد العظيم محمد | بني عبيد الاعداديه بنات | 01092379060 | 1 | 75 | C-5118 | P-5059 | مدفع
+59 | * | 59 | سهير سلام محمد حسنين | الشهيد مصطفى لطفى التجارية بنات | 01011998602 | 1 | 75 | C-5909 | P-7428 | مدفع
+60 | * | 60 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١٢٨٤٣٣٩٥٧٥ | 1 | 75 | C-4062 | P-9448 | مدفع
+61 | * | 61 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١٢٨٤٣٣٩٥٧٥ | 1 | 75 | C-1065 | P-7752 | مدفع
+62 | * | 62 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١٢٨٤٣٣٩٥٧٥ | 1 | 75 | C-6615 | P-7995 | مدفع
+63 | * | 63 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١٢٨٤٣٣٩٥٧٥ | 1 | 75 | C-7447 | P-9470 | مدفع
+64 | * | 64 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١٢٨٤٣٣٩٥٧٥ | 1 | 75 | C-9634 | P-8154 | مدفع
+65 | * | 65 | سهير صابر عبد السلام | بلال الثانويه بنات | ٠١٢٨٤٣٣٩٥٧٥ | 1 | 75 | C-2153 | P-7273 | مدفع
+66 | * | 66 | شيماء علي محمود الجمال | مدرسة الثانوية الصناعية بنات بسوهاج | ٠١٠٩٥٦٠٠٦٩١ | 1 | 75 | C-3164 | P-1554 | مدفع
+67 | * | 67 | صباح ابراهيم شحاته على | مدرسة نور العلم الثانوية | ٠١٢٨٨٣٦٧٩٢٤ | 1 | 75 | C-1652 | P-5754 | مدفع
+68 | * | 68 | صفاء محمد السيد إبراهيم | مدرسة ناصر الابتدائية بالتل الكبير | ٠١١٢٥١٩٤١٧٥ | 1 | 75 | C-8511 | P-6046 | مدفع
+69 | * | 69 | عبله هاشم عبد الباقي هاشم | مدرسه النيل الاعداديه بنات بديروط | ٠١٠٠٢٦٣٣٦٩٦ | 1 | 75 | C-1337 | P-4567 | مدفع
+70 | * | 70 | عزة أمين محمد نوفل | املي عبدالمسيح تعليم اساسي | 01092613410 | 1 | 75 | C-2049 | P-5445 | مدفع
+71 | * | 71 | عزة أمين محمد نوفل | املي عبدالمسيح تعليم اساسي | 01092613410 | 1 | 75 | C-2569 | P-6941 | مدفع
+72 | * | 72 | عزة على عبد الرازق | شرم الرسمية لغات | 01003613675 | 1 | 75 | C-7099 | P-4049 | مدفع
+73 | * | 73 | علا عبدالسلام احمد حمزه | الشهيد طارق ابوسريع رمضان ع م | 01014869946 | 2 | 125 | C-5775 | P-2348 | مدفع
+74 | * | 74 | غاده سعيد حسن عبد الكريم | مدرسه شلبي الابتدائية | 01117448040 | 1 | 75 | C-4497 | P-6632 | مدفع
+75 | * | 75 | فاطمة رضي خير معوض | احمد السيد درويش ع | 01270252704 | 1 | 75 | C-4089 | P-1241 | مدفع
+76 | * | 76 | فاطمة رضي خير معوض | احمد السيد درويش ع | 01270252704 | 2 | 125 | C-3700 | P-5003 | مدفع
+77 | * | 77 | فاطمه النوبي الشاذلي | مدرسة عمر بن عبد العزيز الابتدائيه | 01008936689 | 1 | 75 | C-5853 | P-1785 | مدفع
+78 | * | 78 | فاطمه على عبد الحليم أحمد | مدرسة عثمان بن عفان الاعدادية المشتركة | 01069176520 | 1 | 75 | C-3445 | P-5270 | مدفع
+79 | * | 79 | فاطمه محمود اسماعيل | برديس تعليم اساسى | 01035821829 | 3 | 150 | C-6368 | P-9056 | مدفع
+80 | * | 80 | فتحية عبدالله الشواتفي محمد | مدرسة الشهيد حمادة صابر الابتدائية | ٠١٠١٤٠٠٥٥٣٩ | 1 | 75 | C-6928 | P-9375 | مدفع
+81 | * | 81 | فيفي يوسف | مدرسه الشهيد احمد حامد تعلب الفندقية | 01018411577 | 1 | 75 | C-1396 | P-6753 | مدفع
+82 | * | 82 | فيفي يوسف | مدرسه الشهيد احمد حامد تعلب الفندقية | 01018411577 | 1 | 75 | C-3018 | P-1538 | مدفع
+83 | * | 83 | فيفي يوسف | مدرسه الشهيد احمد حامد تعلب الفندقية | 0118411577 | 1 | 75 | C-8739 | P-2618 | مدفع
+84 | * | 84 | محمد حسين كامل | الشهيد مينا عزت ع بنين | ٠١٠٠٥٨٤٩٠٥٧ | 1 | 75 | C-6853 | P-4123 | مدفع
+85 | * | 85 | محمد عبدالناصر عبدالعظيم عبدالسلام | م/ رياض سعد زايد ع.م | ٠١٢١١٣٢٣٢٠٣ | 2 | 125 | C-8850 | P-3114 | مدفع
+86 | * | 86 | محمد محمود عبدالغنى الاشمونى | الاعداديه الرياضيه بنين بنها | 01155410308 | 1 | 75 | C-1789 | P-6641 | مدفع
+87 | * | 87 | محمداحمدالمكاوي | الشهيد محمد جمال سليم الاعداديه بنين بالمنصوره | 01553912354 | 1 | 75 | C-6306 | P-6637 | مدفع
+88 | * | 88 | مديحة عبد الرازق أحمد | الأمل للصم | 01004322320 | 3 | 150 | C-2707 | P-6519 | مدفع
+89 | * | 89 | مديحة عبد الرازق أحمد | الأمل للصم | 01004322320 | 3 | 150 | C-5042 | P-4612 | مدفع
+90 | * | 90 | مرفت عبد العزيز عبد الوهاب | مدرسة سمالوط الإعدادية بنات | 01060160306 | 1 | 75 | C-6191 | P-8314 | مدفع
+91 | * | 91 | مرفت عبد العزيز عبد الوهاب | مدرسة سمالوط الإعدادية بنات | 01060160306 | 1 | 75 | C-4598 | P-8751 | مدفع
+92 | * | 92 | مروة طه كامل محمد | حافظ ابراهيم الابتدائيه | ٠١٠٦٧٨٧٤٢٢٢ | 1 | 75 | C-6453 | P-7866 | مدفع
+93 | * | 93 | مروة طه كامل محمد | حافظ ابراهيم الابتدائيه | 01067874222 | 1 | 75 | C-1188 | P-8563 | مدفع
+94 | * | 94 | مروة محمد المرسى | الجيل الجديد الخاصة للغات | 01097780242 | 1 | 75 | C-3509 | P-9720 | مدفع
+95 | * | 95 | مروة محمد أبو دلال | عياش الإعدادية المشتركة | 01099934908 | 1 | 75 | C-4939 | P-7576 | مدفع
+96 | * | 96 | منى عبد العظيم محمود | الشهيد المستشار هيثم القط | 01016584420 | 2 | 125 | C-7549 | P-6810 | مدفع
+97 | * | 97 | مها السيد عبدالعال | الدراكه الاعداديه | 01069481134 | 1 | 75 | C-1556 | P-2875 | مدفع
+98 | * | 98 | نجاح عبدالله علام | فيشا الكبري للتعلم الاساسي | 01282014065 | 2 | 125 | C-2049 | P-6776 | مدفع
+99 | * | 99 | نجلاء محمود حسانين | سلمان الفارسي | 01146930223 | 1 | 75 | C-6489 | P-1035 | مدفع
+100 | * | 100 | نجوي شكر فلبس قسط | عصمت عفيفي الاعداديه بنات بأسيوط | ٠١٢٨٢٤٧٦٦٢٣ | 1 | 75 | C-5268 | P-8578 | مدفع
+101 | * | 101 | نرمين شكرا غبريال | عمر ابن الخطاب الاعداديه بنات | 01060994054 | 1 | 75 | C-3866 | P-9840 | مدفع
+102 | * | 102 | نرمين شكرا غبريال | عمر ابن الخطاب الاعداديه بنات | 01060994054 | 1 | 75 | C-9871 | P-1708 | مدفع
+103 | * | 103 | نعمه حمدي إبراهيم عبد الحميد | الحضره الابتدائيه | ٠١٢٧٤٧٢٨٦٩٩ | 1 | 75 | C-5724 | P-4049 | مدفع
+104 | * | 104 | نفين صلاح الدين محمد فؤاد مهني | قلوصنا بنين 2الابتدائيه | 01014590906 | 1 | 75 | C-9630 | P-1814 | مدفع
+105 | * | 105 | نهاد حامد عطية المساوي | مدرسة الشهيد ابو الفضل | 01096770130 | 1 | 75 | C-4425 | P-4467 | مدفع
+106 | * | 106 | نهلة حسن محمد محمود | هدي شعراوي الرسمية لغات و | 01556655575 | 1 | 75 | C-4051 | P-5815 | مدفع
+107 | * | 107 | نهلة حسن محمد محمود | هدي شعراوي الرسمية لغات | 01556655575 | 1 | 75 | C-6713 | P-6382 | مدفع
+108 | * | 108 | نيرمين عادل عطية محمد | التل الكبير الرسمية للغات | 01063619218 | 2 | 125 | C-3552 | P-5246 | مدفع
+109 | * | 109 | هبة شعبان رمضان | ام المؤمنين | ٠١٠٦٩٦٣٦٤٦١ | 1 | 75 | C-6790 | P-7333 | مدفع
+110 | * | 110 | هبه إبراهيم محمد أحمد سلامه | منيل الهويشات الثانوية المشتركه | 0 102 167 1613 | 1 | 75 | C-7127 | P-4782 | مدفع
+111 | * | 111 | هبه فتحي عبدالرازق فرج | مدرسه وحده سقاره الابتدائيه | 01069346838 | 1 | 75 | C-2890 | P-7631 | مدفع
+112 | * | 112 | ولاء احمد ابوالفضل | مدرسه برديس الاعداديه بنات القديمه | ٠١٢٢٩١٦٠٠٢٤ | 1 | 75 | C-5704 | P-7528 | مدفع
+113 | * | 113 | ولاءمحمد ابراهيم احمد | الصالحية القديمة التجارية المشتركة | ٠١٠٩٣٩١٢٥۸۳ | 3 | 150 | C-2424 | P-7949 | مدفع
+114 | * | 114 | ياسر محمد سلام | خرسيت ث م / اللواء حسين جاير الرسميه للغات ابتدائي واعدادى | ٠١٠٦٦۹۷۲۵۲۰ | 3 | 150 | C-3606 | P-3935 | مدفع
+`;
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    let currentUser = null; let currentSettings = null;
-    const ADMIN_PASSWORD = "Amen2024";
-
-    // 🏫 Dynamic Schools Generation Logic (Based on Checkboxes)
-    function updatePriceAndInputs(chkPrimaryId, chkPrepId, chkSecId, containerId, data=null) {
-        const chkP = document.getElementById(chkPrimaryId);
-        const chkPr = document.getElementById(chkPrepId);
-        const chkS = document.getElementById(chkSecId);
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-        let price = 0;
+        // --- 2. معالجة البيانات وتحويلها لمصفوفة ---
+        let subscribers = [];
         
-        if(chkP.checked) { price+=75; const val=data?data.primarySchool:''; container.innerHTML+=`<label>مدرسة ابتدائي:</label><input type="text" class="dynamic-school-input" id="${containerId}_primarySchool" value="${val}" placeholder="اسم المدرسة...">`; }
-        if(chkPr.checked) { price+=50; const val=data?data.preparatorySchool:''; container.innerHTML+=`<label>مدرسة اعدادى:</label><input type="text" class="dynamic-school-input" id="${containerId}_preparatorySchool" value="${val}" placeholder="اسم المدرسة...">`; }
-        if(chkS.checked) { price+=25; const val=data?data.secondarySchool:''; container.innerHTML+=`<label>مدرسة ثانوي:</label><input type="text" class="dynamic-school-input" id="${containerId}_secondarySchool" value="${val}" placeholder="اسم المدرسة...">`; }
+        function initSystem() {
+            const storedData = localStorage.getItem('amenGhiethSubs');
+            if (storedData) {
+                subscribers = JSON.parse(storedData);
+            } else {
+                // قراءة البيانات المدمجة وتحويلها
+                const lines = rawExcelData.trim().split('\n');
+                const existingCodes = new Set();
+                
+                lines.forEach(line => {
+                    const parts = line.split('|').map(p => p.trim());
+                    if (parts.length >= 10 && parts[8].startsWith('C-')) {
+                        const code = toEngNum(parts[8]);
+                        // منع تكرار نفس الكود في حالة وجود أخطاء في الإكسيل
+                        if (!existingCodes.has(code)) {
+                            existingCodes.add(code);
+                            subscribers.push({
+                                name: parts[3],
+                                school: parts[4],
+                                phone: toEngNum(parts[5].replace(/[^0-9]/g, '')), // تنظيف أرقام الهاتف
+                                phases: parseInt(toEngNum(parts[6])) || 1,
+                                amount: parseInt(toEngNum(parts[7])) || 75,
+                                code: code,
+                                password: toEngNum(parts[9]),
+                                paid: parts[10] === 'مدفع',
+                                administration: "" // الإدارة فارغة للبيانات القديمة، تملأ للمشتركين الجدد
+                            });
+                        }
+                    }
+                });
+                saveData();
+            }
+            updateStats();
+        }
 
-        // Update Price Display (Find it nearby)
-        const priceEl = containerId === 'regSchoolsContainer' ? document.getElementById('priceDisplay') : null;
-        if(priceEl) priceEl.innerText = price;
-        
-        return price;
-    }
+        function saveData() {
+            localStorage.setItem('amenGhiethSubs', JSON.stringify(subscribers));
+        }
 
-    // Event Listeners for Checkboxes
-    document.getElementById('chkPrimary').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
-    document.getElementById('chkPreparatory').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
-    document.getElementById('chkSecondary').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
+        // --- 3. واجهة المستخدم والتحكم ---
+        function switchTab(tab) {
+            if (tab === 'admin') {
+                document.getElementById('adminLogin').classList.remove('hidden');
+                document.getElementById('userLogin').classList.add('hidden');
+                document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold';
+                document.getElementById('tabUser').className = 'flex-1 py-2 rounded-lg transition tab-inactive font-bold';
+            } else {
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('userLogin').classList.remove('hidden');
+                document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-inactive font-bold';
+                document.getElementById('tabUser').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold';
+            }
+        }
 
-    document.getElementById('editChkPrimary').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
-    document.getElementById('editChkPreparatory').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
-    document.getElementById('editChkSecondary').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
+        function loginAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            if (pass === 'admin123') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                renderTable();
+            } else {
+                document.getElementById('adminError').classList.remove('hidden');
+                setTimeout(() => document.getElementById('adminError').classList.add('hidden'), 3000);
+            }
+        }
 
-    // 🔍 Admin Search Filter Logic
-    document.getElementById('adminSearch').addEventListener('input', (e) => {
-        const term = e.target.value.trim().toLowerCase();
-        const rows = document.querySelectorAll('#usersTableBody tr');
-        rows.forEach(row => { const text = row.textContent.toLowerCase(); row.style.display = text.includes(term) ? '' : 'none'; });
-    });
-
-    function showRegistration() { document.getElementById('registrationSection').style.display='block'; hideAllExcept('registrationSection'); }
-    function showLogin() { document.getElementById('loginSection').style.display='block'; hideAllExcept('loginSection'); }
-    function showPortal() { document.getElementById('portalSection').style.display='block'; hideAllExcept('portalSection'); document.getElementById('statusMessage').innerText=''; }
-    function showEditProfile() { 
-        document.getElementById('editProfileSection').style.display='block'; hideAllExcept('editProfileSection'); 
-        document.getElementById('editName').value=currentUser.name; document.getElementById('editPhone').value=currentUser.phone;
-        document.getElementById('editChkPrimary').checked = currentUser.stages >= 1 && currentUser.primarySchool;
-        document.getElementById('editChkPreparatory').checked = currentUser.stages >= 2 || currentUser.preparatorySchool;
-        document.getElementById('editChkSecondary').checked = currentUser.stages >= 3 || currentUser.secondarySchool;
-        updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser);
-    }
-    function showAdminLogin() { document.getElementById('adminLoginSection').style.display='block'; hideAllExcept('adminLoginSection'); document.getElementById('adminLoginMsg').innerText=''; }
-    function showAdmin() { document.getElementById('adminSection').style.display='block'; hideAllExcept('adminSection'); loadSettings(); loadUsersForAdmin(); }
-    function hideAllExcept(id) { ['registrationSection','loginSection','portalSection','editProfileSection','adminLoginSection','adminSection'].forEach(s => document.getElementById(s).style.display = (s===id?'block':'none')); }
-
-    async function registerUser() {
-        const name=document.getElementById('regName').value.trim(); const phone=document.getElementById('regPhone').value.trim();
-        if(!name||!phone) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب الاسم والتليفون!"; return; }
-        
-        // 🏫 Check if at least 1 stage is selected
-        const chkP = document.getElementById('chkPrimary').checked;
-        const chkPr = document.getElementById('chkPreparatory').checked;
-        const chkS = document.getElementById('chkSecondary').checked;
-        if(!chkP && !chkPr && !chkS) { document.getElementById('regStatusMessage').innerText="❌ لازم تختار مرحلة واحدة على الأقل!"; return; }
-
-        // 🛑 Check Duplicate Phone
-        try { const q=query(collection(db,"users"),where("phone","==",phone)); const phoneCheck=await getDocs(q);
-            if(!phoneCheck.empty) { document.getElementById('regStatusMessage').innerText="❌ الرقم مسجل من قبل! لو نسيت كودك ادخل من هنا."; return; }
-        } catch(e) { console.error(e); }
-
-        // 🏫 Collect Dynamic Schools
-        let primarySchool='', preparatorySchool='', secondarySchool='', school='';
-        const pS = document.getElementById('regSchoolsContainer_primarySchool');
-        const prS = document.getElementById('regSchoolsContainer_preparatorySchool');
-        const sS = document.getElementById('regSchoolsContainer_secondarySchool');
-        if(chkP && pS) primarySchool = pS.value.trim();
-        if(chkPr && prS) preparatorySchool = prS.value.trim();
-        if(chkS && sS) secondarySchool = sS.value.trim();
-        school = primarySchool || preparatorySchool || secondarySchool; // General fallback
-
-        if(chkP && !primarySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الابتدائي!"; return; }
-        if(chkPr && !preparatorySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الاعدادي!"; return; }
-        if(chkS && !secondarySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الثانوي!"; return; }
-
-        const stages = (chkP?1:0) + (chkPr?1:0) + (chkS?1:0);
-        const code='C-'+Math.floor(1000+Math.random()*9000); const pass='P-'+Math.floor(1000+Math.random()*9000);
-        try { await addDoc(collection(db,"users"),{name,phone,school,primarySchool,preparatorySchool,secondarySchool,stages,code,password:pass,isPaidThisMonth:false});
-            document.getElementById('generatedCode').innerText=code; document.getElementById('generatedPass').innerText=pass; document.getElementById('credentialsBox').style.display='block'; document.getElementById('regStatusMessage').innerText="";
-        } catch(error) { document.getElementById('regStatusMessage').innerText="❌ خطأ: "+error.message; }
-    }
-
-    async function loginUser() {
-        const code=document.getElementById('loginCode').value.trim(); const pass=document.getElementById('loginPass').value.trim();
-        if(!code||!pass) { document.getElementById('loginStatusMessage').innerText="❌ اكتب الكود والباسورد!"; return; }
-        try { const q=query(collection(db,"users"),where("code","==",code),where("password","==",pass)); const snap=await getDocs(q);
-            if(snap.empty) { document.getElementById('loginStatusMessage').innerText="❌ كود أو باسورد غلط!"; return; }
-            snap.forEach((d)=>{ currentUser={id:d.id,...d.data()}; });
-            document.getElementById('welcomeName').innerText=currentUser.name;
-            if(currentUser.isPaidThisMonth) { document.getElementById('paymentWarning').style.display='none'; document.getElementById('btnPrimary').classList.remove('disabled-btn'); document.getElementById('btnPreparatory').classList.remove('disabled-btn'); document.getElementById('btnSecondary').classList.remove('disabled-btn'); }
-            else { document.getElementById('paymentWarning').style.display='block'; document.getElementById('btnPrimary').classList.add('disabled-btn'); document.getElementById('btnPreparatory').classList.add('disabled-btn'); document.getElementById('btnSecondary').classList.add('disabled-btn'); }
-            showPortal();
-        } catch(error) { document.getElementById('loginStatusMessage').innerText="❌ خطأ: "+error.message; }
-    }
-
-    function logout() { currentUser=null; showLogin(); }
-
-    async function saveProfile() {
-        const newName=document.getElementById('editName').value.trim(); const newPhone=document.getElementById('editPhone').value.trim();
-        const chkP = document.getElementById('editChkPrimary').checked;
-        const chkPr = document.getElementById('editChkPreparatory').checked;
-        const chkS = document.getElementById('editChkSecondary').checked;
-        if(!newName||!newPhone) { alert("اكتب كل البيانات!"); return; }
-        
-        let newPrimarySchool='', newPreparatorySchool='', newSecondarySchool='', newSchool='';
-        const pS = document.getElementById('editSchoolsContainer_primarySchool');
-        const prS = document.getElementById('editSchoolsContainer_preparatorySchool');
-        const sS = document.getElementById('editSchoolsContainer_secondarySchool');
-        if(chkP && pS) newPrimarySchool = pS.value.trim();
-        if(chkPr && prS) newPreparatorySchool = prS.value.trim();
-        if(chkS && sS) newSecondarySchool = sS.value.trim();
-        newSchool = newPrimarySchool || newPreparatorySchool || newSecondarySchool;
-        const newStages = (chkP?1:0) + (chkPr?1:0) + (chkS?1:0);
-
-        try { await updateDoc(doc(db,"users",currentUser.id),{name:newName,phone:newPhone,stages:newStages,school:newSchool,primarySchool:newPrimarySchool,preparatorySchool:newPreparatorySchool,secondarySchool:newSecondarySchool});
-            currentUser.name=newName; currentUser.phone=newPhone; currentUser.stages=newStages; currentUser.school=newSchool; currentUser.primarySchool=newPrimarySchool; currentUser.preparatorySchool=newPreparatorySchool; currentUser.secondarySchool=newSecondarySchool;
-            alert("✅ تم تعديل البيانات!"); showPortal();
-        } catch(e) { alert("❌ خطأ: "+e.message); }
-    }
-
-    function adminLogin() { const pass=document.getElementById('adminPassInput').value.trim(); if(pass===ADMIN_PASSWORD) { showAdmin(); } else { document.getElementById('adminLoginMsg').innerText="❌ كلمة سر الإدارة غلط!"; } }
-
-    async function loadUsersForAdmin() {
-        const tbody=document.getElementById('usersTableBody'); tbody.innerHTML='';
-        const snap=await getDocs(collection(db,"users"));
-        let totalRev=0, paidCount=0;
-        
-        snap.forEach((d)=>{ 
-            const u=d.data(); 
-            // 🏫 Calculate price based on stages array or number
-            const price=u.stages==1?75:(u.stages==2?125:(u.stages==3?150:0)); 
-            const status=u.isPaidThisMonth?"✅ مدفع":"❌ معلق";
-            if(u.isPaidThisMonth) { paidCount++; totalRev+=price; }
+        function loginUser() {
+            const codeInput = toEngNum(document.getElementById('userCode').value.trim());
+            const passInput = toEngNum(document.getElementById('userPass').value.trim());
             
-            const btnAction=u.isPaidThisMonth?`<button class="btn btn-danger" onclick="window.unconfirmPayment('${d.id}')">❌ إلغاء</button>`:`<button class="btn btn-success" onclick="window.confirmPayment('${d.id}')">✅ تأكيد</button>`;
-            const deleteBtn=`<button class="btn btn-delete" onclick="window.deleteUser('${d.id}')">🗑️</button>`;
+            const user = subscribers.find(s => s.code === codeInput && s.password === passInput);
             
-            const pSch = u.primarySchool || '-';
-            const prSch = u.preparatorySchool || '-';
-            const sSch = u.secondarySchool || '-';
-            
-            // 🏫 Display selected stages
-            const selectedStages = [];
-            if(u.primarySchool) selectedStages.push("ابتدائي");
-            if(u.preparatorySchool) selectedStages.push("اعدادي");
-            if(u.secondarySchool) selectedStages.push("ثانوي");
-            const stagesText = selectedStages.join(" , ");
+            if (user) {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('userPanel').classList.remove('hidden');
+                populateUserProfile(user);
+            } else {
+                document.getElementById('userError').classList.remove('hidden');
+                setTimeout(() => document.getElementById('userError').classList.add('hidden'), 3000);
+            }
+        }
 
-            tbody.innerHTML+=`<tr><td>${u.name}</td><td>${pSch}</td><td>${prSch}</td><td>${sSch}</td><td>${u.phone}</td><td style="font-weight:800; color:#1e3a8a;">${stagesText}</td><td>${price} ج</td><td style="font-weight:800; color:#1e3a8a;">${u.code}</td><td style="font-weight:800; color:#b45309;">${u.password}</td><td>${status}</td><td>${btnAction} ${deleteBtn}</td></tr>`;
-        });
-        
-        // 📊 Update Stats
-        document.getElementById('statTotal').innerText = snap.size;
-        document.getElementById('statPaid').innerText = paidCount;
-        document.getElementById('statRevenue').innerText = totalRev + " ج";
-    }
+        function logout() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('userPanel').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('adminPass').value = '';
+            document.getElementById('userCode').value = '';
+            document.getElementById('userPass').value = '';
+        }
 
-    async function confirmPayment(id) { try{await updateDoc(doc(db,"users",id),{isPaidThisMonth:true});alert("✅ تأكيد!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
-    async function unconfirmPayment(id) { try{await updateDoc(doc(db,"users",id),{isPaidThisMonth:false});alert("❌ إلغاء!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
-    async function deleteUser(id) { if(!confirm("⚠️ حذف المشترك نهائياً؟")) return; try{await deleteDoc(doc(db,"users",id));alert("🗑️ تم الحذف!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
-    async function resetMonth() { if(!confirm("⚠️ مسح سداد الكل؟")) return; try{const s=await getDocs(collection(db,"users"));s.forEach(async(d)=>{await updateDoc(doc(db,"users",d.id),{isPaidThisMonth:false})});alert("🔄 شهر جديد!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
+        // --- 4. لوحة تحكم المدير ---
+        function calcAmount() {
+            const phases = document.getElementById('addPhases').value;
+            const amountMap = { '1': 75, '2': 125, '3': 150 };
+            document.getElementById('addAmount').value = amountMap[phases] || 75;
+        }
 
-    async function exportToExcel() {
-        try { const snap=await getDocs(collection(db,"users"));
-            const data=[];
-            snap.forEach((d)=>{ const u=d.data(); const price=u.stages==1?75:(u.stages==2?125:(u.stages==3?150:0)); const status=u.isPaidThisMonth?"مدفع":"معلق";
-                const pSch = u.primarySchool || ''; const prSch = u.preparatorySchool || ''; const sSch = u.secondarySchool || '';
-                const selectedStages = [];
-                if(u.primarySchool) selectedStages.push("ابتدائي"); if(u.preparatorySchool) selectedStages.push("اعدادي"); if(u.secondarySchool) selectedStages.push("ثانوي");
-                data.push({"الاسم":u.name,"مدرسة ابتدائي":pSch,"مدرسة اعدادى":prSch,"مدرسة ثانوي":sSch,"التليفون":u.phone,"المراحل":selectedStages.join(", "),"المبلغ":price,"الكود":u.code,"الباسورد":u.password,"حالة السداد":status});
+        function generateCode() {
+            const chars = '0123456789';
+            let code = 'AG-';
+            for(let i=0; i<4; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+            return code;
+        }
+
+        function generatePassword() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let pass = '';
+            for(let i=0; i<6; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
+            return pass;
+        }
+
+        function addNewSubscriber() {
+            const name = document.getElementById('addName').value;
+            const school = document.getElementById('addSchool').value;
+            const administration = document.getElementById('addAdmin').value;
+            const phone = document.getElementById('addPhone').value;
+            const phases = document.getElementById('addPhases').value;
+            const amount = document.getElementById('addAmount').value;
+
+            if (!name || !school) {
+                alert('الاسم والمدرسة حقول إجبارية!');
+                return;
+            }
+
+            const newCode = generateCode();
+            const newPass = generatePassword();
+
+            subscribers.push({
+                name, school, administration, phone,
+                phases: parseInt(phases),
+                amount: parseInt(amount),
+                code: newCode,
+                password: newPass,
+                paid: true
             });
-            const ws=XLSX.utils.json_to_sheet(data);
-            const wb=XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb,ws,"المشتركين");
-            XLSX.writeFile(wb,"مشتركين_منصة_امين_غيث.xlsx");
-        } catch(e) { alert("❌ خطأ في التصدير: "+e.message); }
-    }
 
-    async function loadSettings() { try{const s=await getDoc(doc(db,"settings","config"));if(s.exists()){currentSettings=s.data();document.getElementById('primaryPdfUrl').value=currentSettings.primaryPdfUrl||'';document.getElementById('preparatoryPdfUrl').value=currentSettings.preparatoryPdfUrl||'';document.getElementById('secondaryPdfUrl').value=currentSettings.secondaryPdfUrl||'';document.getElementById('initiativePdfUrl').value=currentSettings.initiativePdfUrl||'';document.getElementById('activitiesPdfUrl').value=currentSettings.activitiesPdfUrl||'';document.getElementById('recordsPdfUrl').value=currentSettings.recordsPdfUrl||'';document.getElementById('fontUrl').value=currentSettings.fontUrl||'';}}catch(e){console.error(e);} }
-    async function saveSettings() { const s={primaryPdfUrl:document.getElementById('primaryPdfUrl').value,preparatoryPdfUrl:document.getElementById('preparatoryPdfUrl').value,secondaryPdfUrl:document.getElementById('secondaryPdfUrl').value,initiativePdfUrl:document.getElementById('initiativePdfUrl').value,activitiesPdfUrl:document.getElementById('activitiesPdfUrl').value,recordsPdfUrl:document.getElementById('recordsPdfUrl').value,fontUrl:document.getElementById('fontUrl').value}; try{await setDoc(doc(db,"settings","config"),s);alert('✅ حفظ!');}catch(e){alert('❌ خطأ: '+e.message);} }
+            saveData();
+            
+            // عرض نافذة البيانات
+            document.getElementById('modalCode').innerText = newCode;
+            document.getElementById('modalPass').innerText = newPass;
+            document.getElementById('credentialsModal').classList.remove('hidden');
 
-    // 🪄 Dynamic Watermarking Logic
-    async function downloadWatermarked(fileKey) {
-        const statusDiv=document.getElementById('statusMessage'); statusDiv.innerText="⏳ تجهيز..."; statusDiv.style.color="#1e3a8a";
-        if(!currentSettings&&currentUser){try{const s=await getDoc(doc(db,"settings","config"));if(s.exists())currentSettings=s.data();}catch(e){}}
-        if(!currentSettings||!currentSettings[fileKey]||!currentSettings.fontUrl){statusDiv.innerText="❌ روابط مش محفوظة!";statusDiv.style.color="#ef4444";return;}
-        const pdfUrl=currentSettings[fileKey]; const fontUrl=currentSettings.fontUrl;
-        
-        // 🏫 Determine the specific school for this file
-        let schoolText = currentUser.school || '';
-        if (fileKey === 'primaryPdfUrl' && currentUser.primarySchool) schoolText = currentUser.primarySchool;
-        if (fileKey === 'preparatoryPdfUrl' && currentUser.preparatorySchool) schoolText = currentUser.preparatorySchool;
-        if (fileKey === 'secondaryPdfUrl' && currentUser.secondarySchool) schoolText = currentUser.secondarySchool;
-        
-        const watermarkText=`${currentUser.name} - ${schoolText}`;
+            // مسح الفورم
+            document.getElementById('addName').value = '';
+            document.getElementById('addSchool').value = '';
+            document.getElementById('addAdmin').value = '';
+            document.getElementById('addPhone').value = '';
+            
+            renderTable();
+            updateStats();
+        }
 
-        try { const pdfBytes=await fetch(pdfUrl).then(r=>{if(!r.ok)throw new Error("404");return r.arrayBuffer()}); const fontBytes=await fetch(fontUrl).then(r=>{if(!r.ok)throw new Error("404");return r.arrayBuffer()});
-            const pdfDoc=await PDFLib.PDFDocument.load(pdfBytes); const fkModule=await import('https://esm.sh/@pdf-lib/fontkit@1.1.1'); pdfDoc.registerFontkit(fkModule.default); const cairoFont=await pdfDoc.embedFont(fontBytes);
-            const pages=pdfDoc.getPages(); for(const page of pages){const{width,height}=page.getSize();const tw=cairoFont.widthOfTextAtSize(watermarkText,24);page.drawText(watermarkText,{x:width/2-tw/2,y:height/2,size:24,font:cairoFont,color:PDFLib.rgb(0.7,0.5,0.1),opacity:0.5});}
-            const modifiedBytes=await pdfDoc.save(); const blob=new Blob([modifiedBytes],{type:'application/pdf'}); const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=`${fileKey}_${currentUser.name}.pdf`;link.click();
-            statusDiv.innerText="✅ تم التحميل!"; statusDiv.style.color="#15803d";
-        } catch(error) { console.error(error); statusDiv.innerText="❌ خطأ: "+error.message; statusDiv.style.color="#ef4444"; }
-    }
+        function closeModal() {
+            document.getElementById('credentialsModal').classList.add('hidden');
+        }
 
-    window.registerUser=registerUser; window.loginUser=loginUser; window.logout=logout; window.saveProfile=saveProfile;
-    window.showRegistration=showRegistration; window.showLogin=showLogin; window.showPortal=showPortal; window.showEditProfile=showEditProfile;
-    window.showAdminLogin=showAdminLogin; window.adminLogin=adminLogin;
-    window.confirmPayment=confirmPayment; window.unconfirmPayment=unconfirmPayment; window.deleteUser=deleteUser; window.resetMonth=resetMonth;
-    window.exportToExcel=exportToExcel; window.loadUsersForAdmin=loadUsersForAdmin; window.loadSettings=loadSettings; window.saveSettings=saveSettings; window.downloadWatermarked=downloadWatermarked;
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('تم النسخ بنجاح!');
+            });
+        }
 
-    showRegistration();
-</script>
+        function renderTable() {
+            const tbody = document.getElementById('subscribersTable');
+            tbody.innerHTML = '';
+            
+            subscribers.forEach((sub, index) => {
+                const row = document.createElement('tr');
+                row.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                row.innerHTML = `
+                    <td class="p-3 border text-center">${index + 1}</td>
+                    <td class="p-3 border font-bold">${sub.name}</td>
+                    <td class="p-3 border">${sub.school}</td>
+                    <td class="p-3 border text-gray-500">${sub.administration || '-'}</td>
+                    <td class="p-3 border text-sm">${sub.phone}</td>
+                    <td class="p-3 border text-center">${sub.phases}</td>
+                    <td class="p-3 border text-blue-600 font-bold">${sub.code}</td>
+                    <td class="p-3 border text-red-600 font-bold">${sub.password}</td>
+                    <td class="p-3 border text-center ${sub.paid ? 'text-green-600' : 'text-red-500'}">${sub.paid ? 'مدفع' : 'معلق'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('tableCount').innerText = subscribers.length + ' مشترك';
+        }
+
+        function updateStats() {
+            document.getElementById('statTotal').innerText = subscribers.length;
+            document.getElementById('statPaid').innerText = subscribers.filter(s => s.paid).length;
+            document.getElementById('statMoney').innerText = subscribers.reduce((sum, s) => sum + s.amount, 0);
+        }
+
+        // --- 5. لوحة المشترك ---
+        function populateUserProfile(user) {
+            document.getElementById('profileName').innerText = user.name;
+            document.getElementById('profileSchool').innerText = user.school;
+            document.getElementById('profileAdmin').innerText = user.administration || 'غير محدد';
+            document.getElementById('profilePhone').innerText = user.phone;
+            document.getElementById('profilePhases').innerText = user.phases;
+
+            // تحديث العلامة المائية باسم المشترك
+            const wmText = `${user.name} | ${user.school}`;
+            document.getElementById('wm1').innerText = wmText;
+            document.getElementById('wm2').innerText = wmText;
+            document.getElementById('wm3').innerText = wmText;
+        }
+
+        // تشغيل النظام عند فتح الصفحة
+        window.onload = initSystem;
+    </script>
 </body>
 </html>
