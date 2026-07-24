@@ -2,382 +2,431 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة أمين غيث</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;400;600;700;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
-    <script>tailwind.config={theme:{extend:{fontFamily:{cairo:['Cairo','sans-serif'],tajawal:['Tajawal','sans-serif']}}}}</script>
+    <title>منصة امين غيث للتربية النفسية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <style>
-        :root{--bg:#0b1120;--card:#131c2e;--card2:#1a2540;--gold:#d4a853;--goldL:#e8c878;--goldD:#a07830;--teal:#1a8a7d;--tealL:#2ab5a5;--txt:#f0e6d3;--txt2:#8899aa;--txtM:#556677;--brd:#2a3548;--red:#e74c3c;--grn:#27ae60;--wrn:#f39c12}
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden}
-        .bg-fx{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 600px 400px at 20% 30%,rgba(212,168,83,.06) 0%,transparent 70%),radial-gradient(ellipse 500px 350px at 80% 70%,rgba(26,138,125,.05) 0%,transparent 70%);animation:bgS 15s ease-in-out infinite alternate}
-        @keyframes bgS{0%{transform:scale(1)}50%{transform:scale(1.05) translate(-15px,10px)}100%{transform:scale(1) translate(10px,-10px)}}
-        .orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.07;animation:oF 20s ease-in-out infinite;z-index:0}
-        .orb:nth-child(1){width:280px;height:280px;background:var(--gold);top:8%;right:12%}
-        .orb:nth-child(2){width:240px;height:240px;background:var(--teal);bottom:18%;left:8%;animation-delay:-7s}
-        .orb:nth-child(3){width:180px;height:180px;background:var(--goldL);top:55%;right:55%;animation-delay:-12s}
-        @keyframes oF{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(25px,-35px) scale(1.04)}50%{transform:translate(-15px,25px) scale(.96)}75%{transform:translate(35px,15px) scale(1.01)}}
-        .land{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--bg);transition:opacity .5s,visibility .5s}.land.h{opacity:0;visibility:hidden;pointer-events:none}
-        .lc{background:var(--card);border:1px solid var(--brd);border-radius:24px;padding:48px 40px;width:460px;max-width:95vw;position:relative;overflow:hidden;animation:cA .8s ease-out}
-        @keyframes cA{from{transform:translateY(30px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-        .lc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--teal),var(--goldL))}
-        .li{width:90px;height:90px;border-radius:22px;background:linear-gradient(135deg,var(--gold),var(--goldD));display:inline-flex;align-items:center;justify-content:center;font-size:40px;color:var(--bg);margin-bottom:20px;box-shadow:0 8px 40px rgba(212,168,83,.3);animation:lP 3s ease-in-out infinite}
-        @keyframes lP{0%,100%{box-shadow:0 8px 40px rgba(212,168,83,.3)}50%{box-shadow:0 8px 60px rgba(212,168,83,.5)}}
-        .lt{font-family:'Tajawal';font-size:36px;font-weight:900;background:linear-gradient(90deg,var(--gold),var(--goldL),var(--gold));background-size:200% auto;animation:sh 3s linear infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.4}
-        @keyframes sh{0%{background-position:0% center}100%{background-position:200% center}}
-        .ls{font-size:15px;font-weight:400;color:var(--txt2);margin-top:8px}
-        .lb{display:flex;flex-direction:column;gap:14px;margin-top:28px}
-        .lbtn{padding:16px 24px;border-radius:14px;font-family:'Cairo';font-weight:700;font-size:16px;border:none;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px}
-        .lbtn.ab{background:linear-gradient(135deg,var(--gold),var(--goldD));color:var(--bg)}.lbtn.ab:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,168,83,.35)}
-        .lbtn.rb{background:linear-gradient(135deg,var(--teal),#15806d);color:#fff}.lbtn.rb:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(26,138,125,.35)}
-        .lbtn.sb{background:rgba(255,255,255,.06);border:1px solid var(--brd);color:var(--txt2)}.lbtn.sb:hover{background:rgba(255,255,255,.12);color:var(--txt);border-color:var(--gold)}
-        .mo{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:1100;display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s;padding:20px}.mo.h{opacity:0;visibility:hidden;pointer-events:none}
-        .mb{background:var(--card);border:1px solid var(--brd);border-radius:20px;width:560px;max-width:95vw;max-height:90vh;overflow-y:auto;position:relative;animation:mI .4s ease-out}
-        @keyframes mI{from{transform:scale(.92) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-        .mb::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--teal))}
-        .mh{padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--brd)}
-        .mt{font-size:18px;font-weight:700;color:var(--gold)}
-        .mc{width:34px;height:34px;border-radius:10px;background:rgba(231,76,60,.1);color:var(--red);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:15px;transition:all .2s}.mc:hover{background:rgba(231,76,60,.2)}
-        .mbo{padding:24px}
-        .fi{width:100%;padding:14px 16px;background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;color:var(--txt);font-family:'Cairo';font-size:14px;transition:all .3s;outline:none}.fi:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,168,83,.15)}.fi::placeholder{color:var(--txtM)}
-        .fg{margin-bottom:16px}.fl{display:block;font-size:13px;font-weight:600;color:var(--txt2);margin-bottom:6px}
-        .fr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-        .bg{background:linear-gradient(135deg,var(--gold),var(--goldD));color:var(--bg);padding:14px 28px;border-radius:12px;font-family:'Cairo';font-weight:700;font-size:15px;border:none;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px}.bg:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,168,83,.3)}
-        .bt{background:linear-gradient(135deg,var(--teal),#15806d);color:#fff;padding:12px 24px;border-radius:12px;font-family:'Cairo';font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px}.bt:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,138,125,.3)}
-        .bo{background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt2);padding:12px 24px;border-radius:12px;font-family:'Cairo';font-weight:600;font-size:14px;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:8px}.bo:hover{background:rgba(255,255,255,.1);color:var(--txt);border-color:var(--gold)}
-        .sd{background:rgba(212,168,83,.08);border:1px solid rgba(212,168,83,.2);border-radius:12px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.sd .sl{font-size:14px;color:var(--txt2)}.sd .sv{font-size:24px;font-weight:900;color:var(--gold);font-family:'Tajawal'}
-        .cb{background:rgba(26,138,125,.1);border:1px solid rgba(26,138,125,.3);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center}.cb .ct{font-size:15px;font-weight:700;color:var(--tealL);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px}.cb .cr{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px}.cb .cl{font-size:13px;font-weight:600;color:var(--txt2)}.cb .cv{font-size:20px;font-weight:900;color:var(--gold);font-family:'Tajawal';padding:6px 16px;background:rgba(212,168,83,.12);border-radius:8px;letter-spacing:1px}.cb .cn{font-size:12px;color:var(--wrn);margin-top:12px;display:flex;align-items:center;justify-content:center;gap:6px}
-        .pay-box{background:rgba(26,138,125,.1);border:1px solid rgba(26,138,125,.3);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center}.pay-box .pt{font-size:16px;font-weight:700;color:var(--tealL);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px}.pay-box .pn{font-size:22px;font-weight:900;color:var(--gold);font-family:'Tajawal';margin-bottom:6px}.pay-box .pd{font-size:13px;color:var(--txt2)}
-        .phase-sel{display:flex;gap:10px;flex-wrap:wrap}.ps{display:flex;align-items:center;gap:6px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--brd);cursor:pointer;transition:all .3s;user-select:none}.ps:hover{background:rgba(26,138,125,.08);border-color:var(--teal)}.ps.ac{background:rgba(26,138,125,.15);border-color:var(--teal);color:var(--tealL)}.ps input[type="checkbox"]{accent-color:var(--teal);width:16px;height:16px;cursor:pointer}
-        .pd-row{background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.pd-row .pd-num{width:32px;height:32px;border-radius:8px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}.pd-row select,.pd-row input{flex:1;min-width:140px}
-        .file-section{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:18px;margin-bottom:14px;position:relative}.file-section .fs-title{font-size:16px;font-weight:700;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-        .file-item{background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s;margin-bottom:8px}.file-item:hover{background:rgba(255,255,255,.1);border-color:var(--teal)}.file-item .fi-name{font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px}.file-item .fi-act{display:flex;gap:8px}
-        .fi-btn{padding:6px 12px;border-radius:8px;font-family:'Cairo';font-size:12px;font-weight:600;border:none;cursor:pointer;transition:all .2s}.fi-btn.view{background:rgba(26,138,125,.12);color:var(--tealL)}.fi-btn.view:hover{background:rgba(26,138,125,.25)}.fi-btn.dl{background:rgba(212,168,83,.12);color:var(--gold)}.fi-btn.dl:hover{background:rgba(212,168,83,.25)}
-        .free-badge{display:inline-flex;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;background:rgba(39,174,96,.12);color:var(--grn);border:1px solid rgba(39,174,96,.3)}.paid-badge{display:inline-flex;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;background:rgba(212,168,83,.12);color:var(--gold);border:1px solid rgba(212,168,83,.3)}
-        .aw{position:relative;z-index:1;min-height:100vh;padding:20px;max-width:1400px;margin:0 auto}
-        .ah{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;position:relative;overflow:hidden}.ah::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent,var(--teal))}
-        .hb{display:flex;align-items:center;gap:12px}.hbi{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--goldD));display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--bg)}.hbt{font-family:'Tajawal';font-size:22px;font-weight:900;background:linear-gradient(90deg,var(--gold),var(--goldL),var(--gold));background-size:200% auto;animation:sh 3s linear infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .hr{display:flex;align-items:center;gap:14px}.hui{display:flex;align-items:center;gap:8px;color:var(--txt2);font-size:14px}.hlo{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);color:var(--red);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:'Cairo';font-size:13px;transition:all .3s}.hlo:hover{background:rgba(231,76,60,.2)}
-        .sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px}
-        .sc{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:18px;position:relative;overflow:hidden;transition:all .3s;animation:sS .6s ease-out backwards}.sc:nth-child(1){animation-delay:.1s}.sc:nth-child(2){animation-delay:.2s}.sc:nth-child(3){animation-delay:.3s}.sc:nth-child(4){animation-delay:.4s}
-        @keyframes sS{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-        .sc:hover{background:var(--card2);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
-        .sc::after{content:'';position:absolute;top:0;right:0;width:50px;height:50px;border-radius:0 16px 0 30px;opacity:.08}
-        .sc.gold::after{background:var(--gold)}.sc.teal::after{background:var(--teal)}.sc.red::after{background:var(--red)}.sc.green::after{background:var(--grn)}
-        .si{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:10px}
-        .sc.gold .si{background:rgba(212,168,83,.15);color:var(--gold)}.sc.teal .si{background:rgba(26,138,125,.15);color:var(--tealL)}.sc.red .si{background:rgba(231,76,60,.15);color:var(--red)}.sc.green .si{background:rgba(39,174,96,.15);color:var(--grn)}
-        .sll{font-size:13px;color:var(--txt2);margin-bottom:4px}.svl{font-size:26px;font-weight:900;font-family:'Tajawal'}.sc.gold .svl{color:var(--gold)}.sc.teal .svl{color:var(--tealL)}.sc.red .svl{color:var(--red)}.sc.green .svl{color:var(--grn)}
-        .ab{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}.sf{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
-        .sw{flex:1;min-width:220px;position:relative}.sw i{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--txtM);font-size:14px}.sw input{width:100%;padding:12px 40px 12px 18px;background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;color:var(--txt);font-family:'Cairo';font-size:14px;outline:none;transition:all .3s}.sw input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,168,83,.1)}
-        .fsl{padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;color:var(--txt);font-family:'Cairo';font-size:14px;outline:none;cursor:pointer;min-width:150px}.fsl option{background:var(--card);color:var(--txt)}
-        .tc{background:var(--card);border:1px solid var(--brd);border-radius:16px;overflow:hidden;animation:tA .6s ease-out .3s backwards}
-        @keyframes tA{from{transform:translateY(25px);opacity:0}to{transform:translateY(0);opacity:1}}
-        .tsc{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:1100px}thead{background:rgba(212,168,83,.08)}
-        th{padding:14px 10px;font-size:12px;font-weight:700;color:var(--gold);text-align:right;border-bottom:1px solid var(--brd);white-space:nowrap}td{padding:12px 10px;font-size:13px;color:var(--txt);border-bottom:1px solid rgba(42,53,72,.5);white-space:nowrap}tbody tr{transition:all .2s;position:relative}tbody tr:hover{background:rgba(255,255,255,.03)}tbody tr::before{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--gold);border-radius:0 3px 3px 0;opacity:0;transition:opacity .3s}tbody tr:hover::before{opacity:1}tbody tr:last-child td{border-bottom:none}
-        .stb{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}.stb.paid{background:rgba(39,174,96,.15);color:var(--grn);border:1px solid rgba(39,174,96,.3)}.stb.unpaid{background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3)}.stb.partial{background:rgba(243,156,18,.15);color:var(--wrn);border:1px solid rgba(243,156,18,.3)}
-        .phb{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(26,138,125,.12);color:var(--tealL);border:1px solid rgba(26,138,125,.25)}
-        .cdb{display:inline-flex;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(212,168,83,.12);color:var(--gold);border:1px solid rgba(212,168,83,.25);letter-spacing:1px}
-        .act{display:flex;gap:5px}.abtn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;border:none;transition:all .2s}.abtn.edit{background:rgba(26,138,125,.12);color:var(--tealL)}.abtn.edit:hover{background:rgba(26,138,125,.25);transform:scale(1.1)}.abtn.delete{background:rgba(231,76,60,.12);color:var(--red)}.abtn.delete:hover{background:rgba(231,76,60,.25);transform:scale(1.1)}.abtn.print{background:rgba(212,168,83,.12);color:var(--gold)}.abtn.print:hover{background:rgba(212,168,83,.25);transform:scale(1.1)}.abtn.activate{background:rgba(39,174,96,.12);color:var(--grn);width:auto;padding:6px 10px;font-family:'Cairo';font-weight:600;font-size:11px}.abtn.activate:hover{background:rgba(39,174,96,.25)}
-        .nd td{text-align:center;color:var(--txtM);padding:40px;font-size:15px}
-        .pg{display:flex;align-items:center;justify-content:center;gap:6px;padding:14px}.pb{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s}.pb:hover{background:rgba(212,168,83,.1);color:var(--gold)}.pb.actv{background:linear-gradient(135deg,var(--gold),var(--goldD));color:var(--bg);border-color:var(--gold)}
-        .co{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:1200;display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s}.co.h{opacity:0;visibility:hidden;pointer-events:none}
-        .cbx{background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:28px;width:360px;max-width:90vw;text-align:center;animation:mI .3s ease-out}.ci{width:56px;height:56px;border-radius:50%;background:rgba(231,76,60,.15);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px}.ctl{font-size:17px;font-weight:700;color:var(--txt);margin-bottom:8px}.cmg{font-size:14px;color:var(--txt2);margin-bottom:18px}.cbs{display:flex;gap:12px;justify-content:center}.bdd{background:rgba(231,76,60,.8);color:#fff;padding:10px 22px;border-radius:10px;font-family:'Cairo';font-weight:700;font-size:14px;border:none;cursor:pointer}.bdd:hover{background:var(--red)}.bcc{background:rgba(255,255,255,.08);border:1px solid var(--brd);color:var(--txt2);padding:10px 22px;border-radius:10px;font-family:'Cairo';font-weight:600;font-size:14px;cursor:pointer}.bcc:hover{background:rgba(255,255,255,.12);color:var(--txt)}
-        .tst{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);padding:14px 24px;border-radius:12px;font-family:'Cairo';font-size:14px;font-weight:600;z-index:2000;transition:transform .4s ease;display:flex;align-items:center;gap:10px;min-width:260px}.tst.shw{transform:translateX(-50%) translateY(0)}.tst.success{background:rgba(39,174,96,.9);color:#fff;box-shadow:0 8px 32px rgba(39,174,96,.3)}.tst.error{background:rgba(231,76,60,.9);color:#fff;box-shadow:0 8px 32px rgba(231,76,60,.3)}.tst.warning{background:rgba(243,156,18,.9);color:#fff;box-shadow:0 8px 32px rgba(243,156,18,.3)}
-        .ca{animation:cP .4s ease-out}@keyframes cP{0%{transform:scale(.8);opacity:.5}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
-        ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--brd);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--goldD)}
-        @media(max-width:640px){.fr{grid-template-columns:1fr}.sg{grid-template-columns:repeat(2,1fr)}.ab{flex-direction:column;align-items:stretch}.sf{flex-direction:column}.ah{flex-direction:column;gap:10px}}
+        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); margin: 0; padding: 0; min-height: 100vh; background-image: radial-gradient(circle at 20% 20%, rgba(30, 41, 59, 0.8), transparent), radial-gradient(circle at 80% 80%, rgba(15, 23, 42, 0.8), transparent); }
+        .container { max-width: 900px; margin: 40px auto; background: #ffffff; padding: 40px 30px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-top: 6px solid #d97706; }
+        
+        /* 🖼️ CSS for SVG Logo Image */
+        .logo-image-container { text-align: center; margin-bottom: 10px; }
+        .logo-sub { font-size: 17px; color: #64748b; font-weight: 500; text-align: center; margin-bottom: 30px; font-style: italic; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
+
+        h3 { text-align: center; color: #1e293b; font-weight: 800; letter-spacing: 1px; margin-bottom: 20px; }
+        .section { display: none; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .login-box { background: #f8fafc; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        input[type="text"], input[type="password"] { width: 85%; padding: 15px 20px; margin: 10px 0; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; color: #1e293b; }
+        input:focus { border: 2px solid #d97706; background: #fffbeb; }
+        .btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-size: 16px; margin: 8px 4px; font-family: 'Tajawal', sans-serif; font-weight: 700; color: white; transition: 0.3s; display: inline-block; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+        .btn-primary { background: linear-gradient(45deg, #1e3a8a, #0ea5e9); }
+        .btn-success { background: linear-gradient(45deg, #15803d, #10b981); }
+        .btn-danger { background: linear-gradient(45deg, #991b1b, #ef4444); }
+        .btn-warning { background: linear-gradient(45deg, #b45309, #fbbf24); color: #1e293b; }
+        .btn-delete { background: linear-gradient(45deg, #7f1d1d, #dc2626); font-size: 13px; padding: 8px 15px; }
+        .btn-excel { background: linear-gradient(45deg, #1b5e20, #43a047); font-size: 18px; width: 100%; margin-top: 15px; }
+        .files-group { background: #eff6ff; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #bfdbfe; }
+        .static-group { background: #f0fdf4; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #bbf7d0; }
+        .admin-font { background: #ecfeff; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #a5f3fc; }
+        label { font-weight: 700; display: block; margin-top: 15px; color: #475569; }
+        .nav-links { text-align: center; margin-top: 25px; }
+        .nav-links a { color: #1e3a8a; font-weight: 700; font-size: 15px; text-decoration: none; transition: 0.3s; }
+        .nav-links a:hover { color: #d97706; }
+        .admin-secret-link { text-align: center; margin-top: 30px; font-size: 12px; opacity: 0.3; transition: 0.3s; }
+        .admin-secret-link:hover { opacity: 0.8; }
+        #statusMessage { text-align: center; margin-top: 20px; font-weight: 700; color: #ef4444; font-size: 18px; }
+        .price-display { font-size: 28px; color: #b45309; font-weight: 900; text-align: center; margin: 15px 0; }
+        .stats-card { display: flex; justify-content: space-around; background: linear-gradient(45deg, #1e293b, #334155); color: #fbbf24; padding: 20px; border-radius: 15px; margin-bottom: 20px; font-weight: 800; text-align: center; }
+        .stats-item span { display: block; font-size: 24px; color: #ffffff; }
+        .admin-search { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 2px solid #cbd5e1; font-family: 'Tajawal'; font-size: 16px; font-weight: 700; background: #f8fafc; }
+        .admin-search:focus { border-color: #d97706; outline: none; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0 10px; margin-top: 10px; font-size: 13px; }
+        th { background: linear-gradient(45deg, #1e3a8a, #0ea5e9); color: white; padding: 12px; border-radius: 10px; }
+        td { background: #ffffff; padding: 12px; border-radius: 10px; font-weight: 500; text-align: center; color: #334155; border: 1px solid #e2e8f0; }
+        .credentials-box { background: #fffbeb; padding: 25px; border-radius: 25px; margin-top: 25px; border: 3px solid #fbbf24; box-shadow: 0 10px 20px rgba(217, 119, 6, 0.1); }
+        .disabled-btn { background: linear-gradient(45deg, #94a3b8, #cbd5e1) !important; color: #64748b !important; cursor: not-allowed !important; box-shadow: none !important; transform: none !important; }
+        #paymentWarning { background: #fef2f2; border: 2px solid #ef4444; border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 15px; }
+        .dynamic-school-input { width: 85%; padding: 15px 20px; margin: 5px 0; border: 1px solid #cbd5e1; background: #ffffff; border-radius: 10px; font-family: 'Tajawal', sans-serif; font-size: 16px; font-weight: 500; transition: 0.3s; outline: none; color: #1e293b; }
+        .dynamic-school-input:focus { border: 2px solid #d97706; background: #fffbeb; }
+        /* 🎨 Styling for Checkboxes */
+        .checkbox-group { display: flex; justify-content: center; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
+        .checkbox-item { display: flex; align-items: center; background: #f1f5f9; padding: 15px 20px; border-radius: 10px; border: 2px solid #cbd5e1; cursor: pointer; transition: 0.3s; }
+        .checkbox-item:hover { border-color: #d97706; background: #fffbeb; }
+        .checkbox-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #d97706; cursor: pointer; }
+        .checkbox-item label { margin: 0 10px; font-weight: 800; color: #1e293b; cursor: pointer; font-size: 18px; }
     </style>
 </head>
 <body>
-<div class="bg-fx"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
-<div id="toast" class="tst"></div>
-<div id="delConf" class="co h"><div class="cbx"><div class="ci"><i class="fas fa-trash-alt"></i></div><div class="ctl">تأكيد الحذف</div><div class="cmg" id="delMsg"></div><div class="cbs"><button class="bdd" id="delYes">نعم</button><button class="bcc" id="delNo">إلغاء</button></div></div></div>
 
-<!-- الواجهة الرئيسية -->
-<div id="landW" class="land"><div class="lc">
-<div style="text-align:center;margin-bottom:28px"><div class="li"><i class="fas fa-graduation-cap"></i></div><div class="lt">منصة أمين غيث</div><div class="ls">نظام إدارة المشتركين والاشتراكات</div></div>
-<div class="lb">
-<button class="lbtn ab" id="admBtn"><i class="fas fa-shield-alt"></i> دخول الإدارة</button>
-<button class="lbtn rb" id="regBtn"><i class="fas fa-user-plus"></i> تسجيل مشترك جديد</button>
-<button class="lbtn sb" id="subBtn"><i class="fas fa-key"></i> دخول المشترك</button>
-</div></div></div>
+<div class="container">
+    <!-- 🖼️ SVG Logo Image -->
+    <div class="logo-image-container">
+        <svg viewBox="0 0 240 240" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer Circle with text -->
+            <defs>
+                <path id="outerCirclePath" d="M 120,120 m -95,0 a 95,95 0 1,1 190,0 a 95,95 0 1,1 -190,0" fill="none"/>
+            </defs>
+            <circle cx="120" cy="120" r="115" fill="#1e293b" stroke="#fbbf24" stroke-width="3"/>
+            <text fill="#fbbf24" font-family="Tajawal" font-size="18" font-weight="500" letter-spacing="3">
+                <textPath href="#outerCirclePath" startOffset="0%">منصة امين غيث للتربية النفسية منصة امين غيث للتربية النفسية</textPath>
+            </text>
+            <!-- Inner Shield/Circle -->
+            <circle cx="120" cy="120" r="75" fill="#0f172a" stroke="#fbbf24" stroke-width="5"/>
+            <!-- Main Text inside -->
+            <text x="120" y="110" text-anchor="middle" font-family="Tajawal" font-size="38" font-weight="900" fill="#fbbf24">أمين</text>
+            <text x="120" y="150" text-anchor="middle" font-family="Tajawal" font-size="38" font-weight="900" fill="#fbbf24">غيث</text>
+            <!-- Decorative Stars -->
+            <polygon points="120,8 122,15 129,15 123,20 125,27 120,23 115,27 117,20 111,15 118,15" fill="#fbbf24"/>
+            <polygon points="120,232 122,225 129,225 123,220 125,213 120,217 115,213 117,220 111,225 118,225" fill="#fbbf24"/>
+        </svg>
+    </div>
+    <div class="logo-sub">المعلم الحقيقي هو من ينير دروب الاخرين</div>
 
-<!-- مودال دخول الإدارة -->
-<div id="admMod" class="mo h"><div class="mb"><div class="mh"><div class="mt"><i class="fas fa-shield-alt" style="margin-left:8px"></i> دخول الإدارة</div><button class="mc" onclick="clM('admMod')"><i class="fas fa-times"></i></button></div><div class="mbo">
-<div style="background:rgba(212,168,83,.08);border:1px solid rgba(212,168,83,.2);border-radius:12px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;gap:10px"><i class="fas fa-lock" style="color:var(--gold);font-size:18px"></i><span style="color:var(--gold);font-size:13px;font-weight:600">هذا الدخول مقتصر على المدير فقط</span></div>
-<form id="admForm" autocomplete="off"><div class="fg"><label class="fl">اسم المستخدم</label><input type="text" id="admU" class="fi" placeholder="أدخل اسم المستخدم" required></div><div class="fg"><label class="fl">كلمة المرور</label><input type="password" id="admP" class="fi" placeholder="أدخل كلمة المرور" required></div><div id="admErr" style="color:var(--red);font-size:13px;margin-bottom:10px;display:none;text-align:center"><i class="fas fa-exclamation-circle"></i> الكود أو الباسوورد غير صحيح</div><button type="submit" class="bg" style="width:100%;justify-content:center"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button></form></div></div></div>
+    <div id="registrationSection" class="section">
+        <div class="login-box">
+            <h3>📝 تسجيل مشترك جديد</h3>
+            <input type="text" id="regName" placeholder="اكتب اسمك بالكامل...">
+            <input type="text" id="regPhone" placeholder="رقم التليفون...">
+            <label>اختر المراحل (اختار المرحلة واكتب مدرستها):</label>
+            <!-- 🏫 Dynamic Checkboxes -->
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" id="chkPrimary"><label for="chkPrimary">ابتدائي</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="chkPreparatory"><label for="chkPreparatory">اعدادي</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="chkSecondary"><label for="chkSecondary">ثانوي</label></div>
+            </div>
+            <div class="price-display">المبلغ: <span id="priceDisplay">0</span> جنيه</div>
+            <div id="regSchoolsContainer"></div>
+            <button class="btn btn-primary" onclick="window.registerUser()">تسجيل</button>
+            <div id="regStatusMessage" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
+            <div class="nav-links"><a href="#" onclick="window.showLogin()">🔑 لديك كود؟ ادخل هنا</a></div>
+        </div>
+        <div id="credentialsBox" class="credentials-box" style="display:none; text-align:center;">
+            <h3>🎉 تم التسجيل بنجاح!</h3><p style="font-weight:700;">احفظ الكود والباسورد:</p>
+            <p><strong>الكود:</strong> <span id="generatedCode" style="color:#1e3a8a; font-size:24px; font-weight:800;"></span></p>
+            <p><strong>الباسورد:</strong> <span id="generatedPass" style="color:#1e3a8a; font-size:24px; font-weight:800;"></span></p>
+            <button class="btn btn-success" onclick="window.showLogin()">🔑 الدخول</button>
+        </div>
+        <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
+    </div>
 
-<!-- مودال دخول المشترك -->
-<div id="subMod" class="mo h"><div class="mb"><div class="mh"><div class="mt"><i class="fas fa-key" style="margin-left:8px"></i> دخول المشترك</div><button class="mc" onclick="clM('subMod')"><i class="fas fa-times"></i></button></div><div class="mbo">
-<div style="background:rgba(26,138,125,.08);border:1px solid rgba(26,138,125,.2);border-radius:12px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;gap:10px"><i class="fas fa-info-circle" style="color:var(--tealL);font-size:18px"></i><span style="color:var(--tealL);font-size:13px;font-weight:600">ادخل الكود والباسوورد اللي حصلت عليه</span></div>
-<form id="subForm" autocomplete="off"><div class="fg"><label class="fl">كود المشترك</label><input type="text" id="subC" class="fi" placeholder="مثال: AG-1001" required></div><div class="fg"><label class="fl">كلمة المرور</label><input type="password" id="subP" class="fi" placeholder="أدخل كلمة المرور" required></div><div id="subErr" style="color:var(--red);font-size:13px;margin-bottom:10px;display:none;text-align:center"><i class="fas fa-exclamation-circle"></i> الكود أو كلمة المرور غير صحيحة</div><button type="submit" class="bt" style="width:100%;justify-content:center"><i class="fas fa-sign-in-alt"></i> دخول</button></form></div></div></div>
+    <div id="loginSection" class="section">
+        <div class="login-box">
+            <h3>🔑 دخول المشتركين</h3>
+            <input type="text" id="loginCode" placeholder="الكود...">
+            <input type="password" id="loginPass" placeholder="الباسورد...">
+            <button class="btn btn-primary" onclick="window.loginUser()">دخول</button>
+            <div id="loginStatusMessage" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
+            <div class="nav-links"><a href="#" onclick="window.showRegistration()">📝 سجل جديد</a></div>
+        </div>
+        <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
+    </div>
 
-<!-- مودال تسجيل مشترك جديد -->
-<div id="regMod" class="mo h"><div class="mb"><div class="mh"><div class="mt"><i class="fas fa-user-plus" style="margin-left:8px"></i> تسجيل مشترك جديد</div><button class="mc" onclick="clM('regMod')"><i class="fas fa-times"></i></button></div><div class="mbo">
-<form id="regForm" autocomplete="off"><div class="fg"><label class="fl">الاسم الكامل</label><input type="text" id="rN" class="fi" placeholder="أدخل الاسم الكامل" required></div><div class="fg"><label class="fl">رقم الهاتف</label><input type="tel" id="rPh" class="fi" placeholder="أدخل رقم الهاتف" required></div>
-<div class="fg"><label class="fl"><i class="fas fa-layer-group" style="margin-left:6px;color:var(--tealL)"></i> عدد المراحل</label><div class="phase-sel" id="regPhSel"><div class="ps" data-pc="1" onclick="selRegPC(1)"><input type="checkbox"><span>مرحلة واحدة (75 جنيه)</span></div><div class="ps" data-pc="2" onclick="selRegPC(2)"><input type="checkbox"><span>مرحلتين (125 جنيه)</span></div><div class="ps" data-pc="3" onclick="selRegPC(3)"><input type="checkbox"><span>ثلاث مراحل (150 جنيه)</span></div></div></div>
-<div id="regPhDet" style="display:none"><label class="fl"><i class="fas fa-school" style="margin-left:6px"></i> تفاصيل المراحل</label><div id="regPhRows"></div></div>
-<div class="sd"><div class="sl"><i class="fas fa-coins" style="margin-left:6px"></i> قيمة الاشتراك</div><div class="sv" id="rSV">0 جنيه</div></div>
-<div id="regPay" style="display:none" class="pay-box"><div class="pt"><i class="fas fa-money-bill-wave"></i> معلومات الدفع</div><div class="pd">يرجى سداد المبلغ المستحق عبر:</div><div style="display:flex;gap:16px;justify-content:center;margin-top:10px"><div style="background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:10px;padding:10px 16px;text-align:center"><div style="font-size:14px;font-weight:700;color:var(--grn)"><i class="fas fa-mobile-alt" style="margin-left:4px"></i> فودافون كاش</div><div class="pn">01007904178</div></div><div style="background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:10px;padding:10px 16px;text-align:center"><div style="font-size:14px;font-weight:700;color:var(--tealL)"><i class="fas fa-credit-card" style="margin-left:4px"></i> انستا باي</div><div class="pn">01007904178</div></div></div></div>
-<div class="fg"><label class="fl">ملاحظات</label><textarea id="rNo" class="fi" rows="2" placeholder="ملاحظات..." style="resize:vertical"></textarea></div>
-<button type="submit" class="bt" style="width:100%;justify-content:center"><i class="fas fa-save"></i> حفظ والتسجيل</button></form></div></div></div>
+    <div id="portalSection" class="section">
+        <h3>مرحباً <span id="welcomeName"></span>! 🎉</h3>
+        <button class="btn btn-warning" onclick="window.showEditProfile()">📝 تعديل البيانات</button>
+        <button class="btn btn-danger" onclick="window.logout()">🚪 خروج</button>
+        
+        <div id="paymentWarning" style="display:none; margin-top:15px;"><p style="color:#ef4444; font-weight:800;">⚠️ اشتراك الشهر غير مفعّل!</p></div>
+        <div class="static-group" style="margin-top:15px;">
+            <h3>📌 مجانية</h3>
+            <button class="btn btn-success" onclick="window.downloadWatermarked('initiativePdfUrl')">📥 المبادرة</button>
+            <button class="btn btn-success" onclick="window.downloadWatermarked('activitiesPdfUrl')">📥 أنشطة</button>
+            <button class="btn btn-success" onclick="window.downloadWatermarked('recordsPdfUrl')">📥 السجلات</button>
+        </div>
+        <div class="files-group">
+            <h3>📅 الشهر الحالي</h3>
+            <button class="btn btn-primary disabled-btn" id="btnPrimary" onclick="window.downloadWatermarked('primaryPdfUrl')">📥 ابتدائي</button>
+            <button class="btn btn-primary disabled-btn" id="btnPreparatory" onclick="window.downloadWatermarked('preparatoryPdfUrl')">📥 إعدادي</button>
+            <button class="btn btn-primary disabled-btn" id="btnSecondary" onclick="window.downloadWatermarked('secondaryPdfUrl')">📥 ثانوي</button>
+        </div>
+        <div id="statusMessage"></div>
+        <div class="admin-secret-link"><a href="#" onclick="window.showAdminLogin()">⚙️</a></div>
+    </div>
 
-<!-- مودال الكود والباسوورد بعد التسجيل -->
-<div id="credMod" class="mo h"><div class="mb"><div class="mh"><div class="mt"><i class="fas fa-check-circle" style="margin-left:8px"></i> تم التسجيل بنجاح</div><button class="mc" onclick="clM('credMod')"><i class="fas fa-times"></i></button></div><div class="mbo">
-<div class="cb"><div class="ct"><i class="fas fa-key"></i> كود وباسوورد الدخول الخاص بك</div><div class="cr"><div class="cl">الكود:</div><div class="cv" id="crC">—</div></div><div class="cr"><div class="cl">الباسوورد:</div><div class="cv" id="crP">—</div></div><div class="cn"><i class="fas fa-exclamation-triangle"></i> احتفظ بالكود والباسوورد في مكان آمن</div></div>
-<div style="text-align:center;margin-top:16px;font-size:14px;color:var(--txt2)">يمكنك الدخول من "دخول المشترك" باستخدام هذا الكود والباسوورد</div>
-<button class="bg" style="width:100%;justify-content:center;margin-top:16px" onclick="clM('credMod')"><i class="fas fa-check"></i> تم، فهمت</button></div></div></div>
+    <div id="editProfileSection" class="section">
+        <div class="login-box">
+            <h3>📝 تعديل البيانات</h3>
+            <label>الاسم:</label><input type="text" id="editName" placeholder="الاسم...">
+            <label>التليفون:</label><input type="text" id="editPhone" placeholder="التليفون...">
+            <label>اختر المراحل:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" id="editChkPrimary"><label for="editChkPrimary">ابتدائي</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="editChkPreparatory"><label for="editChkPreparatory">اعدادي</label></div>
+                <div class="checkbox-item"><input type="checkbox" id="editChkSecondary"><label for="editChkSecondary">ثانوي</label></div>
+            </div>
+            <div id="editSchoolsContainer"></div>
+            <button class="btn btn-success" onclick="window.saveProfile()">💾 حفظ</button>
+            <button class="btn btn-danger" onclick="window.showPortal()">🔙 رجوع</button>
+        </div>
+    </div>
 
-<!-- مودال إضافة من الإدارة -->
-<div id="addMod" class="mo h"><div class="mb"><div class="mh"><div class="mt"><i class="fas fa-user-plus" style="margin-left:8px"></i> إضافة مشترك</div><button class="mc" onclick="clM('addMod')"><i class="fas fa-times"></i></button></div><div class="mbo">
-<form id="addForm" autocomplete="off"><div class="fg"><label class="fl">الاسم الكامل</label><input type="text" id="aN" class="fi" placeholder="أدخل الاسم" required></div><div class="fr"><div class="fg"><label class="fl">رقم الهاتف</label><input type="tel" id="aPh" class="fi" required></div><div class="fg"><label class="fl">تاريخ التسجيل</label><input type="date" id="aDt" class="fi" required></div></div>
-<div class="fg"><label class="fl"><i class="fas fa-layer-group" style="margin-left:6px;color:var(--tealL)"></i> عدد المراحل</label><div class="phase-sel" id="addPhSel"><div class="ps" data-pc="1" onclick="selAddPC(1)"><input type="checkbox"><span>1 مرحلة (75 ج)</span></div><div class="ps" data-pc="2" onclick="selAddPC(2)"><input type="checkbox"><span>2 مرحلة (125 ج)</span></div><div class="ps" data-pc="3" onclick="selAddPC(3)"><input type="checkbox"><span>3 مرحلة (150 ج)</span></div></div></div>
-<div id="addPhDet" style="display:none"><label class="fl">تفاصيل المراحل</label><div id="addPhRows"></div></div>
-<div class="sd"><div class="sl">قيمة الاشتراك</div><div class="sv" id="aSV">0 جنيه</div></div>
-<div class="fg"><label class="fl">حالة الدفع</label><select id="aPS" class="fi" style="cursor:pointer"><option value="unpaid">غير مدفوع</option><option value="paid">مدفوع</option><option value="partial">مدفوع جزئياً</option></select></div>
-<div class="fg"><label class="fl">ملاحظات</label><textarea id="aNo" class="fi" rows="2" style="resize:vertical"></textarea></div>
-<button type="submit" class="bg" style="width:100%;justify-content:center"><i class="fas fa-save"></i> حفظ</button></form></div></div></div>
+    <div id="adminLoginSection" class="section">
+        <div class="login-box">
+            <h3>🔒 دخول الإدارة</h3>
+            <input type="password" id="adminPassInput" placeholder="كلمة سر الإدارة...">
+            <button class="btn btn-primary" onclick="window.adminLogin()">دخول</button>
+            <div id="adminLoginMsg" style="color:#ef4444; text-align:center; margin-top:10px; font-weight:700;"></div>
+            <div class="nav-links"><a href="#" onclick="window.showLogin()">🔙 رجوع</a></div>
+        </div>
+    </div>
 
-<!-- مودال تعديل (الإدارة) -->
-<div id="editMod" class="mo h"><div class="mb"><div class="mh"><div class="mt"><i class="fas fa-user-edit" style="margin-left:8px"></i> تعديل المشترك</div><button class="mc" onclick="clM('editMod')"><i class="fas fa-times"></i></button></div><div class="mbo">
-<form id="editForm" autocomplete="off"><input type="hidden" id="eId">
-<div class="cb" style="margin-bottom:18px"><div class="ct"><i class="fas fa-key"></i> كود وباسوورد المشترك</div><div class="cr"><div class="cl">الكود:</div><div class="cv" id="eCC">—</div></div><div class="cr"><div class="cl">الباسوورد:</div><div class="cv" id="eCP">—</div></div></div>
-<div class="fg"><label class="fl">الاسم الكامل</label><input type="text" id="eN" class="fi" required></div><div class="fr"><div class="fg"><label class="fl">رقم الهاتف</label><input type="tel" id="ePh" class="fi" required></div><div class="fg"><label class="fl">تاريخ التسجيل</label><input type="date" id="eDt" class="fi" required></div></div>
-<div class="fg"><label class="fl"><i class="fas fa-layer-group" style="margin-left:6px;color:var(--tealL)"></i> عدد المراحل</label><div class="phase-sel" id="editPhSel"><div class="ps" data-pc="1" onclick="selEditPC(1)"><input type="checkbox"><span>1 (75 ج)</span></div><div class="ps" data-pc="2" onclick="selEditPC(2)"><input type="checkbox"><span>2 (125 ج)</span></div><div class="ps" data-pc="3" onclick="selEditPC(3)"><input type="checkbox"><span>3 (150 ج)</span></div></div></div>
-<div id="editPhDet" style="display:none"><label class="fl">تفاصيل المراحل</label><div id="editPhRows"></div></div>
-<div class="sd"><div class="sl">قيمة الاشتراك</div><div class="sv" id="eSV">0 جنيه</div></div>
-<div class="fg"><label class="fl">حالة الدفع</label><select id="ePS" class="fi" style="cursor:pointer"><option value="unpaid">غير مدفوع</option><option value="paid">مدفوع</option><option value="partial">مدفوع جزئياً</option></select></div>
-<div class="fg"><label class="fl">ملاحظات</label><textarea id="eNo" class="fi" rows="2" style="resize:vertical"></textarea></div>
-<button type="submit" class="bg" style="width:100%;justify-content:center"><i class="fas fa-save"></i> حفظ</button></form></div></div></div>
+    <div id="adminSection" class="section">
+        <h3>⚙️ لوحة الإدارة</h3>
+        <div class="stats-card">
+            <div class="stats-item"><span id="statTotal">0</span>مسجلين</div>
+            <div class="stats-item"><span id="statPaid">0</span>مدفوعين</div>
+            <div class="stats-item"><span id="statRevenue">0 ج</span>إجمالي</div>
+        </div>
+        <div class="files-group">
+            <h3>👥 المشتركين</h3>
+            <button class="btn btn-warning" onclick="window.resetMonth()">🔄 بدء شهر جديد</button>
+            <button class="btn btn-excel" onclick="window.exportToExcel()">📥 تصدير Excel منسق</button>
+            <input type="text" id="adminSearch" class="admin-search" placeholder="🔍 بحث باسم أو تليفون...">
+            <table id="usersTable"><thead><tr><th>الاسم</th><th>م.ابتدائي</th><th>م.اعدادي</th><th>م.ثانوي</th><th>تليفون</th><th>المراحل المختارة</th><th>مبلغ</th><th>الكود</th><th>الباسورد</th><th>حالة</th><th>إجراء</th></tr></thead><tbody id="usersTableBody"></tbody></table>
+        </div>
+        <div class="files-group"><h3>📅 روابط الشهر</h3><label>ابتدائي:</label><input type="text" id="primaryPdfUrl"><label>إعدادي:</label><input type="text" id="preparatoryPdfUrl"><label>ثانوي:</label><input type="text" id="secondaryPdfUrl"></div>
+        <div class="static-group"><h3>📌 ثابتة</h3><label>المبادرة:</label><input type="text" id="initiativePdfUrl"><label>أنشطة:</label><input type="text" id="activitiesPdfUrl"><label>السجلات:</label><input type="text" id="recordsPdfUrl"></div>
+        <div class="admin-font"><h3>🔤 الخط</h3><label>رابط الخط:</label><input type="text" id="fontUrl"></div>
+        <button class="btn btn-success" onclick="window.saveSettings()" style="width:100%; font-size:20px;">💾 حفظ</button>
+        <div class="nav-links"><a href="#" onclick="window.showLogin()">🔙 رجوع</a></div>
+    </div>
+</div>
 
-<!-- مودال تعديل بيانات المشترك -->
-<div id="seMod" class="mo h"><div class="mb"><div class="mh"><div class="mt"><i class="fas fa-user-edit" style="margin-left:8px"></i> تعديل بياناتي</div><button class="mc" onclick="clM('seMod')"><i class="fas fa-times"></i></button></div><div class="mbo">
-<form id="seForm" autocomplete="off"><input type="hidden" id="seId">
-<div class="fg"><label class="fl">الاسم الكامل</label><input type="text" id="seN" class="fi" required></div><div class="fg"><label class="fl">رقم الهاتف</label><input type="tel" id="sePh" class="fi" required></div>
-<div class="fg"><label class="fl">عدد المراحل</label><div class="phase-sel" id="sePhSel"><div class="ps" data-pc="1" onclick="selSEPC(1)"><input type="checkbox"><span>1 (75 ج)</span></div><div class="ps" data-pc="2" onclick="selSEPC(2)"><input type="checkbox"><span>2 (125 ج)</span></div><div class="ps" data-pc="3" onclick="selSEPC(3)"><input type="checkbox"><span>3 (150 ج)</span></div></div></div>
-<div id="sePhDet" style="display:none"><label class="fl">تفاصيل المراحل</label><div id="sePhRows"></div></div>
-<div class="fg"><label class="fl">ملاحظات</label><textarea id="seNo" class="fi" rows="2" style="resize:vertical"></textarea></div>
-<button type="submit" class="bt" style="width:100%;justify-content:center"><i class="fas fa-save"></i> حفظ</button></form></div></div></div>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-<!-- بوابة المشترك -->
-<div id="subP" class="aw" style="display:none"><header class="ah"><div class="hb"><div class="hbi"><i class="fas fa-graduation-cap"></i></div><div class="hbt">منصة أمين غيث</div></div><div class="hr"><div class="hui"><i class="fas fa-user-circle" style="font-size:20px;color:var(--gold)"></i><span id="subNH">المشترك</span></div><button class="hlo" id="subLO"><i class="fas fa-sign-out-alt"></i> رجوع</button></div></header><div id="subPC"></div></div>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBCZtlz3AF3_YWxWAJgV0M9XSXFVgmrLvM", authDomain: "amenghiethpro.firebaseapp.com",
+        databaseURL: "https://amenghiethpro-default-rtdb.firebaseio.com", projectId: "amenghiethpro",
+        storageBucket: "amenghiethpro.firebasestorage.app", messagingSenderId: "1008593828554",
+        appId: "1:1008593828554:web:8fdc8e25cbe9c2f5821233", measurementId: "G-EKD6T41E2N"
+    };
 
-<!-- لوحة الإدارة -->
-<div id="admD" class="aw" style="display:none"><header class="ah"><div class="hb"><div class="hbi"><i class="fas fa-graduation-cap"></i></div><div class="hbt">منصة أمين غيث</div></div><div class="hr"><div class="hui"><i class="fas fa-user-circle" style="font-size:20px;color:var(--gold)"></i><span id="admNH">المدير</span></div><button class="hlo" id="admLO"><i class="fas fa-sign-out-alt"></i> خروج</button></div></header>
-<div class="sg"><div class="sc gold"><div class="si"><i class="fas fa-users"></i></div><div class="sll">المشتركين</div><div class="svl" id="sT">0</div></div><div class="sc teal"><div class="si"><i class="fas fa-check-circle"></i></div><div class="sll">المدفوعين</div><div class="svl" id="sP">0</div></div><div class="sc red"><div class="si"><i class="fas fa-times-circle"></i></div><div class="sll">غير المدفوعين</div><div class="svl" id="sU">0</div></div><div class="sc green"><div class="si"><i class="fas fa-money-bill-wave"></i></div><div class="sll">الإيرادات</div><div class="svl" id="sR">0</div></div></div>
-<div class="ab"><button class="bt" id="addB"><i class="fas fa-plus"></i> إضافة</button><button class="bo" id="xlB"><i class="fas fa-file-excel"></i> Excel</button><button class="bo" id="bkB"><i class="fas fa-download"></i> نسخ احتياطي</button><button class="bo" id="imB"><i class="fas fa-upload"></i> استيراد</button></div>
-<div class="sf"><div class="sw"><i class="fas fa-search"></i><input type="text" id="srI" placeholder="بحث..."></div><select class="fsl" id="fPh"><option value="all">كل المراحل</option><option value="1">1 مرحلة</option><option value="2">2 مرحلة</option><option value="3">3 مرحلة</option></select><select class="fsl" id="fSt"><option value="all">كل حالات الدفع</option><option value="paid">مدفوع</option><option value="unpaid">غير مدفوع</option><option value="partial">مدفوع جزئياً</option></select></div>
-<div class="tc"><div class="tsc"><table><thead><tr><th>#</th><th>الكود</th><th>الباسوورد</th><th>الاسم</th><th>الهاتف</th><th>المراحل</th><th>المدارس</th><th>الاشتراك</th><th>الدفع</th><th>التاريخ</th><th>إجراءات</th></tr></thead><tbody id="tB"></tbody></table></div><div class="pg" id="pag"></div></div></div>
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    let currentUser = null; let currentSettings = null;
+    const ADMIN_PASSWORD = "Amen2024";
 
-<!-- مودال استيراد -->
-<div id="impMod" class="mo h"><div class="mb"><div class="mh"><div class="mt"><i class="fas fa-upload" style="margin-left:8px"></i> استيراد</div><button class="mc" onclick="clM('impMod')"><i class="fas fa-times"></i></button></div><div class="mbo">
-<div class="fg"><label class="fl">اختر ملف JSON</label><input type="file" id="impF" accept=".json" class="fi" style="cursor:pointer;padding:12px"></div>
-<div id="impPrv" style="display:none;background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;padding:16px;margin-bottom:16px"><div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px">ملخص:</div><div id="impPC" style="font-size:13px;color:var(--txt2)"></div></div>
-<div class="fg"><label class="fl">خيار</label><select id="impO" class="fi" style="cursor:pointer"><option value="merge">دمج</option><option value="replace">استبدال</option></select></div>
-<button class="bt" style="width:100%;justify-content:center" id="impBtn"><i class="fas fa-upload"></i> استيراد</button></div></div></div>
+    // 🏫 Dynamic Schools Generation Logic (Based on Checkboxes)
+    function updatePriceAndInputs(chkPrimaryId, chkPrepId, chkSecId, containerId, data=null) {
+        const chkP = document.getElementById(chkPrimaryId);
+        const chkPr = document.getElementById(chkPrepId);
+        const chkS = document.getElementById(chkSecId);
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        let price = 0;
+        
+        if(chkP.checked) { price+=75; const val=data?data.primarySchool:''; container.innerHTML+=`<label>مدرسة ابتدائي:</label><input type="text" class="dynamic-school-input" id="${containerId}_primarySchool" value="${val}" placeholder="اسم المدرسة...">`; }
+        if(chkPr.checked) { price+=50; const val=data?data.preparatorySchool:''; container.innerHTML+=`<label>مدرسة اعدادى:</label><input type="text" class="dynamic-school-input" id="${containerId}_preparatorySchool" value="${val}" placeholder="اسم المدرسة...">`; }
+        if(chkS.checked) { price+=25; const val=data?data.secondarySchool:''; container.innerHTML+=`<label>مدرسة ثانوي:</label><input type="text" class="dynamic-school-input" id="${containerId}_secondarySchool" value="${val}" placeholder="اسم المدرسة...">`; }
 
-<script>
-// ===== بيانات الإدارة =====
-const ADM=[{u:'Amenghieth',p:'SHZAM2008',n:'أمين غيث'}];
-const PP={1:75,2:125,3:150};
-const PT=['ابتدائي','إعدادي','ثانوي'];
-const FC=['سجلات','مبادرات','أنشطة إضافية','اختبارات','مقاييس'];
-const FCF=['سجلات مجانية','مبادرات مجانية','أنشطة مجانية','اختبارات مجانية','مقاييس مجانية'];
+        // Update Price Display (Find it nearby)
+        const priceEl = containerId === 'regSchoolsContainer' ? document.getElementById('priceDisplay') : null;
+        if(priceEl) priceEl.innerText = price;
+        
+        return price;
+    }
 
-// ===== روابط افتراضية للملفات (للتجربة) =====
-const PAID_LINKS={
-    'ابتدائي':{'سجلات':'https://example.com/ibt-s','مبادرات':'https://example.com/ibt-m','أنشطة إضافية':'https://example.com/ibt-a','اختبارات':'https://example.com/ibt-t','مقاييس':'https://example.com/ibt-s2'},
-    'إعدادي':{'سجلات':'https://example.com/iad-s','مبادرات':'https://example.com/iad-m','أنشطة إضافية':'https://example.com/iad-a','اختبارات':'https://example.com/iad-t','مقاييس':'https://example.com/iad-s2'},
-    'ثانوي':{'سجلات':'https://example.com/thn-s','مبادرات':'https://example.com/thn-m','أنشطة إضافية':'https://example.com/thn-a','اختبارات':'https://example.com/thn-t','مقاييس':'https://example.com/thn-s2'}
-};
-const FREE_LINKS={'سجلات مجانية':'https://example.com/free-s','مبادرات مجانية':'https://example.com/free-m','أنشطة مجانية':'https://example.com/free-a','اختبارات مجانية':'https://example.com/free-t','مقاييس مجانية':'https://example.com/free-s2'};
+    // Event Listeners for Checkboxes
+    document.getElementById('chkPrimary').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
+    document.getElementById('chkPreparatory').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
+    document.getElementById('chkSecondary').addEventListener('change', () => updatePriceAndInputs('chkPrimary','chkPreparatory','chkSecondary','regSchoolsContainer'));
 
-// ===== تحميل البيانات مع migration =====
-const LS_KEY='subscribers_amengoith';
-const LS_OLD='subs_ag'; // المفتاح الخاطئ من الكود الأخير
+    document.getElementById('editChkPrimary').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
+    document.getElementById('editChkPreparatory').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
+    document.getElementById('editChkSecondary').addEventListener('change', () => updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser));
 
-let subs=[];
-// الأول: نحمل من المفتاح الأصلي
-let raw=localStorage.getItem(LS_KEY);
-if(raw){subs=JSON.parse(raw)}
-// لو مفيش بيانات في الأصلي، نشوف المفتاح الخاطئ
-if(subs.length===0){raw=localStorage.getItem(LS_OLD);if(raw){subs=JSON.parse(raw);localStorage.setItem(LS_KEY,raw);localStorage.removeItem(LS_OLD)}}
+    // 🔍 Admin Search Filter Logic
+    document.getElementById('adminSearch').addEventListener('input', (e) => {
+        const term = e.target.value.trim().toLowerCase();
+        const rows = document.querySelectorAll('#usersTableBody tr');
+        rows.forEach(row => { const text = row.textContent.toLowerCase(); row.style.display = text.includes(term) ? '' : 'none'; });
+    });
 
-// ===== إعطاء كود/باسوورد/phaseDetails للمشتركين القديمين =====
-let nx=1001;
-subs.forEach(s=>{
-    if(!s.subCode||!s.subPassword){let c='AG-'+nx;while(subs.some(o=>o.subCode===c&&o.id!==s.id)){nx++;c='AG-'+nx}s.subCode=c;s.subPassword=genPass();nx++}
-    if(!s.phaseDetails){s.phaseDetails=[];for(let i=0;i<(s.phases||1);i++){s.phaseDetails.push({phaseType:PT[i]||'إعدادي',schoolName:s.schoolName||'غير محدد'})}}
-    // لو فيه schoolName واحد في البيانات القديمة نحوله
-    if(s.phaseDetails.length===1&&s.phaseDetails[0].schoolName==='غير محدد'&&s.schoolName){s.phaseDetails[0].schoolName=s.schoolName}
-});
-svD();
+    function showRegistration() { document.getElementById('registrationSection').style.display='block'; hideAllExcept('registrationSection'); }
+    function showLogin() { document.getElementById('loginSection').style.display='block'; hideAllExcept('loginSection'); }
+    function showPortal() { document.getElementById('portalSection').style.display='block'; hideAllExcept('portalSection'); document.getElementById('statusMessage').innerText=''; }
+    function showEditProfile() { 
+        document.getElementById('editProfileSection').style.display='block'; hideAllExcept('editProfileSection'); 
+        document.getElementById('editName').value=currentUser.name; document.getElementById('editPhone').value=currentUser.phone;
+        document.getElementById('editChkPrimary').checked = currentUser.stages >= 1 && currentUser.primarySchool;
+        document.getElementById('editChkPreparatory').checked = currentUser.stages >= 2 || currentUser.preparatorySchool;
+        document.getElementById('editChkSecondary').checked = currentUser.stages >= 3 || currentUser.secondarySchool;
+        updatePriceAndInputs('editChkPrimary','editChkPreparatory','editChkSecondary','editSchoolsContainer', currentUser);
+    }
+    function showAdminLogin() { document.getElementById('adminLoginSection').style.display='block'; hideAllExcept('adminLoginSection'); document.getElementById('adminLoginMsg').innerText=''; }
+    function showAdmin() { document.getElementById('adminSection').style.display='block'; hideAllExcept('adminSection'); loadSettings(); loadUsersForAdmin(); }
+    function hideAllExcept(id) { ['registrationSection','loginSection','portalSection','editProfileSection','adminLoginSection','adminSection'].forEach(s => document.getElementById(s).style.display = (s===id?'block':'none')); }
 
-function genCode(){let mx=1000;subs.forEach(s=>{if(s.subCode){const n=parseInt(s.subCode.replace('AG-',''));if(n>mx)mx=n}});return'AG-'+(mx+1)}
-function genPass(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let p='';for(let i=0;i<6;i++)p+=c.charAt(Math.floor(Math.random()*c.length));return p}
-function calcSub(n){return PP[n]||0}
-function clM(id){document.getElementById(id).classList.add('h')}
-function opM(id){document.getElementById(id).classList.remove('h')}
-function svD(){localStorage.setItem(LS_KEY,JSON.stringify(subs))}
-function toast(m,t){const e=document.getElementById('toast');e.className='tst '+t;const i=t==='success'?'fa-check-circle':t==='error'?'fa-times-circle':'fa-exclamation-triangle';e.innerHTML='<i class="fas '+i+'"></i> '+m;e.classList.add('shw');setTimeout(()=>e.classList.remove('shw'),3000)}
+    async function registerUser() {
+        const name=document.getElementById('regName').value.trim(); const phone=document.getElementById('regPhone').value.trim();
+        if(!name||!phone) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب الاسم والتليفون!"; return; }
+        
+        // 🏫 Check if at least 1 stage is selected
+        const chkP = document.getElementById('chkPrimary').checked;
+        const chkPr = document.getElementById('chkPreparatory').checked;
+        const chkS = document.getElementById('chkSecondary').checked;
+        if(!chkP && !chkPr && !chkS) { document.getElementById('regStatusMessage').innerText="❌ لازم تختار مرحلة واحدة على الأقل!"; return; }
 
-// ===== اختيار المراحل =====
-let sRPC=0,sAPC=0,sEPC=0,sSEPC=0;
-function selRegPC(n){sRPC=n;document.querySelectorAll('#regPhSel .ps').forEach(e=>{const p=+e.dataset.pc,cb=e.querySelector('input');if(p===n){e.classList.add('ac');cb.checked=true}else{e.classList.remove('ac');cb.checked=false}});updRegUI()}
-function selAddPC(n){sAPC=n;document.querySelectorAll('#addPhSel .ps').forEach(e=>{const p=+e.dataset.pc,cb=e.querySelector('input');if(p===n){e.classList.add('ac');cb.checked=true}else{e.classList.remove('ac');cb.checked=false}});updAddUI()}
-function selEditPC(n){sEPC=n;document.querySelectorAll('#editPhSel .ps').forEach(e=>{const p=+e.dataset.pc,cb=e.querySelector('input');if(p===n){e.classList.add('ac');cb.checked=true}else{e.classList.remove('ac');cb.checked=false}});updEditUI()}
-function selSEPC(n){sSEPC=n;document.querySelectorAll('#sePhSel .ps').forEach(e=>{const p=+e.dataset.pc,cb=e.querySelector('input');if(p===n){e.classList.add('ac');cb.checked=true}else{e.classList.remove('ac');cb.checked=false}});updSEUI()}
+        // 🛑 Check Duplicate Phone
+        try { const q=query(collection(db,"users"),where("phone","==",phone)); const phoneCheck=await getDocs(q);
+            if(!phoneCheck.empty) { document.getElementById('regStatusMessage').innerText="❌ الرقم مسجل من قبل! لو نسيت كودك ادخل من هنا."; return; }
+        } catch(e) { console.error(e); }
 
-function buildPhR(c,n,pfx){let h='';for(let i=0;i<n;i++)h+='<div class="pd-row"><div class="pd-num">'+(i+1)+'</div><select id="'+pfx+'PT'+i+'" class="fi" style="min-width:120px;flex:.5"><option value="">اختر المرحلة</option><option value="ابتدائي">ابتدائي</option><option value="إعدادي">إعدادي</option><option value="ثانوي">ثانوي</option></select><input type="text" id="'+pfx+'SN'+i+'" class="fi" placeholder="اسم المدرسة" style="flex:1"></div>';document.getElementById(c).innerHTML=h}
-function fillPhR(pfx,n,d){for(let i=0;i<n;i++){const pt=document.getElementById(pfx+'PT'+i),sn=document.getElementById(pfx+'SN'+i);if(pt&&sn&&d&&d[i]){pt.value=d[i].phaseType||'';sn.value=d[i].schoolName||''}}}
+        // 🏫 Collect Dynamic Schools
+        let primarySchool='', preparatorySchool='', secondarySchool='', school='';
+        const pS = document.getElementById('regSchoolsContainer_primarySchool');
+        const prS = document.getElementById('regSchoolsContainer_preparatorySchool');
+        const sS = document.getElementById('regSchoolsContainer_secondarySchool');
+        if(chkP && pS) primarySchool = pS.value.trim();
+        if(chkPr && prS) preparatorySchool = prS.value.trim();
+        if(chkS && sS) secondarySchool = sS.value.trim();
+        school = primarySchool || preparatorySchool || secondarySchool; // General fallback
 
-function updRegUI(){document.getElementById('rSV').textContent=calcSub(sRPC)+' جنيه';document.getElementById('regPhDet').style.display=sRPC?'block':'none';document.getElementById('regPay').style.display=sRPC?'block':'none';if(sRPC)buildPhR('regPhRows',sRPC,'r')}
-function updAddUI(){document.getElementById('aSV').textContent=calcSub(sAPC)+' جنيه';document.getElementById('addPhDet').style.display=sAPC?'block':'none';if(sAPC)buildPhR('addPhRows',sAPC,'a')}
-function updEditUI(){document.getElementById('eSV').textContent=calcSub(sEPC)+' جنيه';document.getElementById('editPhDet').style.display=sEPC?'block':'none';if(sEPC)buildPhR('editPhRows',sEPC,'e')}
-function updSEUI(){document.getElementById('sePhDet').style.display=sSEPC?'block':'none';if(sSEPC)buildPhR('sePhRows',sSEPC,'se')}
+        if(chkP && !primarySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الابتدائي!"; return; }
+        if(chkPr && !preparatorySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الاعدادي!"; return; }
+        if(chkS && !secondarySchool) { document.getElementById('regStatusMessage').innerText="❌ لازم تكتب مدرسة الثانوي!"; return; }
 
-// ===== الواجهة الرئيسية =====
-const landW=document.getElementById('landW');
-document.getElementById('admBtn').onclick=()=>{document.getElementById('admForm').reset();document.getElementById('admErr').style.display='none';opM('admMod')};
-document.getElementById('regBtn').onclick=()=>{sRPC=0;document.getElementById('regForm').reset();document.getElementById('rSV').textContent='0 جنيه';document.getElementById('regPhDet').style.display='none';document.getElementById('regPay').style.display='none';document.querySelectorAll('#regPhSel .ps').forEach(e=>{e.classList.remove('ac');e.querySelector('input').checked=false});opM('regMod')};
-document.getElementById('subBtn').onclick=()=>{document.getElementById('subForm').reset();document.getElementById('subErr').style.display='none';opM('subMod')};
+        const stages = (chkP?1:0) + (chkPr?1:0) + (chkS?1:0);
+        const code='C-'+Math.floor(1000+Math.random()*9000); const pass='P-'+Math.floor(1000+Math.random()*9000);
+        try { await addDoc(collection(db,"users"),{name,phone,school,primarySchool,preparatorySchool,secondarySchool,stages,code,password:pass,isPaidThisMonth:false});
+            document.getElementById('generatedCode').innerText=code; document.getElementById('generatedPass').innerText=pass; document.getElementById('credentialsBox').style.display='block'; document.getElementById('regStatusMessage').innerText="";
+        } catch(error) { document.getElementById('regStatusMessage').innerText="❌ خطأ: "+error.message; }
+    }
 
-// ===== دخول الإدارة =====
-document.getElementById('admForm').onsubmit=function(e){e.preventDefault();const u=document.getElementById('admU').value.trim(),p=document.getElementById('admP').value.trim();const f=ADM.find(a=>a.u===u&&a.p===p);if(f){document.getElementById('admErr').style.display='none';document.getElementById('admNH').textContent=f.n;landW.classList.add('h');document.getElementById('admD').style.display='block';clM('admMod');renAll();localStorage.setItem('ses_ag',JSON.stringify({t:'adm',u:f.u}));toast('تم دخول الإدارة','success')}else{document.getElementById('admErr').style.display='block'}};
+    async function loginUser() {
+        const code=document.getElementById('loginCode').value.trim(); const pass=document.getElementById('loginPass').value.trim();
+        if(!code||!pass) { document.getElementById('loginStatusMessage').innerText="❌ اكتب الكود والباسورد!"; return; }
+        try { const q=query(collection(db,"users"),where("code","==",code),where("password","==",pass)); const snap=await getDocs(q);
+            if(snap.empty) { document.getElementById('loginStatusMessage').innerText="❌ كود أو باسورد غلط!"; return; }
+            snap.forEach((d)=>{ currentUser={id:d.id,...d.data()}; });
+            document.getElementById('welcomeName').innerText=currentUser.name;
+            if(currentUser.isPaidThisMonth) { document.getElementById('paymentWarning').style.display='none'; document.getElementById('btnPrimary').classList.remove('disabled-btn'); document.getElementById('btnPreparatory').classList.remove('disabled-btn'); document.getElementById('btnSecondary').classList.remove('disabled-btn'); }
+            else { document.getElementById('paymentWarning').style.display='block'; document.getElementById('btnPrimary').classList.add('disabled-btn'); document.getElementById('btnPreparatory').classList.add('disabled-btn'); document.getElementById('btnSecondary').classList.add('disabled-btn'); }
+            showPortal();
+        } catch(error) { document.getElementById('loginStatusMessage').innerText="❌ خطأ: "+error.message; }
+    }
 
-// ===== دخول المشترك =====
-document.getElementById('subForm').onsubmit=function(e){e.preventDefault();const c=document.getElementById('subC').value.trim().toUpperCase(),p=document.getElementById('subP').value.trim();const f=subs.find(s=>s.subCode===c&&s.subPassword===p);if(f){document.getElementById('subErr').style.display='none';loggedSub=f;clM('subMod');landW.classList.add('h');document.getElementById('subP').style.display='block';document.getElementById('subNH').textContent=f.name;renSubP();toast('تم الدخول','success')}else{document.getElementById('subErr').style.display='block'}};
-let loggedSub=null;
+    function logout() { currentUser=null; showLogin(); }
 
-// ===== تسجيل مشترك جديد =====
-document.getElementById('regForm').onsubmit=function(e){e.preventDefault();if(sRPC===0){toast('اختر عدد المراحل','warning');return}
-const ph=document.getElementById('rPh').value.trim();if(subs.find(s=>s.phone===ph)){toast('رقم الهاتف مسجل','warning');return}
-const pd=[];for(let i=0;i<sRPC;i++){const pt=document.getElementById('rPT'+i),sn=document.getElementById('rSN'+i);if(!pt||!pt.value||!sn||!sn.value.trim()){toast('اختر المرحلة واسم المدرسة','warning');return}pd.push({phaseType:pt.value,schoolName:sn.value.trim()})}
-const nc=genCode(),np=genPass();subs.push({id:Date.now(),name:document.getElementById('rN').value.trim(),phone:ph,phases:sRPC,phaseDetails:pd,subscription:calcSub(sRPC),paymentStatus:'unpaid',date:new Date().toISOString().split('T')[0],notes:document.getElementById('rNo').value.trim(),subCode:nc,subPassword:np});svD();clM('regMod');document.getElementById('crC').textContent=nc;document.getElementById('crP').textContent=np;opM('credMod');toast('تم التسجيل','success')};
+    async function saveProfile() {
+        const newName=document.getElementById('editName').value.trim(); const newPhone=document.getElementById('editPhone').value.trim();
+        const chkP = document.getElementById('editChkPrimary').checked;
+        const chkPr = document.getElementById('editChkPreparatory').checked;
+        const chkS = document.getElementById('editChkSecondary').checked;
+        if(!newName||!newPhone) { alert("اكتب كل البيانات!"); return; }
+        
+        let newPrimarySchool='', newPreparatorySchool='', newSecondarySchool='', newSchool='';
+        const pS = document.getElementById('editSchoolsContainer_primarySchool');
+        const prS = document.getElementById('editSchoolsContainer_preparatorySchool');
+        const sS = document.getElementById('editSchoolsContainer_secondarySchool');
+        if(chkP && pS) newPrimarySchool = pS.value.trim();
+        if(chkPr && prS) newPreparatorySchool = prS.value.trim();
+        if(chkS && sS) newSecondarySchool = sS.value.trim();
+        newSchool = newPrimarySchool || newPreparatorySchool || newSecondarySchool;
+        const newStages = (chkP?1:0) + (chkPr?1:0) + (chkS?1:0);
 
-// ===== إضافة من الإدارة =====
-document.getElementById('addB').onclick=()=>{sAPC=0;document.getElementById('addForm').reset();document.getElementById('aSV').textContent='0 جنيه';document.getElementById('addPhDet').style.display='none';document.querySelectorAll('#addPhSel .ps').forEach(e=>{e.classList.remove('ac');e.querySelector('input').checked=false});document.getElementById('aDt').value=new Date().toISOString().split('T')[0];opM('addMod')};
-document.getElementById('addForm').onsubmit=function(e){e.preventDefault();if(sAPC===0){toast('اختر عدد المراحل','warning');return}
-const ph=document.getElementById('aPh').value.trim();if(subs.find(s=>s.phone===ph)){toast('رقم الهاتف مسجل','warning');return}
-const pd=[];for(let i=0;i<sAPC;i++){const pt=document.getElementById('aPT'+i),sn=document.getElementById('aSN'+i);pd.push({phaseType:pt?pt.value:'',schoolName:sn?sn.value.trim():'غير محدد'})}
-subs.push({id:Date.now(),name:document.getElementById('aN').value.trim(),phone:ph,phases:sAPC,phaseDetails:pd,subscription:calcSub(sAPC),paymentStatus:document.getElementById('aPS').value,date:document.getElementById('aDt').value,notes:document.getElementById('aNo').value.trim(),subCode:genCode(),subPassword:genPass()});svD();clM('addMod');renAll();toast('تم الإضافة','success')};
+        try { await updateDoc(doc(db,"users",currentUser.id),{name:newName,phone:newPhone,stages:newStages,school:newSchool,primarySchool:newPrimarySchool,preparatorySchool:newPreparatorySchool,secondarySchool:newSecondarySchool});
+            currentUser.name=newName; currentUser.phone=newPhone; currentUser.stages=newStages; currentUser.school=newSchool; currentUser.primarySchool=newPrimarySchool; currentUser.preparatorySchool=newPreparatorySchool; currentUser.secondarySchool=newSecondarySchool;
+            alert("✅ تم تعديل البيانات!"); showPortal();
+        } catch(e) { alert("❌ خطأ: "+e.message); }
+    }
 
-// ===== تعديل (الإدارة) =====
-function opEdit(id){const s=subs.find(x=>x.id===id);if(!s)return;sEPC=s.phases;document.getElementById('eId').value=id;document.getElementById('eN').value=s.name;document.getElementById('ePh').value=s.phone;document.getElementById('eDt').value=s.date;document.getElementById('ePS').value=s.paymentStatus;document.getElementById('eNo').value=s.notes||'';document.getElementById('eSV').textContent=calcSub(s.phases)+' جنيه';document.getElementById('eCC').textContent=s.subCode;document.getElementById('eCP').textContent=s.subPassword;
-document.querySelectorAll('#editPhSel .ps').forEach(e=>{const p=+e.dataset.pc,cb=e.querySelector('input');if(p===s.phases){e.classList.add('ac');cb.checked=true}else{e.classList.remove('ac');cb.checked=false}});
-document.getElementById('editPhDet').style.display='block';buildPhR('editPhRows',s.phases,'e');fillPhR('e',s.phases,s.phaseDetails);opM('editMod')}
-document.getElementById('editForm').onsubmit=function(e){e.preventDefault();if(sEPC===0){toast('اختر عدد المراحل','warning');return}const id=+document.getElementById('eId').value,s=subs.find(x=>x.id===id);if(!s)return;
-const pd=[];for(let i=0;i<sEPC;i++){const pt=document.getElementById('ePT'+i),sn=document.getElementById('eSN'+i);pd.push({phaseType:pt?pt.value:'',schoolName:sn?sn.value.trim():'غير محدد'})}
-s.name=document.getElementById('eN').value.trim();s.phone=document.getElementById('ePh').value.trim();s.date=document.getElementById('eDt').value;s.phases=sEPC;s.phaseDetails=pd;s.subscription=calcSub(sEPC);s.paymentStatus=document.getElementById('ePS').value;s.notes=document.getElementById('eNo').value.trim();svD();clM('editMod');renAll();toast('تم التعديل','success')};
+    function adminLogin() { const pass=document.getElementById('adminPassInput').value.trim(); if(pass===ADMIN_PASSWORD) { showAdmin(); } else { document.getElementById('adminLoginMsg').innerText="❌ كلمة سر الإدارة غلط!"; } }
 
-// ===== تفعيل سداد =====
-function actPay(id){const s=subs.find(x=>x.id===id);if(!s)return;s.paymentStatus='paid';svD();renAll();toast('تم تفعيل السداد لـ '+s.name,'success')}
+    async function loadUsersForAdmin() {
+        const tbody=document.getElementById('usersTableBody'); tbody.innerHTML='';
+        const snap=await getDocs(collection(db,"users"));
+        let totalRev=0, paidCount=0;
+        
+        snap.forEach((d)=>{ 
+            const u=d.data(); 
+            // 🏫 Calculate price based on stages array or number
+            const price=u.stages==1?75:(u.stages==2?125:(u.stages==3?150:0)); 
+            const status=u.isPaidThisMonth?"✅ مدفع":"❌ معلق";
+            if(u.isPaidThisMonth) { paidCount++; totalRev+=price; }
+            
+            const btnAction=u.isPaidThisMonth?`<button class="btn btn-danger" onclick="window.unconfirmPayment('${d.id}')">❌ إلغاء</button>`:`<button class="btn btn-success" onclick="window.confirmPayment('${d.id}')">✅ تأكيد</button>`;
+            const deleteBtn=`<button class="btn btn-delete" onclick="window.deleteUser('${d.id}')">🗑️</button>`;
+            
+            const pSch = u.primarySchool || '-';
+            const prSch = u.preparatorySchool || '-';
+            const sSch = u.secondarySchool || '-';
+            
+            // 🏫 Display selected stages
+            const selectedStages = [];
+            if(u.primarySchool) selectedStages.push("ابتدائي");
+            if(u.preparatorySchool) selectedStages.push("اعدادي");
+            if(u.secondarySchool) selectedStages.push("ثانوي");
+            const stagesText = selectedStages.join(" , ");
 
-// ===== حذف =====
-let delTgt=null;
-function confDel(id){const s=subs.find(x=>x.id===id);if(!s)return;delTgt=id;document.getElementById('delMsg').textContent='حذف "'+s.name+'" (كود: '+s.subCode+')?';opM('delConf')}
-document.getElementById('delYes').onclick=()=>{if(delTgt){subs=subs.filter(s=>s.id!==delTgt);svD();renAll();toast('تم الحذف','error')}clM('delConf');delTgt=null};
-document.getElementById('delNo').onclick=()=>{clM('delConf');delTgt=null};
+            tbody.innerHTML+=`<tr><td>${u.name}</td><td>${pSch}</td><td>${prSch}</td><td>${sSch}</td><td>${u.phone}</td><td style="font-weight:800; color:#1e3a8a;">${stagesText}</td><td>${price} ج</td><td style="font-weight:800; color:#1e3a8a;">${u.code}</td><td style="font-weight:800; color:#b45309;">${u.password}</td><td>${status}</td><td>${btnAction} ${deleteBtn}</td></tr>`;
+        });
+        
+        // 📊 Update Stats
+        document.getElementById('statTotal').innerText = snap.size;
+        document.getElementById('statPaid').innerText = paidCount;
+        document.getElementById('statRevenue').innerText = totalRev + " ج";
+    }
 
-// ===== خروج =====
-document.getElementById('admLO').onclick=()=>{document.getElementById('admD').style.display='none';landW.classList.remove('h');localStorage.removeItem('ses_ag');toast('خروج','success')};
-document.getElementById('subLO').onclick=()=>{loggedSub=null;document.getElementById('subP').style.display='none';landW.classList.remove('h');toast('رجوع','success')};
+    async function confirmPayment(id) { try{await updateDoc(doc(db,"users",id),{isPaidThisMonth:true});alert("✅ تأكيد!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
+    async function unconfirmPayment(id) { try{await updateDoc(doc(db,"users",id),{isPaidThisMonth:false});alert("❌ إلغاء!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
+    async function deleteUser(id) { if(!confirm("⚠️ حذف المشترك نهائياً؟")) return; try{await deleteDoc(doc(db,"users",id));alert("🗑️ تم الحذف!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
+    async function resetMonth() { if(!confirm("⚠️ مسح سداد الكل؟")) return; try{const s=await getDocs(collection(db,"users"));s.forEach(async(d)=>{await updateDoc(doc(db,"users",d.id),{isPaidThisMonth:false})});alert("🔄 شهر جديد!");loadUsersForAdmin();}catch(e){alert("❌ خطأ: "+e.message);} }
 
-// ===== بوابة المشترك =====
-function renSubP(){const s=loggedSub;if(!s)return;const pd=s.phaseDetails||[];
-let h='<div style="background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:24px;margin-bottom:24px">';
-h+='<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px"><div style="display:flex;align-items:center;gap:12px"><div style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#15806d);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff"><i class="fas fa-user"></i></div><div><div style="font-size:20px;font-weight:700">'+s.name+'</div><div style="font-size:13px;color:var(--tealL)">كود: '+s.subCode+'</div></div></div>';
-h+='<button class="bo" onclick="opSE('+s.id+')"><i class="fas fa-edit"></i> تعديل بياناتي</button></div>';
-h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">';
-h+='<div style="background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;padding:12px"><div style="font-size:12px;color:var(--txtM)">الهاتف</div><div style="font-weight:600">'+s.phone+'</div></div>';
-h+='<div style="background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;padding:12px"><div style="font-size:12px;color:var(--txtM)">الاشتراك</div><div style="font-weight:700;color:var(--gold);font-size:18px">'+s.subscription+' جنيه</div></div>';
-const stL=s.paymentStatus==='paid'?'مدفوع':s.paymentStatus==='unpaid'?'غير مدفوع':'مدفوع جزئياً';const stC=s.paymentStatus==='paid'?'color:var(--grn)':s.paymentStatus==='unpaid'?'color:var(--red)':'color:var(--wrn)';
-h+='<div style="background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;padding:12px"><div style="font-size:12px;color:var(--txtM)">الدفع</div><div style="font-weight:600;'+stC+'">'+stL+'</div></div>';
-h+='<div style="background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:12px;padding:12px"><div style="font-size:12px;color:var(--txtM)">المراحل</div><div style="font-weight:600;color:var(--tealL)">'+s.phases+' مرحلة</div></div></div>';
-if(pd.length){h+='<div style="font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px"><i class="fas fa-school" style="margin-left:6px"></i> المراحل</div>';pd.forEach((d,i)=>{h+='<div style="background:rgba(26,138,125,.08);border:1px solid rgba(26,138,125,.2);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px"><span style="background:var(--teal);color:#fff;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">'+(i+1)+'</span><span style="font-weight:600">'+d.phaseType+'</span><span style="color:var(--txtM)">|</span><span style="color:var(--tealL)">'+d.schoolName+'</span></div>'})}
-h+='</div>';
+    async function exportToExcel() {
+        try { const snap=await getDocs(collection(db,"users"));
+            const data=[];
+            snap.forEach((d)=>{ const u=d.data(); const price=u.stages==1?75:(u.stages==2?125:(u.stages==3?150:0)); const status=u.isPaidThisMonth?"مدفع":"معلق";
+                const pSch = u.primarySchool || ''; const prSch = u.preparatorySchool || ''; const sSch = u.secondarySchool || '';
+                const selectedStages = [];
+                if(u.primarySchool) selectedStages.push("ابتدائي"); if(u.preparatorySchool) selectedStages.push("اعدادي"); if(u.secondarySchool) selectedStages.push("ثانوي");
+                data.push({"الاسم":u.name,"مدرسة ابتدائي":pSch,"مدرسة اعدادى":prSch,"مدرسة ثانوي":sSch,"التليفون":u.phone,"المراحل":selectedStages.join(", "),"المبلغ":price,"الكود":u.code,"الباسورد":u.password,"حالة السداد":status});
+            });
+            const ws=XLSX.utils.json_to_sheet(data);
+            const wb=XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb,ws,"المشتركين");
+            XLSX.writeFile(wb,"مشتركين_منصة_امين_غيث.xlsx");
+        } catch(e) { alert("❌ خطأ في التصدير: "+e.message); }
+    }
 
-// الملفات المدفوعة
-if(s.paymentStatus==='paid'&&pd.length){
-    h+='<div class="file-section"><div class="fs-title"><i class="fas fa-folder-open"></i> الملفات المدفوعة</div>';
-    pd.forEach(d=>{const wm=s.name+' - '+d.schoolName;const links=PAID_LINKS[d.phaseType]||{};
-        h+='<div style="font-size:14px;font-weight:700;color:var(--tealL);margin-bottom:10px;margin-top:8px"><i class="fas fa-graduation-cap" style="margin-left:6px"></i> '+d.phaseType+' <span class="paid-badge">مدفوع</span></div>';
-        FC.forEach(cat=>{const lnk=links[cat]||'#';h+='<div class="file-item"><div class="fi-name"><i class="fas fa-file-alt" style="color:var(--gold)"></i> '+cat+' - '+d.phaseType+' <span style="font-size:11px;color:var(--txtM)">('+d.schoolName+')</span></div><div class="fi-act"><a href="'+lnk+'" target="_blank" class="fi-btn view"><i class="fas fa-eye"></i> عرض</a><button class="fi-btn dl" onclick="dlPaidF(\''+wm+'\',\''+cat+' - '+d.phaseType+'\')"><i class="fas fa-download"></i> تحميل PDF</button></div></div>'})});
-    h+='</div>'
-}else if(s.paymentStatus!=='paid'){
-    h+='<div class="file-section" style="text-align:center;padding:30px"><div style="font-size:16px;font-weight:700;color:var(--wrn);margin-bottom:8px"><i class="fas fa-lock" style="margin-left:6px"></i> الملفات المدفوعة غير متاحة</div><div style="font-size:14px;color:var(--txt2)">يرجى سداد الاشتراك لفتح الملفات</div><div class="pay-box" style="margin-top:16px"><div class="pt"><i class="fas fa-money-bill-wave"></i> معلومات الدفع</div><div style="display:flex;gap:16px;justify-content:center;margin-top:10px"><div style="background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:10px;padding:10px"><div style="font-weight:700;color:var(--grn)"><i class="fas fa-mobile-alt"></i> فودافون كاش</div><div style="font-size:18px;font-weight:900;color:var(--gold)">01007904178</div></div><div style="background:rgba(255,255,255,.05);border:1px solid var(--brd);border-radius:10px;padding:10px"><div style="font-weight:700;color:var(--tealL)"><i class="fas fa-credit-card"></i> انستا باي</div><div style="font-size:18px;font-weight:900;color:var(--gold)">01007904178</div></div></div></div></div>'}
+    async function loadSettings() { try{const s=await getDoc(doc(db,"settings","config"));if(s.exists()){currentSettings=s.data();document.getElementById('primaryPdfUrl').value=currentSettings.primaryPdfUrl||'';document.getElementById('preparatoryPdfUrl').value=currentSettings.preparatoryPdfUrl||'';document.getElementById('secondaryPdfUrl').value=currentSettings.secondaryPdfUrl||'';document.getElementById('initiativePdfUrl').value=currentSettings.initiativePdfUrl||'';document.getElementById('activitiesPdfUrl').value=currentSettings.activitiesPdfUrl||'';document.getElementById('recordsPdfUrl').value=currentSettings.recordsPdfUrl||'';document.getElementById('fontUrl').value=currentSettings.fontUrl||'';}}catch(e){console.error(e);} }
+    async function saveSettings() { const s={primaryPdfUrl:document.getElementById('primaryPdfUrl').value,preparatoryPdfUrl:document.getElementById('preparatoryPdfUrl').value,secondaryPdfUrl:document.getElementById('secondaryPdfUrl').value,initiativePdfUrl:document.getElementById('initiativePdfUrl').value,activitiesPdfUrl:document.getElementById('activitiesPdfUrl').value,recordsPdfUrl:document.getElementById('recordsPdfUrl').value,fontUrl:document.getElementById('fontUrl').value}; try{await setDoc(doc(db,"settings","config"),s);alert('✅ حفظ!');}catch(e){alert('❌ خطأ: '+e.message);} }
 
-// الملفات المجانية
-h+='<div class="file-section"><div class="fs-title"><i class="fas fa-folder-open"></i> ملفات مجانية <span class="free-badge">مجاني</span></div>';
-FCF.forEach(cat=>{const lnk=FREE_LINKS[cat]||'#';h+='<div class="file-item"><div class="fi-name"><i class="fas fa-file-alt" style="color:var(--grn)"></i> '+cat+'</div><div class="fi-act"><a href="'+lnk+'" target="_blank" class="fi-btn view"><i class="fas fa-eye"></i> عرض</a><button class="fi-btn dl" onclick="dlFreeF(\''+cat+'\')"><i class="fas fa-download"></i> PDF</button></div></div>'});
-h+='</div>';
-document.getElementById('subPC').innerHTML=h}
+    // 🪄 Dynamic Watermarking Logic
+    async function downloadWatermarked(fileKey) {
+        const statusDiv=document.getElementById('statusMessage'); statusDiv.innerText="⏳ تجهيز..."; statusDiv.style.color="#1e3a8a";
+        if(!currentSettings&&currentUser){try{const s=await getDoc(doc(db,"settings","config"));if(s.exists())currentSettings=s.data();}catch(e){}}
+        if(!currentSettings||!currentSettings[fileKey]||!currentSettings.fontUrl){statusDiv.innerText="❌ روابط مش محفوظة!";statusDiv.style.color="#ef4444";return;}
+        const pdfUrl=currentSettings[fileKey]; const fontUrl=currentSettings.fontUrl;
+        
+        // 🏫 Determine the specific school for this file
+        let schoolText = currentUser.school || '';
+        if (fileKey === 'primaryPdfUrl' && currentUser.primarySchool) schoolText = currentUser.primarySchool;
+        if (fileKey === 'preparatoryPdfUrl' && currentUser.preparatorySchool) schoolText = currentUser.preparatorySchool;
+        if (fileKey === 'secondaryPdfUrl' && currentUser.secondarySchool) schoolText = currentUser.secondarySchool;
+        
+        const watermarkText=`${currentUser.name} - ${schoolText}`;
 
-// ===== تحميل ملف مدفوع (علامة مائية) =====
-function dlPaidF(wm,fn){const c='<div style="font-family:Cairo;direction:rtl;padding:40px;position:relative;min-height:500px"><div style="text-align:center;margin-bottom:30px"><div style="font-size:24px;font-weight:900;color:#d4a853">منصة أمين غيث</div><div style="font-size:16px;color:#888">'+fn+'</div><div style="height:2px;background:linear-gradient(90deg,#d4a853,#1a8a7d);margin-top:12px"></div></div><div style="position:absolute;inset:0;pointer-events:none;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden"><div style="font-size:20px;font-weight:700;color:rgba(212,168,83,.12);transform:rotate(-30deg);white-space:nowrap">'+wm+'</div><div style="font-size:20px;font-weight:700;color:rgba(212,168,83,.12);transform:rotate(-30deg);white-space:nowrap;margin-top:50px">'+wm+'</div><div style="font-size:20px;font-weight:700;color:rgba(212,168,83,.12);transform:rotate(-30deg);white-space:nowrap;margin-top:50px">'+wm+'</div></div><div style="font-size:14px;line-height:2;color:#333;padding:20px;position:relative;z-index:1"><p>محتوى: '+fn+'</p><p>محتوى تجريبي - سيتم استبداله بالمحتوى الفعلي</p><p style="margin-top:20px;font-size:12px;color:#aaa;text-align:center">علامة مائية: '+wm+'</p></div><div style="text-align:center;margin-top:30px;font-size:12px;color:#aaa">منصة أمين غيث</div></div>';
-const el=document.createElement('div');el.innerHTML=c;el.style.position='absolute';el.style.left='-9999px';document.body.appendChild(el);html2pdf().set({margin:10,filename:fn+'.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4'}}).from(el).save().then(()=>{document.body.removeChild(el);toast('تم تحميل الملف','success')}).catch(()=>{document.body.removeChild(el);toast('خطأ','error')})}
+        try { const pdfBytes=await fetch(pdfUrl).then(r=>{if(!r.ok)throw new Error("404");return r.arrayBuffer()}); const fontBytes=await fetch(fontUrl).then(r=>{if(!r.ok)throw new Error("404");return r.arrayBuffer()});
+            const pdfDoc=await PDFLib.PDFDocument.load(pdfBytes); const fkModule=await import('https://esm.sh/@pdf-lib/fontkit@1.1.1'); pdfDoc.registerFontkit(fkModule.default); const cairoFont=await pdfDoc.embedFont(fontBytes);
+            const pages=pdfDoc.getPages(); for(const page of pages){const{width,height}=page.getSize();const tw=cairoFont.widthOfTextAtSize(watermarkText,24);page.drawText(watermarkText,{x:width/2-tw/2,y:height/2,size:24,font:cairoFont,color:PDFLib.rgb(0.7,0.5,0.1),opacity:0.5});}
+            const modifiedBytes=await pdfDoc.save(); const blob=new Blob([modifiedBytes],{type:'application/pdf'}); const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=`${fileKey}_${currentUser.name}.pdf`;link.click();
+            statusDiv.innerText="✅ تم التحميل!"; statusDiv.style.color="#15803d";
+        } catch(error) { console.error(error); statusDiv.innerText="❌ خطأ: "+error.message; statusDiv.style.color="#ef4444"; }
+    }
 
-// ===== تحميل ملف مجاني =====
-function dlFreeF(fn){const c='<div style="font-family:Cairo;direction:rtl;padding:40px;min-height:500px"><div style="text-align:center;margin-bottom:30px"><div style="font-size:24px;font-weight:900;color:#2ab5a5">منصة أمين غيث</div><div style="font-size:16px;color:#888">'+fn+'</div><div style="height:2px;background:linear-gradient(90deg,#2ab5a5,#d4a853);margin-top:12px"></div></div><div style="font-size:14px;line-height:2;color:#333;padding:20px"><p>'+fn+'</p><p>محتوى تجريبي</p><p style="margin-top:10px;color:#27ae60;font-weight:700">ملف مجاني - بدون علامة مائية</p></div><div style="text-align:center;margin-top:30px;font-size:12px;color:#aaa">منصة أمين غيث</div></div>';
-const el=document.createElement('div');el.innerHTML=c;el.style.position='absolute';el.style.left='-9999px';document.body.appendChild(el);html2pdf().set({margin:10,filename:fn+'.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4'}}).from(el).save().then(()=>{document.body.removeChild(el);toast('تم تحميل','success')}).catch(()=>{document.body.removeChild(el);toast('خطأ','error')})}
+    window.registerUser=registerUser; window.loginUser=loginUser; window.logout=logout; window.saveProfile=saveProfile;
+    window.showRegistration=showRegistration; window.showLogin=showLogin; window.showPortal=showPortal; window.showEditProfile=showEditProfile;
+    window.showAdminLogin=showAdminLogin; window.adminLogin=adminLogin;
+    window.confirmPayment=confirmPayment; window.unconfirmPayment=unconfirmPayment; window.deleteUser=deleteUser; window.resetMonth=resetMonth;
+    window.exportToExcel=exportToExcel; window.loadUsersForAdmin=loadUsersForAdmin; window.loadSettings=loadSettings; window.saveSettings=saveSettings; window.downloadWatermarked=downloadWatermarked;
 
-// ===== تعديل بيانات المشترك =====
-function opSE(id){const s=subs.find(x=>x.id===id);if(!s)return;sSEPC=s.phases;document.getElementById('seId').value=id;document.getElementById('seN').value=s.name;document.getElementById('sePh').value=s.phone;document.getElementById('seNo').value=s.notes||'';
-document.querySelectorAll('#sePhSel .ps').forEach(e=>{const p=+e.dataset.pc,cb=e.querySelector('input');if(p===s.phases){e.classList.add('ac');cb.checked=true}else{e.classList.remove('ac');cb.checked=false}});
-document.getElementById('sePhDet').style.display='block';buildPhR('sePhRows',s.phases,'se');fillPhR('se',s.phases,s.phaseDetails);opM('seMod')}
-document.getElementById('seForm').onsubmit=function(e){e.preventDefault();if(sSEPC===0){toast('اختر عدد المراحل','warning');return}const id=+document.getElementById('seId').value,s=subs.find(x=>x.id===id);if(!s)return;
-const pd=[];for(let i=0;i<sSEPC;i++){const pt=document.getElementById('sePT'+i),sn=document.getElementById('seSN'+i);pd.push({phaseType:pt?pt.value:'',schoolName:sn?sn.value.trim():'غير محدد'})}
-s.name=document.getElementById('seN').value.trim();s.phone=document.getElementById('sePh').value.trim();s.phaseDetails=pd;s.phases=sSEPC;s.subscription=calcSub(sSEPC);s.notes=document.getElementById('seNo').value.trim();loggedSub=s;svD();clM('seMod');renSubP();renAll();toast('تم التعديل','success')};
-
-// ===== لوحة الإدارة =====
-let curP=1,PZ=10;
-function renAll(){renStats();renTable()}
-function renStats(){animC('sT',subs.length);animC('sP',subs.filter(s=>s.paymentStatus==='paid').length);animC('sU',subs.filter(s=>s.paymentStatus==='unpaid').length);animC('sR',subs.filter(s=>s.paymentStatus==='paid').reduce((a,s)=>a+s.subscription,0))}
-function animC(id,tgt){const el=document.getElementById(id),cur=+el.textContent||0;if(cur===tgt)return;const dur=500,st=15,inc=(tgt-cur)/st;let s=0;const tm=setInterval(()=>{s++;el.textContent=Math.round(cur+inc*s);if(s>=st){el.textContent=tgt;clearInterval(tm)}},dur/st);el.classList.add('ca');setTimeout(()=>el.classList.remove('ca'),dur)}
-function getF(){let f=[...subs];const sr=document.getElementById('srI').value.trim().toLowerCase(),pf=document.getElementById('fPh').value,sf=document.getElementById('fSt').value;if(sr)f=f.filter(s=>s.name.toLowerCase().includes(sr)||s.phone.includes(sr)||(s.subCode&&s.subCode.toLowerCase().includes(sr)));if(pf!=='all')f=f.filter(s=>s.phases===+pf);if(sf!=='all')f=f.filter(s=>s.paymentStatus===sf);return f}
-function renTable(){const f=getF(),tp=Math.ceil(f.length/PZ)||1;if(curP>tp)curP=tp;const st=(curP-1)*PZ,pd=f.slice(st,st+PZ),tb=document.getElementById('tB');
-if(pd.length===0){tb.innerHTML='<tr class="nd"><td colspan="11">لا توجد بيانات</td></tr>'}
-else{tb.innerHTML=pd.map((s,i)=>{const n=st+i+1;const phD=s.phaseDetails||[];const phL=phD.map(d=>d.phaseType).join(' + ')||s.phases+' مرحلة';const scL=phD.map(d=>d.phaseType+': '+d.schoolName).join(' | ')||'—';const stL=s.paymentStatus==='paid'?'مدفوع':s.paymentStatus==='unpaid'?'غير مدفوع':'مدفوع جزئياً';const sc=s.paymentStatus;
-return'<tr><td>'+n+'</td><td><span class="cdb">'+(s.subCode||'—')+'</span></td><td style="font-size:12px;color:var(--txtM)">'+(s.subPassword||'—')+'</td><td style="font-weight:600">'+s.name+'</td><td>'+s.phone+'</td><td><span class="phb">'+phL+'</span></td><td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis">'+scL+'</td><td style="color:var(--gold);font-weight:700">'+s.subscription+' ج</td><td><span class="stb '+sc+'"><i class="fas fa-'+(sc==='paid'?'check-circle':sc==='unpaid'?'times-circle':'clock')+'"></i> '+stL+'</span></td><td>'+s.date+'</td><td><div class="act"><button class="abtn activate" onclick="actPay('+s.id+')"><i class="fas fa-check"></i> سداد</button><button class="abtn edit" onclick="opEdit('+s.id+')"><i class="fas fa-edit"></i></button><button class="abtn delete" onclick="confDel('+s.id+')"><i class="fas fa-trash-alt"></i></button><button class="abtn print" onclick="prnS('+s.id+')"><i class="fas fa-print"></i></button></div></td></tr>'}).join('')}
-renPag(f.length,tp)}
-function renPag(tot,tp){const pg=document.getElementById('pag');if(tp<=1){pg.innerHTML='';return}let h='<button class="pb" '+((curP===1)?'disabled style="opacity:.4;cursor:default"':'')+' onclick="goP('+((curP-1)+')"><i class="fas fa-chevron-right"></i></button>');const mx=5;let sp=Math.max(1,curP-2),ep=Math.min(tp,sp+mx-1);if(ep-sp<mx-1)sp=Math.max(1,ep-mx+1);for(let p=sp;p<=ep;p++)h+='<button class="pb '+((p===curP)?'actv':'')+'" onclick="goP('+p+')">'+p+'</button>';h+='<button class="pb" '+((curP===tp)?'disabled style="opacity:.4;cursor:default"':'')+' onclick="goP('+((curP+1)+')"><i class="fas fa-chevron-left"></i></button>');h+='<span style="color:var(--txtM);font-size:13px;margin-right:12px">'+tot+' مشترك</span>';pg.innerHTML=h}
-function goP(p){curP=p;renTable()}
-document.getElementById('srI').oninput=()=>{curP=1;renTable()};
-document.getElementById('fPh').onchange=()=>{curP=1;renTable()};
-document.getElementById('fSt').onchange=()=>{curP=1;renTable()};
-
-// ===== Excel =====
-document.getElementById('xlB').onclick=function(){if(!subs.length){toast('لا توجد بيانات','warning');return}
-const d=subs.map(s=>{const phD=s.phaseDetails||[];return{'الكود':s.subCode,'الباسوورد':s.subPassword,'الاسم':s.name,'الهاتف':s.phone,'المراحل':phD.map(d=>d.phaseType).join('+'),'المدرسات':phD.map(d=>d.phaseType+': '+d.schoolName).join('|'),'الاشتراك':s.subscription,'الدفع':s.paymentStatus==='paid'?'مدفوع':s.paymentStatus==='unpaid'?'غير مدفوع':'مدفوع جزئياً','التاريخ':s.date,'ملاحظات':s.notes||''}});
-const ws=XLSX.utils.json_to_sheet(d);ws['!cols']=[{wch:10},{wch:10},{wch:20},{wch:15},{wch:15},{wch:25},{wch:12},{wch:12},{wch:12},{wch:20}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'المشتركين');XLSX.writeFile(wb,'منصة_أمين_غيث_'+new Date().toISOString().split('T')[0]+'.xlsx');toast('Excel تم','success')};
-
-// ===== نسخ احتياطي =====
-document.getElementById('bkB').onclick=function(){if(!subs.length){toast('لا بيانات','warning');return}const d={v:'2.0',platform:'منصة أمين غيث',date:new Date().toISOString(),subscribers:subs};const j=JSON.stringify(d,null,2);const b=new Blob([j],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='نسخة_احتياطية_'+new Date().toISOString().split('T')[0]+'.json';a.click();URL.revokeObjectURL(u);toast('نسخة احتياطية تم','success')};
-
-// ===== استيراد =====
-let impD=null;
-document.getElementById('imB').onclick=()=>{document.getElementById('impF').value='';document.getElementById('impPrv').style.display='none';impD=null;opM('impMod')};
-document.getElementById('impF').onchange=function(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){try{impD=JSON.parse(ev.target.result);if(!impD.subscribers){toast('ملف غير صالح','error');impD=null;return}document.getElementById('impPrv').style.display='block';document.getElementById('impPC').innerHTML='عدد: <b style="color:var(--gold)">'+impD.subscribers.length+'</b> | تاريخ: '+new Date(impD.date).toLocaleDateString('ar-EG')}catch(err){toast('خطأ','error');impD=null}};r.readAsText(f)};
-document.getElementById('impBtn').onclick=function(){if(!impD){toast('اختر ملف','warning');return}const op=document.getElementById('impO').value;if(op==='replace'){subs=impD.subscribers}else{const ep=new Set(subs.map(s=>s.phone));impD.subscribers.forEach(s=>{if(!ep.has(s.phone))subs.push(s)})}fixOld();svD();clM('impMod');renAll();toast('استيراد تم - '+subs.length+' مشترك','success');impD=null};
-
-function fixOld(){let nx=1001;subs.forEach(s=>{if(!s.subCode){let c='AG-'+nx;while(subs.some(o=>o.subCode===c&&o.id!==s.id)){nx++;c='AG-'+nx}s.subCode=c;s.subPassword=genPass();nx++}if(!s.phaseDetails){s.phaseDetails=[];for(let i=0;i<(s.phases||1);i++)s.phaseDetails.push({phaseType:PT[i]||'إعدادي',schoolName:s.schoolName||'غير محدد'})}});svD()}
-
-// ===== طباعة =====
-function prnS(id){const s=subs.find(x=>x.id===id);if(!s)return;const phD=s.phaseDetails||[];const scL=phD.map(d=>d.phaseType+': '+d.schoolName).join(' | ')||'—';const stL=s.paymentStatus==='paid'?'مدفوع':'غير مدفوع';
-const c='<div style="font-family:Cairo;direction:rtl;padding:40px;max-width:500px;margin:auto"><div style="text-align:center;margin-bottom:24px"><div style="font-size:26px;font-weight:900;color:#d4a853">منصة أمين غيث</div><div style="height:2px;background:linear-gradient(90deg,#d4a853,#1a8a7d);margin-top:12px"></div></div><table style="width:100%;border-collapse:collapse;font-size:14px"><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555">الكود</td><td style="padding:10px;border-bottom:1px solid #eee;color:#d4a853;font-weight:700">'+s.subCode+'</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555">الاسم</td><td style="padding:10px;border-bottom:1px solid #eee">'+s.name+'</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555">الهاتف</td><td style="padding:10px;border-bottom:1px solid #eee">'+s.phone+'</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555">المراحل</td><td style="padding:10px;border-bottom:1px solid #eee">'+scL+'</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555">الاشتراك</td><td style="padding:10px;border-bottom:1px solid #eee;color:#d4a853;font-weight:700">'+s.subscription+' ج</td></tr><tr><td style="padding:10px;border-bottom:1px solid #eee;font-weight:600;color:#555">الدفع</td><td style="padding:10px;border-bottom:1px solid #eee">'+stL+'</td></tr></table><div style="text-align:center;margin-top:24px;font-size:12px;color:#aaa">منصة أمين غيث</div></div>';
-const w=window.open('','_blank','width=600,height=500');w.document.write('<html><head><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"></head><body>'+c+'</body></html>');w.document.close();setTimeout(()=>w.print(),500)}
-
-// ===== إغلاق =====
-document.querySelectorAll('.mo').forEach(o=>{o.addEventListener('click',function(e){if(e.target===o)o.classList.add('h')})});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.mo').forEach(m=>m.classList.add('h'))});
-
-// ===== الجلسة =====
-const ses=localStorage.getItem('ses_ag');if(ses){const s=JSON.parse(ses);if(s.t==='adm'){const a=ADM.find(x=>x.u===s.u);if(a){document.getElementById('admNH').textContent=a.n;landW.classList.add('h');document.getElementById('admD').style.display='block';renAll()}}}
-if(!subs.length&&localStorage.getItem(LS_KEY)){subs=JSON.parse(localStorage.getItem(LS_KEY));fixOld();renAll()}
+    showRegistration();
 </script>
 </body>
 </html>
