@@ -19,6 +19,7 @@
         .tab-inactive { background: #e2e8f0; color: #4a5568; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .locked-overlay { position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(255,0,0,0.2); z-index: 10; display: flex; align-items: center; justify-content: center; pointer-events: all; }
     </style>
 </head>
 <body>
@@ -31,56 +32,36 @@
                 <p class="text-gray-500 mt-2">نظام إدارة المشتركين والملفات</p>
             </div>
             
-            <!-- تبويبات الدخول والتسجيل -->
             <div class="flex mb-6 bg-gray-100 rounded-lg p-1 gap-1">
-                <button onclick="switchTab('admin')" id="tabAdmin" class="flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm">
-                    <i class="fas fa-user-shield ml-1"></i> المدير
-                </button>
-                <button onclick="switchTab('user')" id="tabUser" class="flex-1 py-2 rounded-lg transition tab-active font-bold text-sm">
-                    <i class="fas fa-user ml-1"></i> المشترك
-                </button>
-                <button onclick="switchTab('register')" id="tabRegister" class="flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200">
-                    <i class="fas fa-user-plus ml-1"></i> تسجيل جديد
-                </button>
+                <button onclick="switchTab('admin')" id="tabAdmin" class="flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm"><i class="fas fa-user-shield ml-1"></i> المدير</button>
+                <button onclick="switchTab('user')" id="tabUser" class="flex-1 py-2 rounded-lg transition tab-active font-bold text-sm"><i class="fas fa-user ml-1"></i> المشترك</button>
+                <button onclick="switchTab('register')" id="tabRegister" class="flex-1 py-2 rounded-lg transition font-bold text-sm bg-green-100 text-green-700 hover:bg-green-200"><i class="fas fa-user-plus ml-1"></i> تسجيل جديد</button>
             </div>
 
-            <!-- دخول المدير -->
             <div id="adminLogin" class="hidden">
                 <input type="password" id="adminPass" placeholder="كلمة مرور المدير" class="w-full p-3 border rounded-lg mb-4 text-center">
-                <button onclick="loginAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">
-                    دخول لوحة التحكم
-                </button>
+                <button onclick="loginAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">دخول لوحة التحكم</button>
                 <p id="adminError" class="text-red-500 text-center mt-3 hidden">كلمة المرور غير صحيحة!</p>
             </div>
 
-            <!-- دخول المشترك -->
             <div id="userLogin">
                 <input type="text" id="userCode" placeholder="الكود (مثال: C-6427 أو AG-1234)" class="w-full p-3 border rounded-lg mb-3 text-center">
                 <input type="password" id="userPass" placeholder="الباسوورد" class="w-full p-3 border rounded-lg mb-4 text-center">
-                <button onclick="loginUser()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-500 transition">
-                    عرض بياناتي وملفاتي
-                </button>
+                <button onclick="loginUser()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-500 transition">عرض بياناتي وملفاتي</button>
                 <p id="userError" class="text-red-500 text-center mt-3 hidden">الكود أو الباسوورد غير صحيح!</p>
             </div>
 
-            <!-- تسجيل مشترك جديد من المنصة -->
             <div id="registerLogin" class="hidden">
                 <input type="text" id="regName" placeholder="الاسم بالكامل" class="w-full p-3 border rounded-lg mb-3 text-center">
-                <input type="text" id="regPhone" placeholder="رقم الهاتف" class="w-full p-3 border rounded-lg mb-3 text-center">
+                <input type="text" id="regPhone" placeholder="رقم الهاتف (لمنع التكرار)" class="w-full p-3 border rounded-lg mb-3 text-center">
                 <select id="regPhases" class="w-full p-3 border rounded-lg mb-3 text-center bg-white" onchange="updateRegFields()">
                     <option value="1">1 مرحلة (75 ج.م)</option>
                     <option value="2">2 مراحل (125 ج.م)</option>
                     <option value="3">3 مراحل (150 ج.م)</option>
                 </select>
-                
-                <div id="regSchoolsContainer">
-                    <!-- هنا تظهر حقول المدرسة والإدارة حسب عدد المراحل -->
-                </div>
-
-                <button onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition mt-2">
-                    <i class="fas fa-check-circle ml-1"></i> تسجيل واشتراك
-                </button>
-                <p id="regError" class="text-red-500 text-center mt-3 hidden">يرجى ملء جميع البيانات!</p>
+                <div id="regSchoolsContainer"></div>
+                <button onclick="registerNewUser()" class="w-full bg-green-700 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition mt-2"><i class="fas fa-check-circle ml-1"></i> تسجيل واشتراك</button>
+                <p id="regError" class="text-red-500 text-center mt-3 hidden"></p>
             </div>
         </div>
     </div>
@@ -98,7 +79,6 @@
                 <p class="font-bold text-lg mb-2 mt-3">الباسوورد: <span id="modalPass" class="text-red-600"></span></p>
                 <button onclick="copyText('modalPass')" class="text-sm bg-red-100 px-2 py-1 rounded hover:bg-red-200 transition ml-2"><i class="fas fa-copy"></i> نسخ الباسوورد</button>
             </div>
-            <p class="text-sm text-gray-500 mt-4">يمكنك الآن الدخول من تبويب "المشترك" بهذه البيانات.</p>
         </div>
     </div>
 
@@ -110,29 +90,15 @@
         </div>
 
         <div class="container mx-auto p-6 max-w-6xl">
-            <!-- إحصائيات -->
             <div class="grid grid-cols-3 gap-4 mb-6">
-                <div class="bg-white p-4 rounded-lg shadow text-center">
-                    <i class="fas fa-users text-blue-500 text-3xl mb-2"></i>
-                    <h3 class="text-2xl font-bold" id="statTotal">0</h3>
-                    <p class="text-gray-500">إجمالي المشتركين</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow text-center">
-                    <i class="fas fa-check-circle text-green-500 text-3xl mb-2"></i>
-                    <h3 class="text-2xl font-bold" id="statPaid">0</h3>
-                    <p class="text-gray-500">السداد المدفوع</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow text-center">
-                    <i class="fas fa-money-bill-wave text-yellow-500 text-3xl mb-2"></i>
-                    <h3 class="text-2xl font-bold" id="statMoney">0</h3>
-                    <p class="text-gray-500">إجمالي المبالغ (ج.م)</p>
-                </div>
+                <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-users text-blue-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statTotal">0</h3><p class="text-gray-500">إجمالي المشتركين</p></div>
+                <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-check-circle text-green-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statPaid">0</h3><p class="text-gray-500">السداد المدفوع</p></div>
+                <div class="bg-white p-4 rounded-lg shadow text-center"><i class="fas fa-money-bill-wave text-yellow-500 text-3xl mb-2"></i><h3 class="text-2xl font-bold" id="statMoney">0</h3><p class="text-gray-500">إجمالي المبالغ (ج.م)</p></div>
             </div>
 
-            <!-- جدول المشتركين -->
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <div class="bg-blue-800 text-white p-4 font-bold flex justify-between">
-                    <span><i class="fas fa-list ml-2"></i> جدول المشتركين (القدامى والجدد)</span>
+                    <span><i class="fas fa-list ml-2"></i> جدول المشتركين</span>
                     <span id="tableCount">0 مشترك</span>
                 </div>
                 <div class="overflow-x-auto">
@@ -145,10 +111,11 @@
                                 <th class="p-3 border">الإدارة</th>
                                 <th class="p-3 border">الهاتف</th>
                                 <th class="p-3 border">المراحل</th>
+                                <th class="p-3 border">المبلغ</th>
                                 <th class="p-3 border">الكود</th>
                                 <th class="p-3 border">الباسوورد</th>
                                 <th class="p-3 border">السداد</th>
-                                <th class="p-3 border">تحديث السداد</th>
+                                <th class="p-3 border">إجراءات</th>
                             </tr>
                         </thead>
                         <tbody id="subscribersTable"></tbody>
@@ -166,7 +133,6 @@
         </div>
 
         <div class="container mx-auto p-6 max-w-4xl fade-in">
-            <!-- بطاقة المشترك -->
             <div class="bg-white p-6 rounded-xl shadow mb-6 border-r-8 border-green-600">
                 <h3 class="text-2xl font-bold text-green-700 mb-4" id="profileName"></h3>
                 <div class="grid grid-cols-2 gap-y-3 text-lg">
@@ -174,38 +140,22 @@
                     <p><i class="fas fa-building text-purple-500 ml-2"></i> <span class="font-bold">الإدارة:</span> <span id="profileAdmin"></span></p>
                     <p><i class="fas fa-phone text-gray-500 ml-2"></i> <span class="font-bold">الهاتف:</span> <span id="profilePhone"></span></p>
                     <p><i class="fas fa-layer-group text-orange-500 ml-2"></i> <span class="font-bold">المراحل:</span> <span id="profilePhases"></span></p>
-                    <p><i class="fas fa-money-bill text-green-500 ml-2"></i> <span class="font-bold">المبلغ:</span> <span id="profileAmount"></span> ج.م</p>
+                    <p><i class="fas fa-money-bill text-yellow-500 ml-2"></i> <span class="font-bold">المبلغ:</span> <span id="profileAmount"></span> ج.م</p>
                     <p><i class="fas fa-check-circle ml-2" id="profilePaidIcon"></i> <span class="font-bold">السداد:</span> <span id="profilePaid"></span></p>
                 </div>
             </div>
 
-            <!-- قسم الملفات والعلامة المائية -->
+            <!-- قسم الملفات والسداد -->
             <div class="bg-white p-6 rounded-xl shadow">
                 <h3 class="text-xl font-bold mb-4 border-b pb-2"><i class="fas fa-file-pdf ml-2 text-red-500"></i> ملفاتك وملازمك</h3>
-                <p class="text-gray-600 mb-4">جميع الملفات تحمل علامة مائية باسمك ومدرستك لضمان حقوقك.</p>
-                
-                <div class="watermark-preview mb-4" id="watermarkDemo">
-                    <h2 class="text-center font-bold text-xl mb-4">محتوى الملف التعليمي - Amen Ghieth Pro</h2>
-                    <p class="text-gray-700 leading-relaxed">هذا النص هو مثال للمحتوى التعليمي. يتم وضع العلامة المائية لضمان عدم تسريب الملف.</p>
-                    
-                    <div class="watermark-overlay">
-                        <div class="watermark-text" style="top: 20%; left: -10%;" id="wm1"></div>
-                        <div class="watermark-text" style="top: 50%; left: -10%;" id="wm2"></div>
-                        <div class="watermark-text" style="top: 80%; left: -10%;" id="wm3"></div>
-                    </div>
+                <div id="filesContainer">
+                    <!-- الملفات هتتولد هنا حسب عدد المراحل -->
                 </div>
-
-                <button onclick="alert('سيتم تفعيل تحميل الملفات الفعلي عند ربط النظام بالسيرفر')" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold">
-                    <i class="fas fa-download ml-1"></i> تحميل الملف المعالج
-                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // 1. قاعدة بيانات المشتركين القدامى (تم تحويلها من الإكسيل لقائمة جاهزة ومضمونة 100%)
-        // ==========================================
         const excelSubscribers = [
             { name: "اسماء ابوبكر عبدالحكيم عبدالغنى", school: "ملحقة المعلمين الابتدائيه", phone: "01028924447", phases: 1, amount: 75, code: "C-6427", password: "P-5616", paid: true, administration: "" },
             { name: "اسماء محمد احمد", school: "الشعراوي", phone: "01027786671", phases: 1, amount: 75, code: "C-2026", password: "P-9160", paid: true, administration: "" },
@@ -323,43 +273,47 @@
             { name: "ياسر محمد سلام", school: "خرسيت ث م / اللواء حسين جاير الرسميه للغات ابتدائي واعدادى", phone: "01066972520", phases: 3, amount: 150, code: "C-3606", password: "P-3935", paid: true, administration: "" }
         ];
 
-        // ==========================================
-        // 2. تهيئة النظام والمصفوفة الرئيسية
-        // ==========================================
         let subscribers = [];
         
         function initSystem() {
-            // 1. تحميل قاعدة البيانات الأساسية (الإكسيل) مباشرة
+            // تحويل نص المدرسة القديم لمصفوفة المدارس (لكي نربط كل مرحلة بمدرسة)
+            excelSubscribers.forEach(sub => {
+                if (typeof sub.school === 'string') {
+                    // لو المشترك ليه أكثر من مرحلة وهناك كلمة "ومدرسة" بنقسمها، ولو مرحلة واحدة بنحطها في array
+                    if (sub.phases > 1 && sub.school.includes("ومدرسة")) {
+                        sub.schools = sub.school.split("ومدرسة").map(s => s.trim());
+                    } else {
+                        sub.schools = [sub.school]; // تحويل المدرسة الوحيدة إلى Array
+                    }
+                    delete sub.school; // مسح القيمة النصية القديمة
+                }
+            });
+
             subscribers = JSON.parse(JSON.stringify(excelSubscribers));
             
-            // 2. دمج المشتركين الجداد الذين سجلوا من على المنصة فقط لو وجدوا
             const storedNewUsers = localStorage.getItem('amenNewUsers');
             if (storedNewUsers) {
                 const newUsers = JSON.parse(storedNewUsers);
                 newUsers.forEach(user => {
-                    // نتأكد إن الكود مش متكرر قبل ما ندمجه
                     if (!subscribers.some(s => s.code === user.code)) {
                         subscribers.push(user);
                     }
                 });
             }
 
-            // 3. حفظ القائمة المدمجة في الذاكرة الرئيسية عشان لو حصل Refresh
             localStorage.setItem('amenGhiethSubs', JSON.stringify(subscribers));
-            
             updateStats();
-            updateRegFields(); // تهيئة خانة التسجيل
+            updateRegFields(); 
         }
 
         function saveData() {
             localStorage.setItem('amenGhiethSubs', JSON.stringify(subscribers));
-            // نحفظ المشتركين الجداد لوحدهم عشان لو عملنا Refresh يرجع يدمجهم من جديد مع الإكسيل بدون ضياع
             const newUsers = subscribers.filter(s => s.code.startsWith('AG-'));
             localStorage.setItem('amenNewUsers', JSON.stringify(newUsers));
         }
 
         // ==========================================
-        // 3. واجهة المستخدم والتحكم
+        // واجهة المستخدم والتحكم
         // ==========================================
         function switchTab(tab) {
             document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-inactive font-bold text-sm';
@@ -371,6 +325,7 @@
             document.getElementById('registerLogin').classList.add('hidden');
             document.getElementById('adminError').classList.add('hidden');
             document.getElementById('userError').classList.add('hidden');
+            document.getElementById('regError').classList.add('hidden');
 
             if (tab === 'admin') {
                 document.getElementById('tabAdmin').className = 'flex-1 py-2 rounded-lg transition tab-active font-bold text-sm';
@@ -421,7 +376,7 @@
         }
 
         // ==========================================
-        // 4. تسجيل مشترك جديد من واجهة المنصة (مضمون 100%)
+        // تسجيل مشترك جديد (مع منع التكرار بالرقم)
         // ==========================================
         function updateRegFields() {
             const phases = document.getElementById('regPhases') ? document.getElementById('regPhases').value : 1;
@@ -457,9 +412,21 @@
             const name = document.getElementById('regName').value.trim();
             const phone = document.getElementById('regPhone').value.trim();
             const phases = document.getElementById('regPhases').value;
+            const errorEl = document.getElementById('regError');
 
             if (!name || !phone) {
-                alert('يرجى كتابة الاسم ورقم الهاتف على الأقل!');
+                errorEl.innerText = 'يرجى كتابة الاسم ورقم الهاتف!';
+                errorEl.classList.remove('hidden');
+                setTimeout(() => errorEl.classList.add('hidden'), 3000);
+                return;
+            }
+
+            // دالة منع التكرار: البحث برقم الهاتف
+            const isDuplicate = subscribers.some(s => s.phone === phone);
+            if (isDuplicate) {
+                errorEl.innerText = 'هذا الرقم مسجل بالفعل! لا يمكن التسجيل مرتين.';
+                errorEl.classList.remove('hidden');
+                setTimeout(() => errorEl.classList.add('hidden'), 4000);
                 return;
             }
 
@@ -468,8 +435,8 @@
             for (let i = 1; i <= parseInt(phases); i++) {
                 const sch = document.getElementById(`regSchool${i}`) ? document.getElementById(`regSchool${i}`).value.trim() : '';
                 const adm = document.getElementById(`regAdmin${i}`) ? document.getElementById(`regAdmin${i}`).value.trim() : '';
-                if(sch) schoolsArr.push(sch);
-                if(adm) adminsArr.push(adm);
+                schoolsArr.push(sch || 'لم يحدد');
+                adminsArr.push(adm || 'لم يحدد');
             }
 
             const amountMap = { '1': 75, '2': 125, '3': 150 };
@@ -478,8 +445,8 @@
 
             subscribers.push({
                 name: name, 
-                school: schoolsArr.join(' - ') || 'لم يحدد', 
-                administration: adminsArr.join(' - ') || 'لم يحدد', 
+                schools: schoolsArr, 
+                administration: adminsArr.join(' - '), 
                 phone: phone,
                 phases: parseInt(phases),
                 amount: amountMap[phases],
@@ -491,36 +458,39 @@
             saveData();
             updateStats();
 
-            // عرض نافذة النجاح بالكود والباسوورد
             document.getElementById('modalCode').innerText = newCode;
             document.getElementById('modalPass').innerText = newPass;
             document.getElementById('credentialsModal').classList.remove('hidden');
 
-            // مسح خانات التسجيل بعد الحفظ
             document.getElementById('regName').value = '';
             document.getElementById('regPhone').value = '';
             updateRegFields();
         }
 
-        function closeModal() {
-            document.getElementById('credentialsModal').classList.add('hidden');
-        }
+        function closeModal() { document.getElementById('credentialsModal').classList.add('hidden'); }
 
         function copyText(elementId) {
             const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('تم النسخ بنجاح!');
-            });
+            navigator.clipboard.writeText(text).then(() => { alert('تم النسخ بنجاح!'); });
         }
 
         // ==========================================
-        // 5. لوحة تحكم المدير (عرض الجدول المدمج)
+        // لوحة تحكم المدير (أيقونات السداد، الحذف، والمبلغ)
         // ==========================================
         function togglePayment(index) {
             subscribers[index].paid = !subscribers[index].paid;
             saveData();
             renderTable();
             updateStats();
+        }
+
+        function deleteSubscriber(index) {
+            if(confirm('هل أنت متأكد من حذف هذا المشترك نهائياً؟')) {
+                subscribers.splice(index, 1);
+                saveData();
+                renderTable();
+                updateStats();
+            }
         }
 
         function renderTable() {
@@ -533,16 +503,21 @@
                 row.innerHTML = `
                     <td class="p-3 border text-center">${index + 1}</td>
                     <td class="p-3 border font-bold">${sub.name}</td>
-                    <td class="p-3 border text-sm">${sub.school}</td>
+                    <td class="p-3 border text-sm">${sub.schools ? sub.schools.join(' - ') : sub.school}</td>
                     <td class="p-3 border text-sm text-gray-500">${sub.administration || '-'}</td>
                     <td class="p-3 border text-sm">${sub.phone}</td>
                     <td class="p-3 border text-center">${sub.phases}</td>
+                    <td class="p-3 border text-center font-bold text-yellow-600">${sub.amount} ج.م</td>
                     <td class="p-3 border text-blue-600 font-bold">${sub.code}</td>
                     <td class="p-3 border text-red-600 font-bold">${sub.password}</td>
-                    <td class="p-3 border text-center font-bold ${sub.paid ? 'text-green-600' : 'text-red-500'}">${sub.paid ? 'مدفع' : 'معلق'}</td>
                     <td class="p-3 border text-center">
-                        <button onclick="togglePayment(${index})" class="px-2 py-1 rounded text-xs font-bold transition ${sub.paid ? 'bg-red-100 text-red-600 hover:bg-red-200' : 'bg-green-100 text-green-600 hover:bg-green-200'}">
-                            ${sub.paid ? 'إلغاء' : 'تأكيد'}
+                        <button onclick="togglePayment(${index})" title="${sub.paid ? 'إلغاء السداد' : 'تفعيل السداد'}" class="transition">
+                            <i class="fas ${sub.paid ? 'fa-check-circle text-green-500 hover:text-green-700' : 'fa-times-circle text-red-400 hover:text-red-600'} text-2xl"></i>
+                        </button>
+                    </td>
+                    <td class="p-3 border text-center">
+                        <button onclick="deleteSubscriber(${index})" title="حذف المشترك" class="transition hover:text-red-700">
+                            <i class="fas fa-trash-alt text-red-500 text-xl"></i>
                         </button>
                     </td>
                 `;
@@ -559,11 +534,11 @@
         }
 
         // ==========================================
-        // 6. لوحة المشترك
+        // لوحة المشترك (الملفات مقفلة لو السداد معلق، ومفتحة + علامة مائية حسب المراحل لو مدفوع)
         // ==========================================
         function populateUserProfile(user) {
             document.getElementById('profileName').innerText = user.name;
-            document.getElementById('profileSchool').innerText = user.school;
+            document.getElementById('profileSchool').innerText = user.schools ? user.schools.join(' - ') : user.school;
             document.getElementById('profileAdmin').innerText = user.administration || 'غير محدد';
             document.getElementById('profilePhone').innerText = user.phone;
             document.getElementById('profilePhases').innerText = user.phases;
@@ -571,23 +546,67 @@
             
             const paidSpan = document.getElementById('profilePaid');
             const paidIcon = document.getElementById('profilePaidIcon');
+            const filesContainer = document.getElementById('filesContainer');
+            filesContainer.innerHTML = ''; // مسح أي ملفات قديمة
+
             if (user.paid) {
-                paidSpan.innerText = 'مدفع';
+                paidSpan.innerText = 'مدفع (مفعل)';
                 paidSpan.className = 'text-green-600 font-bold';
                 paidIcon.className = 'fas fa-check-circle ml-2 text-green-600';
+
+                // توليد ملفات حسب عدد المراحل (كل مرحلة ليها ملف ومدرسة خاصة)
+                const userSchools = user.schools || [user.school || 'غير محدد'];
+                
+                for (let i = 0; i < user.phases; i++) {
+                    const specificSchool = userSchools[i] || userSchools[0]; // لو مفيش مدرسة للمرحلة دي، نستخدم الأولى
+                    const wmText = `${user.name} | ${specificSchool}`;
+                    
+                    const fileCard = document.createElement('div');
+                    fileCard.className = 'watermark-preview mb-4 relative fade-in';
+                    fileCard.innerHTML = `
+                        <h2 class="text-center font-bold text-xl mb-4 text-blue-800">ملف المرحلة ${i + 1} - Amen Ghieth Pro</h2>
+                        <p class="text-gray-700 leading-relaxed">محتوى الملف التعليمي للمرحلة. هذا الملف مخصص للمدرسة: <span class="font-bold text-blue-600">${specificSchool}</span></p>
+                        
+                        <div class="watermark-overlay">
+                            <div class="watermark-text" style="top: 20%; left: -10%;">${wmText}</div>
+                            <div class="watermark-text" style="top: 50%; left: -10%;">${wmText}</div>
+                            <div class="watermark-text" style="top: 80%; left: -10%;">${wmText}</div>
+                        </div>
+                        
+                        <button onclick="alert('جاري تحميل ملف المرحلة ${i+1} (العلامة المائية مطبوعة)')" class="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-500 transition font-bold w-full">
+                            <i class="fas fa-download ml-1"></i> تحميل ملف المرحلة ${i + 1}
+                        </button>
+                    `;
+                    filesContainer.appendChild(fileCard);
+                }
+
             } else {
-                paidSpan.innerText = 'معلق (برجاء السداد)';
+                paidSpan.innerText = 'معلق (غير مفعل)';
                 paidSpan.className = 'text-red-500 font-bold';
                 paidIcon.className = 'fas fa-times-circle ml-2 text-red-500';
-            }
 
-            const wmText = `${user.name} | ${user.school}`;
-            document.getElementById('wm1').innerText = wmText;
-            document.getElementById('wm2').innerText = wmText;
-            document.getElementById('wm3').innerText = wmText;
+                // عرض الملفات ولكن مقفلة بال Overlay الأحمر
+                for (let i = 0; i < user.phases; i++) {
+                    const fileCard = document.createElement('div');
+                    fileCard.className = 'watermark-preview mb-4 relative bg-gray-200';
+                    fileCard.innerHTML = `
+                        <h2 class="text-center font-bold text-xl mb-4 text-gray-400">ملف المرحلة ${i + 1}</h2>
+                        <p class="text-gray-400 leading-relaxed">محتوى الملف التعليمي...</p>
+                        
+                        <!-- الأيقونة المقفلة -->
+                        <div class="locked-overlay">
+                            <div class="text-center">
+                                <i class="fas fa-lock text-red-600 text-5xl mb-3"></i>
+                                <h3 class="text-xl font-bold text-red-800">الاشتراك غير مفعل!</h3>
+                                <p class="text-red-700 text-sm">يرجى السداد لتفعيل تحميل الملفات</p>
+                            </div>
+                        </div>
+                    `;
+                    filesContainer.appendChild(fileCard);
+                }
+            }
         }
 
-        // تشغيل النظام عند فتح الصفحة
         window.onload = initSystem;
     </script>
 </body>
